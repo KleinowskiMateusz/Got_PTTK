@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KsiazeczkaPTTK.DAL", "Ksiaz
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KsiazeczkaPTTK.Logic", "KsiazeczkaPTTK.Logic\KsiazeczkaPTTK.Logic.csproj", "{C79AE874-CD36-43C5-A5E8-C0333945EBAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KsiazeczkaPTTK.API", "KsiazeczkaPTTK.API\KsiazeczkaPTTK.API.csproj", "{BDAE91A9-4E3E-42E9-8491-67512C8E4D83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C79AE874-CD36-43C5-A5E8-C0333945EBAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C79AE874-CD36-43C5-A5E8-C0333945EBAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C79AE874-CD36-43C5-A5E8-C0333945EBAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDAE91A9-4E3E-42E9-8491-67512C8E4D83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDAE91A9-4E3E-42E9-8491-67512C8E4D83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDAE91A9-4E3E-42E9-8491-67512C8E4D83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDAE91A9-4E3E-42E9-8491-67512C8E4D83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
