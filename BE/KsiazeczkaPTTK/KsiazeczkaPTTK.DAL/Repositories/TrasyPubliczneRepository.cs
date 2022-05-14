@@ -7,10 +7,10 @@ namespace KsiazeczkaPttk.DAL.Repositories
 {
     public class TrasyPubliczneRepository : IPublicTrailsRepository
     {
-        private readonly KsiazeczkaContext _context;
+        private readonly TouristsBookContext _context;
         private readonly IMapper _mapper;
 
-        public TrasyPubliczneRepository(KsiazeczkaContext context, IMapper mapper)
+        public TrasyPubliczneRepository(TouristsBookContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -21,20 +21,20 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return await _context.MountainGroups.ToListAsync();
         }
 
-        public async Task<Result<IEnumerable<MountainRange>>> GetAllPasmaGorskieForGrupa(int idGrupy)
+        public async Task<Result<IEnumerable<MountainRange>>> GetAllPasmaGorskieForGrupa(int groupId)
         {
-            var grupaFromDb = await _context.MountainGroups.FirstOrDefaultAsync(g => g.Id == idGrupy);
-            if (grupaFromDb is null)
+            var groupFromDb = await _context.MountainGroups.FirstOrDefaultAsync(g => g.Id == groupId);
+            if (groupFromDb is null)
             {
                 return Result<IEnumerable<MountainRange>>.Error("Nie znaleziono grupy górskiej");
             }
 
-            var pasma = await _context.MountainRanges
+            var ranges = await _context.MountainRanges
                 .Include(p => p.MountainGroup)
-                .Where(p => p.GroupId == idGrupy)
+                .Where(p => p.GroupId == groupId)
                 .ToListAsync();
 
-            return Result<IEnumerable<MountainRange>>.Ok(pasma);
+            return Result<IEnumerable<MountainRange>>.Ok(ranges);
         }
 
         public async Task<IEnumerable<MountainRange>> GetAllPasmaGorskie()
@@ -44,37 +44,37 @@ namespace KsiazeczkaPttk.DAL.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Result<IEnumerable<Segment>>> GetAllOdcinkiForPasmo(int idPasma)
+        public async Task<Result<IEnumerable<Segment>>> GetAllOdcinkiForPasmo(int rangeId)
         {
-            var pasmoFromDb = await _context.MountainRanges.FirstOrDefaultAsync(p => p.Id == idPasma);
-            if (pasmoFromDb is null)
+            var rangeFromDb = await _context.MountainRanges.FirstOrDefaultAsync(p => p.Id == rangeId);
+            if (rangeFromDb is null)
             {
                 return Result<IEnumerable<Segment>>.Error("Nie znaleziono Pasma Górskiego");
             }
 
-            var odcinki = await GetBaseOdcinekQueryable()
+            var segments = await GetBaseOdcinekQueryable()
                 .Where(o => o.IsActive)
-                .Where(p => p.MountainRangeId == idPasma).ToListAsync();
+                .Where(p => p.MountainRangeId == rangeId).ToListAsync();
 
-            return Result<IEnumerable<Segment>>.Ok(odcinki);
+            return Result<IEnumerable<Segment>>.Ok(segments);
         }
 
-        public async Task<Result<IEnumerable<NeighboringSegment>>> GetAllOdcinkiForPunktTerenowy(int idPunktuTerenowego)
+        public async Task<Result<IEnumerable<NeighboringSegment>>> GetAllOdcinkiForPunktTerenowy(int terrainPointId)
         {
-            var punktFromDb = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == idPunktuTerenowego);
-            if (punktFromDb is null)
+            var pointFromDb = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == terrainPointId);
+            if (pointFromDb is null)
             {
                 return Result<IEnumerable<NeighboringSegment>>.Error("Nie znaleziono Punktu Terenowego");
             }
 
-            var odcinki = await GetBaseOdcinekQueryable()
+            var segments = await GetBaseOdcinekQueryable()
                 .Where(o => o.IsActive)
-                .Where(o => o.FromId == idPunktuTerenowego || (o.TargetId == idPunktuTerenowego && o.PointsBack > 0))
+                .Where(o => o.FromId == terrainPointId || (o.TargetId == terrainPointId && o.PointsBack > 0))
                 .ToListAsync();
 
-            var result = odcinki.Select(o => {
+            var result = segments.Select(o => {
                     var sasiedni = _mapper.Map<NeighboringSegment>(o);
-                    sasiedni.IsBack = o.TargetId == idPunktuTerenowego;
+                    sasiedni.IsBack = o.TargetId == terrainPointId;
                     return sasiedni;
                 });
 
@@ -94,15 +94,15 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return await GetBaseOdcinekQueryable().Where(o => o.TouristsBook == null && o.IsActive).ToListAsync();
         }
 
-        public async Task<Result<Segment>> GetOdcinekPublicznyById(int odcinekId)
+        public async Task<Result<Segment>> GetOdcinekPublicznyById(int segmentId)
         {
-            var odcinek = await GetBaseOdcinekQueryable().FirstOrDefaultAsync(o => o.Id == odcinekId);
+            var segment = await GetBaseOdcinekQueryable().FirstOrDefaultAsync(o => o.Id == segmentId);
 
-            if (odcinek is null || !string.IsNullOrEmpty(odcinek.TouristsBookOwner))
+            if (segment is null || !string.IsNullOrEmpty(segment.TouristsBookOwner))
             {
                 return Result<Segment>.Error("Nie znaleziono odcinka publicznego");
             }
-            return Result<Segment>.Ok(odcinek);
+            return Result<Segment>.Ok(segment);
         }
 
         private IQueryable<Segment> GetBaseOdcinekQueryable()
@@ -114,92 +114,92 @@ namespace KsiazeczkaPttk.DAL.Repositories
                 .Include(o => o.TouristsBook);
         }
 
-        public async Task<Result<Segment>> CreateOdcinekPubliczny(Segment odcinek)
+        public async Task<Result<Segment>> CreateOdcinekPubliczny(Segment segment)
         {
-            var validity = await CheckCeatedOdcinekValidity(odcinek);
+            var validity = await CheckCeatedOdcinekValidity(segment);
             if (!validity.Item1)
             {
                 return Result<Segment>.Error(validity.Item2);
             }
 
-            odcinek.Version = 1;
-            odcinek.TouristsBookOwner = null;
-            odcinek.IsActive = true;
+            segment.Version = 1;
+            segment.TouristsBookOwner = null;
+            segment.IsActive = true;
 
-            await _context.Segments.AddAsync(odcinek);
+            await _context.Segments.AddAsync(segment);
             await _context.SaveChangesAsync();
-            return Result<Segment>.Ok(odcinek);
+            return Result<Segment>.Ok(segment);
         }
 
-        public async Task<Result<Segment>> EditOdcinekPubliczny(int odcinekId, Segment odcinek)
+        public async Task<Result<Segment>> EditOdcinekPubliczny(int segmentId, Segment segment)
         {
-            var odcinekFromDb = await _context.Segments.Include(o => o.TouristsBookOwner)
-                                        .FirstOrDefaultAsync(o => o.Id == odcinekId);
-            if (odcinekFromDb is null)
+            var segmentFromDb = await _context.Segments.Include(o => o.TouristsBookOwner)
+                                        .FirstOrDefaultAsync(o => o.Id == segmentId);
+            if (segmentFromDb is null)
             {
                 return Result<Segment>.Error("Nie znaleziono odcinka");
             }
-            if (odcinekFromDb.TouristsBook != null)
+            if (segmentFromDb.TouristsBook != null)
             {
                 return Result<Segment>.Error("Nie można modyfikować odcinka prywatnego");
             }
 
-            var validity =await CheckCeatedOdcinekValidity(odcinek);
+            var validity =await CheckCeatedOdcinekValidity(segment);
             if (!validity.Item1)
             {
                 return Result<Segment>.Error(validity.Item2);
             }
 
-            odcinekFromDb.IsActive = false;
+            segmentFromDb.IsActive = false;
 
-            odcinek.Version = odcinekFromDb.Version + 1;
-            odcinek.TouristsBookOwner = null;
-            odcinek.IsActive = true;
+            segment.Version = segmentFromDb.Version + 1;
+            segment.TouristsBookOwner = null;
+            segment.IsActive = true;
 
-            await _context.Segments.AddAsync(odcinek);
+            await _context.Segments.AddAsync(segment);
             await _context.SaveChangesAsync();
-            return Result<Segment>.Ok(odcinek);
+            return Result<Segment>.Ok(segment);
         }
 
-        private async Task<(bool, string)> CheckCeatedOdcinekValidity(Segment odcinek)
+        private async Task<(bool, string)> CheckCeatedOdcinekValidity(Segment segment)
         {
-            odcinek.From = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == odcinek.FromId);
-            if (odcinek.From is null)
+            segment.From = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == segment.FromId);
+            if (segment.From is null)
             {
                 return (false, "Nie znaleziono punktu początkowego");
             }
 
-            odcinek.Target = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == odcinek.TargetId);
-            if (odcinek.Target is null)
+            segment.Target = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == segment.TargetId);
+            if (segment.Target is null)
             {
                 return (false, "Nie znaleziono punktu końcowego");
             }
 
-            odcinek.MountainRange = await _context.MountainRanges.FirstOrDefaultAsync(p => p.Id == odcinek.MountainRangeId);
-            if (odcinek.MountainRange is null)
+            segment.MountainRange = await _context.MountainRanges.FirstOrDefaultAsync(p => p.Id == segment.MountainRangeId);
+            if (segment.MountainRange is null)
             {
                 return (false, "Nie znaleziono pasma górskiego");
             }
             return (true, string.Empty);
         }
 
-        public async Task<bool> DeleteOdcinekPubliczny(int odcinekId)
+        public async Task<bool> DeleteOdcinekPubliczny(int segmentId)
         {
-            var odcinekFromDb = await _context.Segments.FirstOrDefaultAsync(o => o.Id == odcinekId);
-            if (odcinekFromDb is null)
+            var segmentFromDb = await _context.Segments.FirstOrDefaultAsync(o => o.Id == segmentId);
+            if (segmentFromDb is null)
             {
                 return false;
             }
 
-            var canRemove = await _context.SegmentTravels.FirstOrDefaultAsync(p => p.SegmentId == odcinekId) is null;
+            var canRemove = await _context.SegmentTravels.FirstOrDefaultAsync(p => p.SegmentId == segmentId) is null;
         
             if (canRemove)
             {
-                _context.Segments.Remove(odcinekFromDb);
+                _context.Segments.Remove(segmentFromDb);
             }
             else
             {
-                odcinekFromDb.IsActive = false;
+                segmentFromDb.IsActive = false;
             }
 
             await _context.SaveChangesAsync();

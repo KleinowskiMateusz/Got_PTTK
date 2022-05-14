@@ -1,13 +1,11 @@
 ﻿using KsiazeczkaPttk.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace KsiazeczkaPttk.DAL
 {
-    public static class KsiazeczkaSeed
+    public static class TouristsBookSeed
     {
-        public static async Task Seed(KsiazeczkaContext context)
+        public static async Task Seed(TouristsBookContext context)
         {
             if (await context.MountainGroups.AnyAsync())
             {

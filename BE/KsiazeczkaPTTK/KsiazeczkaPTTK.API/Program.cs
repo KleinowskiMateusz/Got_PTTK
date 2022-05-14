@@ -21,7 +21,7 @@ builder.Services.AddCors(o => o.AddPolicy("DevelopmentCorsPolicy", builder =>
 }));
 
 var postgresStr = builder.Configuration.GetConnectionString("PostgresConnection");
-builder.Services.AddDbContext<KsiazeczkaContext>(options =>
+builder.Services.AddDbContext<TouristsBookContext>(options =>
     options.UseNpgsql(postgresStr));
 
 builder.Services.AddScoped<IPublicTrailsRepository, TrasyPubliczneRepository>();

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KsiazeczkaPttk.DAL
 {
-    public class KsiazeczkaContext : DbContext
+    public class TouristsBookContext : DbContext
     {
-        public KsiazeczkaContext(DbContextOptions<KsiazeczkaContext> options) : base(options) {}
+        public TouristsBookContext(DbContextOptions<TouristsBookContext> options) : base(options) {}
 
         public async Task Migrate()
         {
