@@ -18,9 +18,9 @@ namespace KsiazeczkaPttk.Domain.Models
         public double Mnpm { get; set; }
 
         [MaxLength(30)]
-        public string TouristsBookOwner { get; set; }
+        public string? TouristsBookOwner { get; set; }
 
         [ForeignKey("TouristsBookOwner")]
-        public TouristsBook TouristsBook { get; set; }
+        public TouristsBook? TouristsBook { get; set; }
     }
 }

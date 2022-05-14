@@ -30,6 +30,8 @@ builder.Services.AddScoped<IFileService, FileService>();
 
 var app = builder.Build();
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -63,6 +65,7 @@ async Task SeedDb(IServiceProvider services)
                 Console.WriteLine("Migration: Done");
                 await TouristsBookSeed.Seed(context);
                 Console.WriteLine("Seed: Done");
+                dbSeeded = true;
             }
         }
         catch (Exception ex)
