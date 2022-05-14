@@ -11,57 +11,57 @@ namespace KsiazeczkaPttk.API.Controllers
     [Route("[controller]")]
     public class SegmentController : Controller
     {
-        private readonly IPublicTrailsRepository _trasyPubliczneRepository;
+        private readonly IPublicTrailsRepository _publicTrailsRepository;
         private readonly IMapper _mapper;
 
-        public SegmentController(IPublicTrailsRepository trasyPubliczneRepository, IMapper mapper)
+        public SegmentController(IPublicTrailsRepository publicTrailsRepository, IMapper mapper)
         {
-            _trasyPubliczneRepository = trasyPubliczneRepository;
+            _publicTrailsRepository = publicTrailsRepository;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllOdcinekPubliczny()
+        public async Task<IActionResult> GetAllPublicSegments()
         {
-            return Ok(await _trasyPubliczneRepository.GetAllPublicSegments());
+            return Ok(await _publicTrailsRepository.GetAllPublicSegments());
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOdcinekPublicznyById(int id)
+        public async Task<IActionResult> GetPublicSegmentById(int id)
         {
-            var odcinekResult = await _trasyPubliczneRepository.GetPublicSegmentById(id);
+            var segmentResult = await _publicTrailsRepository.GetPublicSegmentById(id);
 
-            return UnWrapResultWithNotFound(odcinekResult);
+            return UnWrapResultWithNotFound(segmentResult);
         }
 
         [HttpGet("points")]
-        public async Task<ActionResult> GetAllPuntyTerenowe()
+        public async Task<ActionResult> GetAllTerrainPoints()
         {
-            return Ok(await _trasyPubliczneRepository.GetAllTerrainPointsWithBook());
+            return Ok(await _publicTrailsRepository.GetAllTerrainPointsWithBook());
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOdcinekPubliczny([FromBody] CreatePublicSegmentViewModel viewModel)
+        public async Task<IActionResult> CreatePublicSegment([FromBody] CreatePublicSegmentViewModel viewModel)
         {
-            var odcinek = _mapper.Map<Segment>(viewModel);
+            var segment = _mapper.Map<Segment>(viewModel);
             
-            var createdResult = await _trasyPubliczneRepository.CreatePublicSegment(odcinek);
+            var createdResult = await _publicTrailsRepository.CreatePublicSegment(segment);
             return UnWrapResultWithBadRequest(createdResult);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditOdcinekPubliczny([FromRoute] int id, [FromBody] EditPublicSegmentViewModel viewModel)
+        public async Task<IActionResult> EditPublicSegment([FromRoute] int id, [FromBody] EditPublicSegmentViewModel viewModel)
         {
-            var odcinek = _mapper.Map<Segment>(viewModel);
+            var segment = _mapper.Map<Segment>(viewModel);
 
-            var editedResult = await _trasyPubliczneRepository.EditPublicSegment(id, odcinek);
+            var editedResult = await _publicTrailsRepository.EditPublicSegment(id, segment);
             return UnWrapResultWithBadRequest(editedResult);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOdcinekPubliczny(int id)
+        public async Task<IActionResult> DeletePublicSegment(int id)
         {
-            if (await _trasyPubliczneRepository.DeletePublicSegment(id))
+            if (await _publicTrailsRepository.DeletePublicSegment(id))
             {
                 return Ok();
             }

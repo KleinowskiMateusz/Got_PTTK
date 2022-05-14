@@ -10,29 +10,29 @@ namespace KsiazeczkaPttk.API.Controllers
     [Route("[controller]")]
     public class ConfirmationController : ControllerBase
     {
-        private readonly ITripRepository _wycieczkaRepository;
+        private readonly ITripRepository _tripRepository;
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
 
-        public ConfirmationController(ITripRepository wycieczkaRepository, IFileService fileService, IWebHostEnvironment webHostEnvironment, IMapper mapper)
+        public ConfirmationController(ITripRepository tripRepository, IFileService fileService, IWebHostEnvironment webHostEnvironment, IMapper mapper)
         {
-            _wycieczkaRepository = wycieczkaRepository;
+            _tripRepository = tripRepository;
             _fileService = fileService;
             _webHostEnvironment = webHostEnvironment;
             _mapper = mapper;
         }
 
         [HttpGet("{segmentId}")]
-        public async Task<ActionResult> GetPotwierdzeniaOdcinka([FromRoute] int segmentId)
+        public async Task<ActionResult> GetSegmentConfirmations([FromRoute] int segmentId)
         {
-            var odcinek = await _wycieczkaRepository.GetSegmentTravelById(segmentId);
-            if (odcinek is null)
+            var segment = await _tripRepository.GetSegmentTravelById(segmentId);
+            if (segment is null)
             {
-                return NotFound($"Not found Przebyty Odcinek with id {segmentId}");
+                return NotFound($"Not found Segment with id {segmentId}");
             }
 
-            return Ok(await _wycieczkaRepository.GetSegmentConfirmationForSegment(odcinek));
+            return Ok(await _tripRepository.GetSegmentConfirmationForSegment(segment));
         }
 
         [HttpGet("photo/{fileName}")]
@@ -49,27 +49,27 @@ namespace KsiazeczkaPttk.API.Controllers
         }
 
         [HttpPost("withQR")]
-        public async Task<ActionResult> CreatePotwierdzenieTerenoweForOdcinekWithQrCode([FromBody] CreateConfirmationWithQrViewModel modelPotwierdzenia)
+        public async Task<ActionResult> CreateConfirmationForSegmentWithQrCode([FromBody] CreateConfirmationWithQrViewModel model)
         {
-            var potwierdzenie = _mapper.Map<Confirmation>(modelPotwierdzenia);
+            var confirmation = _mapper.Map<Confirmation>(model);
 
-            var result = await _wycieczkaRepository.AddConfirmationToSegmentWithOr(potwierdzenie, modelPotwierdzenia.SegmentId);
+            var result = await _tripRepository.AddConfirmationToSegmentWithOr(confirmation, model.SegmentId);
             return UnWrapResultWithBadRequest(result);
         }
 
         [HttpPost("withPhoto")]
-        public async Task<ActionResult> CreatePotwierdzenieTerenoweForOdcinekWithPhoto([FromForm] CreateConfirmationWithImageViewModel modelPotwierdzenia)
+        public async Task<ActionResult> CreateConfirmationTerenoweForSegmentWithPhoto([FromForm] CreateConfirmationWithImageViewModel model)
         {
-            var potwierdzenie = _mapper.Map<Confirmation>(modelPotwierdzenia);
+            var confirmation = _mapper.Map<Confirmation>(model);
 
-            var result = await _wycieczkaRepository.AddConfirmationToSegmentWithPhoto(potwierdzenie, modelPotwierdzenia.SegmentId, modelPotwierdzenia.Image, _webHostEnvironment.ContentRootPath);
+            var result = await _tripRepository.AddConfirmationToSegmentWithPhoto(confirmation, model.SegmentId, model.Image, _webHostEnvironment.ContentRootPath);
             return UnWrapResultWithBadRequest(result);
         }
 
         [HttpDelete("{confirmationId}")]
-        public async Task<ActionResult> DeletePotwierdzenieOdcinka([FromRoute] int idPotwierdzenia)
+        public async Task<ActionResult> DeleteSegmentConfirmation([FromRoute] int confirmationId)
         {
-            if (await _wycieczkaRepository.DeleteConfirmation(idPotwierdzenia, _webHostEnvironment.ContentRootPath))
+            if (await _tripRepository.DeleteConfirmation(confirmationId, _webHostEnvironment.ContentRootPath))
             {
                 return Ok();
             }

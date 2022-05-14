@@ -4,7 +4,7 @@ using KsiazeczkaPttk.Domain.Models;
 
 namespace KsiazeczkaPttk.API.Mapper
 {
-    public class PrzebycieOdcinkaViewModelToPrzebycieOdcinkaConverter : IValueConverter<IEnumerable<SegmentTravelViewModel>, IEnumerable<SegmentTravel>>
+    public class SegmentTravelViewModelToSegmentTravelConverter : IValueConverter<IEnumerable<SegmentTravelViewModel>, IEnumerable<SegmentTravel>>
     {
         public IEnumerable<SegmentTravel> Convert(IEnumerable<SegmentTravelViewModel> sourceMembers, ResolutionContext context)
         {

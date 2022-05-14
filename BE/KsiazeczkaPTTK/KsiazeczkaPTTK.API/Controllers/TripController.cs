@@ -3,7 +3,6 @@ using KsiazeczkaPttk.API.ViewModels;
 using KsiazeczkaPttk.DAL.Interfaces;
 using KsiazeczkaPttk.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace KsiazeczkaPttk.API.Controllers
 {
@@ -11,102 +10,102 @@ namespace KsiazeczkaPttk.API.Controllers
     [Route("[controller]")]
     public class TripController : Controller
     {
-        private readonly ITripRepository _wycieczkaRepository;
-        private readonly IPublicTrailsRepository _trasyPubliczneRepository;
+        private readonly ITripRepository _tripRepository;
+        private readonly IPublicTrailsRepository _publicTrailsRepository;
         private readonly IMapper _mapper;
 
-        public TripController(ITripRepository wycieczkaRepository, IPublicTrailsRepository trasyPubliczneRepository, IMapper mapper)
+        public TripController(ITripRepository tripRepository, IPublicTrailsRepository publicTrailsRepository, IMapper mapper)
         {
-            _wycieczkaRepository = wycieczkaRepository;
-            _trasyPubliczneRepository = trasyPubliczneRepository;
+            _tripRepository = tripRepository;
+            _publicTrailsRepository = publicTrailsRepository;
             _mapper = mapper;
         }
 
         [HttpGet()]
-        public async Task<ActionResult> GetAllWycieczka()
+        public async Task<ActionResult> GetAllTrails()
         {
-            return Ok(await _wycieczkaRepository.GetAllTrips());
+            return Ok(await _tripRepository.GetAllTrips());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetWycieczka(int id)
+        public async Task<ActionResult> GetTrailsById(int id)
         {
-            var wycieczka = await _wycieczkaRepository.GetById(id);
+            var trail = await _tripRepository.GetById(id);
 
-            if (wycieczka is null)
+            if (trail is null)
             {
                 return NotFound();
             }
 
-            return Ok(wycieczka);
+            return Ok(trail);
         }
 
         [HttpGet("mountainGroups")]
-        public async Task<ActionResult> GetAvailableGrupyGorskie()
+        public async Task<ActionResult> GetAvailableMountainGroups()
         {
-            return Ok(await _trasyPubliczneRepository.GetAllMountainGroups());
+            return Ok(await _publicTrailsRepository.GetAllMountainGroups());
         }
 
         [HttpGet("mountainRanges/{groupId}")]
-        public async Task<ActionResult> GetAvailablePasmaGorskie([FromRoute] int groupId)
+        public async Task<ActionResult> GetAvailableMountainRanges([FromRoute] int groupId)
         {
-            var pasmaResult = await _trasyPubliczneRepository.GetAllMountainRangesForGroup(groupId);
+            var mountainRanges = await _publicTrailsRepository.GetAllMountainRangesForGroup(groupId);
             
-            return UnWrapResultWithNotFound(pasmaResult);
+            return UnWrapResultWithNotFound(mountainRanges);
         }
 
         [HttpGet("mountainRanges")]
-        public async Task<ActionResult> GetAvailablePasmaGorskie()
+        public async Task<ActionResult> GetAvailableMountainRanges()
         {
-            return Ok(await _trasyPubliczneRepository.GetAllMountainRanges());
+            return Ok(await _publicTrailsRepository.GetAllMountainRanges());
         }
 
         [HttpGet("segmants/{pasmoId}")]
-        public async Task<ActionResult> GetAvailableOdcinkiForPasmo([FromRoute] int pasmoId)
+        public async Task<ActionResult> GetAvailableSegmentsForMountainRange([FromRoute] int rangeId)
         {
-            var odcinkiResult = await _trasyPubliczneRepository.GetAllSegmentsForMountainRange(pasmoId);
+            var segments = await _publicTrailsRepository.GetAllSegmentsForMountainRange(rangeId);
             
-            return UnWrapResultWithNotFound(odcinkiResult);
+            return UnWrapResultWithNotFound(segments);
         }
 
         [HttpGet("neighboringSegments/{pointId}")]
-        public async Task<ActionResult> GetAvailableOdcinkiForPunktTerenowy([FromRoute] int pointId)
+        public async Task<ActionResult> GetAvailableSegmentsForTerrainPoint([FromRoute] int pointId)
         {
-            var odcinkiResult = await _trasyPubliczneRepository.GetAllNeighboringSegmentsForTerrainPoint(pointId);
+            var odcinkiResult = await _publicTrailsRepository.GetAllNeighboringSegmentsForTerrainPoint(pointId);
 
             return UnWrapResultWithNotFound(odcinkiResult);
         }
 
         [HttpGet("terrainPoints")]
-        public async Task<ActionResult> GetAvailablePunktyTerenowe()
+        public async Task<ActionResult> GetAvailableTerrainPoints()
         {
-            return Ok(await _trasyPubliczneRepository.GetAllTerrainPoints());
+            return Ok(await _publicTrailsRepository.GetAllTerrainPoints());
         }
 
         [HttpPost("trip")]
-        public async Task<ActionResult> CreateWycieczka([FromBody] CreateTripViewModel model)
+        public async Task<ActionResult> CreateTrail([FromBody] CreateTripViewModel model)
         {
-            var wycieczka = _mapper.Map<Trip>(model);
+            var trail = _mapper.Map<Trip>(model);
 
-            var createdResult = await _wycieczkaRepository.CreateTrip(wycieczka);
+            var createdResult = await _tripRepository.CreateTrip(trail);
             return UnWrapResultWithBadRequest(createdResult);
         }
 
         [HttpPost("terrainPoint")]
-        public async Task<ActionResult> CreatePunktPrywatny([FromBody] CreateTerrainPointViewModel viewModel)
+        public async Task<ActionResult> CreatePrivateTerrainPoint([FromBody] CreateTerrainPointViewModel viewModel)
         {
-            var punktTerenowy = _mapper.Map<TerrainPoint>(viewModel);
+            var terrainPoint = _mapper.Map<TerrainPoint>(viewModel);
 
-            var createdResult = await _wycieczkaRepository.CreatePrivateTerrainPoint(punktTerenowy);
+            var createdResult = await _tripRepository.CreatePrivateTerrainPoint(terrainPoint);
             return UnWrapResultWithBadRequest(createdResult);
         }
 
         [HttpPost("privateSegment")]
-        public async Task<ActionResult> CreateOdcinekPrywatny([FromBody] CreateSegmentViewModel viewModel)
+        public async Task<ActionResult> CreatePrivateSegment([FromBody] CreateSegmentViewModel viewModel)
         {
-            var odcinek = _mapper.Map<Segment>(viewModel);
+            var segment = _mapper.Map<Segment>(viewModel);
 
-            var createdResult = await _wycieczkaRepository.CreatePrivateSegment(odcinek);
+            var createdResult = await _tripRepository.CreatePrivateSegment(segment);
             return UnWrapResultWithBadRequest(createdResult);
         }
 
