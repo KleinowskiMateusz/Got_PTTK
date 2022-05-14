@@ -20,7 +20,7 @@ namespace KsiazeczkaPttk.Domain.Models
         [MaxLength(30)]
         public string TouristsBookOwner { get; set; }
 
-        [ForeignKey("Wlasciciel")]
+        [ForeignKey("TouristsBookOwner")]
         public TouristsBook TouristsBook { get; set; }
     }
 }

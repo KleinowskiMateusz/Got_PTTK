@@ -44,4 +44,32 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+await SeedDb(app.Services);
+
 app.Run();
+
+async Task SeedDb(IServiceProvider services)
+{
+    bool dbSeeded = false;
+    while (!dbSeeded)
+    {
+        try
+        {
+            Console.WriteLine("Attempting to migrate database");
+            using (var scope = services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetService<TouristsBookContext>();
+                await context.Migrate();
+                Console.WriteLine("Migration: Done");
+                await TouristsBookSeed.Seed(context);
+                Console.WriteLine("Seed: Done");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Db connection not established succesfully");
+            Console.WriteLine(ex.Message);
+            Thread.Sleep(10_000);
+        }
+    }
+}

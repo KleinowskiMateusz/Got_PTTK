@@ -9,7 +9,7 @@ namespace KsiazeczkaPttk.Domain.Models
         [MaxLength(30)]
         public string OwnerId { get; set; }
 
-        [ForeignKey("Wlasciciel")]
+        [ForeignKey("OwnerId")]
         public User Owner { get; set; }
 
         public bool Disability { get; set; }
