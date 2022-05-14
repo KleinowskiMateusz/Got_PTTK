@@ -28,13 +28,13 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpGet("{idOdcinka}")]
         public async Task<ActionResult> GetPotwierdzeniaOdcinka([FromRoute] int idOdcinka)
         {
-            var odcinek = await _wycieczkaRepository.GetPrzebytyOdcinekById(idOdcinka);
+            var odcinek = await _wycieczkaRepository.GetSegmentTravelById(idOdcinka);
             if (odcinek is null)
             {
                 return NotFound($"Not found Przebyty Odcinek with id {idOdcinka}");
             }
 
-            return Ok(await _wycieczkaRepository.GetPotwierdzeniaForOdcinek(odcinek));
+            return Ok(await _wycieczkaRepository.GetSegmentConfirmationForSegment(odcinek));
         }
 
         [HttpGet("zdjecie/{fileName}")]
@@ -55,7 +55,7 @@ namespace KsiazeczkaPttk.API.Controllers
         {
             var potwierdzenie = _mapper.Map<Confirmation>(modelPotwierdzenia);
 
-            var result = await _wycieczkaRepository.AddPotwierdzenieToOdcinekWithOr(potwierdzenie, modelPotwierdzenia.OdcinekId);
+            var result = await _wycieczkaRepository.AddConfirmationToSegmentWithOr(potwierdzenie, modelPotwierdzenia.OdcinekId);
             return UnWrapResultWithBadRequest(result);
         }
 
@@ -64,14 +64,14 @@ namespace KsiazeczkaPttk.API.Controllers
         {
             var potwierdzenie = _mapper.Map<Confirmation>(modelPotwierdzenia);
 
-            var result = await _wycieczkaRepository.AddPotwierdzenieToOdcinekWithPhoto(potwierdzenie, modelPotwierdzenia.OdcinekId, modelPotwierdzenia.Image, _webHostEnvironment.ContentRootPath);
+            var result = await _wycieczkaRepository.AddConfirmationToSegmentWithPhoto(potwierdzenie, modelPotwierdzenia.OdcinekId, modelPotwierdzenia.Image, _webHostEnvironment.ContentRootPath);
             return UnWrapResultWithBadRequest(result);
         }
 
         [HttpDelete("{idPotwierdzenia}")]
         public async Task<ActionResult> DeletePotwierdzenieOdcinka([FromRoute] int idPotwierdzenia)
         {
-            if (await _wycieczkaRepository.DeletePotwierdzenia(idPotwierdzenia, _webHostEnvironment.ContentRootPath))
+            if (await _wycieczkaRepository.DeleteConfirmation(idPotwierdzenia, _webHostEnvironment.ContentRootPath))
             {
                 return Ok();
             }

@@ -23,7 +23,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return trip;
         }
 
-        public async Task<IEnumerable<Trip>> GetAllWycieczka()
+        public async Task<IEnumerable<Trip>> GetAllTrips()
         {
             var trips = await GetBaseWycieczkaIQueryable().ToListAsync();
 
@@ -35,14 +35,14 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return trips;
         }
 
-        public async Task<SegmentTravel> GetPrzebytyOdcinekById(int id)
+        public async Task<SegmentTravel> GetSegmentTravelById(int id)
         {
             return await _context.SegmentTravels
                 .Include(p => p.Segment)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public async Task<IEnumerable<SegmentConfirmation>> GetPotwierdzeniaForOdcinek(SegmentTravel segmentTravel)
+        public async Task<IEnumerable<SegmentConfirmation>> GetSegmentConfirmationForSegment(SegmentTravel segmentTravel)
         {
             if (segmentTravel is null)
             {
@@ -56,7 +56,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Result<Trip>> CreateWycieczka(Trip trip)
+        public async Task<Result<Trip>> CreateTrip(Trip trip)
         {
             if (!trip.Segments?.Any() ?? true)
             {
@@ -91,7 +91,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return Result<Trip>.Ok(trip);
         }
 
-        public async Task<Result<TerrainPoint>> CreatePunktPrywatny(TerrainPoint point)
+        public async Task<Result<TerrainPoint>> CreatePrivateTerrainPoint(TerrainPoint point)
         {
             var owner = await _context.TouristsBooks.FirstOrDefaultAsync(k => k.OwnerId == point.TouristsBookOwner);
             if (owner is null)
@@ -111,7 +111,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return Result<TerrainPoint>.Ok(point);
         }
 
-        public async Task<Result<Segment>> CreateOdcinekPrywatny(Segment segment)
+        public async Task<Result<Segment>> CreatePrivateSegment(Segment segment)
         {
             var validityResult = await CheckNewOdcinekValidity(segment);
             if (!validityResult.Item1)
@@ -154,7 +154,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return (true, string.Empty);
         }
 
-        public async Task<Result<Confirmation>> AddPotwierdzenieToOdcinekWithOr(Confirmation confirmation, int segmentId)
+        public async Task<Result<Confirmation>> AddConfirmationToSegmentWithOr(Confirmation confirmation, int segmentId)
         {
             var segmentFromDb = await _context.SegmentTravels.FirstOrDefaultAsync(o => o.Id == segmentId);
             var terrainPoint = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == confirmation.TerrainPointId);
@@ -182,7 +182,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return Result<Confirmation>.Error("Nieprawidłowa lokalizacja kodu QR");
         }
 
-        public async Task<Result<Confirmation>> AddPotwierdzenieToOdcinekWithPhoto(Confirmation confiramtion, int segmentId, IFormFile file, string rootFileName)
+        public async Task<Result<Confirmation>> AddConfirmationToSegmentWithPhoto(Confirmation confiramtion, int segmentId, IFormFile file, string rootFileName)
         {
             var segmentFromDb = await _context.SegmentTravels.FirstOrDefaultAsync(o => o.Id == segmentId);
             var terrainPoint = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == confiramtion.TerrainPointId);
@@ -223,7 +223,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return Result<Confirmation>.Ok(confirmation);
         }
 
-        public async Task<bool> DeletePotwierdzenia(int id, string rootFileName)
+        public async Task<bool> DeleteConfirmation(int id, string rootFileName)
         {
             var confirmation = await _context.Confirmations.FirstOrDefaultAsync(p => p.Id == id);
             if (confirmation is null)

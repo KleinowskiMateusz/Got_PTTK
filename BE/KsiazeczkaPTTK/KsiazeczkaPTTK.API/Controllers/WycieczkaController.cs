@@ -25,7 +25,7 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpGet("wycieczka")]
         public async Task<ActionResult> GetAllWycieczka()
         {
-            return Ok(await _wycieczkaRepository.GetAllWycieczka());
+            return Ok(await _wycieczkaRepository.GetAllTrips());
         }
 
         [HttpGet("wycieczka/{id}")]
@@ -88,7 +88,7 @@ namespace KsiazeczkaPttk.API.Controllers
         {
             var wycieczka = _mapper.Map<Trip>(model);
 
-            var createdResult = await _wycieczkaRepository.CreateWycieczka(wycieczka);
+            var createdResult = await _wycieczkaRepository.CreateTrip(wycieczka);
             return UnWrapResultWithBadRequest(createdResult);
         }
 
@@ -97,7 +97,7 @@ namespace KsiazeczkaPttk.API.Controllers
         {
             var punktTerenowy = _mapper.Map<TerrainPoint>(viewModel);
 
-            var createdResult = await _wycieczkaRepository.CreatePunktPrywatny(punktTerenowy);
+            var createdResult = await _wycieczkaRepository.CreatePrivateTerrainPoint(punktTerenowy);
             return UnWrapResultWithBadRequest(createdResult);
         }
 
@@ -106,7 +106,7 @@ namespace KsiazeczkaPttk.API.Controllers
         {
             var odcinek = _mapper.Map<Segment>(viewModel);
 
-            var createdResult = await _wycieczkaRepository.CreateOdcinekPrywatny(odcinek);
+            var createdResult = await _wycieczkaRepository.CreatePrivateSegment(odcinek);
             return UnWrapResultWithBadRequest(createdResult);
         }
 

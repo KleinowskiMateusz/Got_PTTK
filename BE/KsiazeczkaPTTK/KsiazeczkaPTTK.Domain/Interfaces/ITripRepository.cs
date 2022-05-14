@@ -7,22 +7,22 @@ namespace KsiazeczkaPttk.DAL.Interfaces
     {
         Task<Trip> GetById(int id);
 
-        Task<IEnumerable<Trip>> GetAllWycieczka();
+        Task<IEnumerable<Trip>> GetAllTrips();
 
-        Task<SegmentTravel> GetPrzebytyOdcinekById(int id);
+        Task<SegmentTravel> GetSegmentTravelById(int id);
 
-        Task<IEnumerable<SegmentConfirmation>> GetPotwierdzeniaForOdcinek(SegmentTravel odcinek);
+        Task<IEnumerable<SegmentConfirmation>> GetSegmentConfirmationForSegment(SegmentTravel segmentTravel);
 
-        Task<Result<Trip>> CreateWycieczka(Trip wycieczka);
+        Task<Result<Trip>> CreateTrip(Trip trip);
 
-        Task<Result<Segment>> CreateOdcinekPrywatny(Segment odcinek);
+        Task<Result<Segment>> CreatePrivateSegment(Segment segment);
 
-        Task<Result<TerrainPoint>> CreatePunktPrywatny(TerrainPoint punkt);
+        Task<Result<TerrainPoint>> CreatePrivateTerrainPoint(TerrainPoint terrainPoint);
 
-        Task<Result<Confirmation>> AddPotwierdzenieToOdcinekWithOr(Confirmation potwierdzenie, int odcinekId);
+        Task<Result<Confirmation>> AddConfirmationToSegmentWithOr(Confirmation confirmation, int segmentId);
 
-        Task<Result<Confirmation>> AddPotwierdzenieToOdcinekWithPhoto(Confirmation potwierdzenie, int odcinekId, IFormFile file, string rootFileName);
+        Task<Result<Confirmation>> AddConfirmationToSegmentWithPhoto(Confirmation confirmation, int segmentId, IFormFile file, string rootFileName);
 
-        Task<bool> DeletePotwierdzenia(int id, string rootFileName);
+        Task<bool> DeleteConfirmation(int id, string rootFileName);
     }
 }
