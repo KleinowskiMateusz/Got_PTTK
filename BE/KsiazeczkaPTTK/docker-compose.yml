@@ -1,0 +1,26 @@
+#docker-compose up --build
+#http://localhost:8080/swagger/index.html
+
+version: '3.8'
+services:
+  dbpostgres:
+      image: postgres
+      restart: always
+      environment:
+        POSTGRES_PASSWORD: postgres
+
+  api:
+    build: 
+      context: .
+      dockerfile: KsiazeczkaPTTK.API/Dockerfile
+    restart: always
+    ports:
+      - "44300:44300"
+      - "5000:5000"
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    links:
+      - dbpostgres
+    depends_on:
+      - dbpostgres
