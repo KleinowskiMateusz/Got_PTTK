@@ -2,22 +2,20 @@
 using KsiazeczkaPttk.API.ViewModels;
 using KsiazeczkaPttk.DAL.Interfaces;
 using KsiazeczkaPttk.Domain.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace KsiazeczkaPttk.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PotwierdzenieController : ControllerBase
+    public class ConfirmationController : ControllerBase
     {
         private readonly ITripRepository _wycieczkaRepository;
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
 
-        public PotwierdzenieController(ITripRepository wycieczkaRepository, IFileService fileService, IWebHostEnvironment webHostEnvironment, IMapper mapper)
+        public ConfirmationController(ITripRepository wycieczkaRepository, IFileService fileService, IWebHostEnvironment webHostEnvironment, IMapper mapper)
         {
             _wycieczkaRepository = wycieczkaRepository;
             _fileService = fileService;
@@ -25,19 +23,19 @@ namespace KsiazeczkaPttk.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{idOdcinka}")]
-        public async Task<ActionResult> GetPotwierdzeniaOdcinka([FromRoute] int idOdcinka)
+        [HttpGet("{segmentId}")]
+        public async Task<ActionResult> GetPotwierdzeniaOdcinka([FromRoute] int segmentId)
         {
-            var odcinek = await _wycieczkaRepository.GetSegmentTravelById(idOdcinka);
+            var odcinek = await _wycieczkaRepository.GetSegmentTravelById(segmentId);
             if (odcinek is null)
             {
-                return NotFound($"Not found Przebyty Odcinek with id {idOdcinka}");
+                return NotFound($"Not found Przebyty Odcinek with id {segmentId}");
             }
 
             return Ok(await _wycieczkaRepository.GetSegmentConfirmationForSegment(odcinek));
         }
 
-        [HttpGet("zdjecie/{fileName}")]
+        [HttpGet("photo/{fileName}")]
         public ActionResult GetPotwierdzeniePhoto(string fileName)
         {
             var imageStream = _fileService.GetPhoto(fileName, _webHostEnvironment.ContentRootPath);
@@ -50,7 +48,7 @@ namespace KsiazeczkaPttk.API.Controllers
             return File(imageStream, "image/jpeg");
         }
 
-        [HttpPost("zKodem")]
+        [HttpPost("withQR")]
         public async Task<ActionResult> CreatePotwierdzenieTerenoweForOdcinekWithQrCode([FromBody] CreatePotwierdzenieWithQrViewModel modelPotwierdzenia)
         {
             var potwierdzenie = _mapper.Map<Confirmation>(modelPotwierdzenia);
@@ -59,7 +57,7 @@ namespace KsiazeczkaPttk.API.Controllers
             return UnWrapResultWithBadRequest(result);
         }
 
-        [HttpPost("zeZdjeciem")]
+        [HttpPost("withPhoto")]
         public async Task<ActionResult> CreatePotwierdzenieTerenoweForOdcinekWithPhoto([FromForm] CreatePotwierdzenieWithImageViewModel modelPotwierdzenia)
         {
             var potwierdzenie = _mapper.Map<Confirmation>(modelPotwierdzenia);
@@ -68,7 +66,7 @@ namespace KsiazeczkaPttk.API.Controllers
             return UnWrapResultWithBadRequest(result);
         }
 
-        [HttpDelete("{idPotwierdzenia}")]
+        [HttpDelete("{confirmationId}")]
         public async Task<ActionResult> DeletePotwierdzenieOdcinka([FromRoute] int idPotwierdzenia)
         {
             if (await _wycieczkaRepository.DeleteConfirmation(idPotwierdzenia, _webHostEnvironment.ContentRootPath))

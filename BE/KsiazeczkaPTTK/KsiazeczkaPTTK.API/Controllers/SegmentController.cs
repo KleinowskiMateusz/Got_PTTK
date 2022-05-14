@@ -9,12 +9,12 @@ namespace KsiazeczkaPttk.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class OdcinekController : Controller
+    public class SegmentController : Controller
     {
         private readonly IPublicTrailsRepository _trasyPubliczneRepository;
         private readonly IMapper _mapper;
 
-        public OdcinekController(IPublicTrailsRepository trasyPubliczneRepository, IMapper mapper)
+        public SegmentController(IPublicTrailsRepository trasyPubliczneRepository, IMapper mapper)
         {
             _trasyPubliczneRepository = trasyPubliczneRepository;
             _mapper = mapper;
@@ -26,15 +26,15 @@ namespace KsiazeczkaPttk.API.Controllers
             return Ok(await _trasyPubliczneRepository.GetAllPublicSegments());
         }
 
-        [HttpGet("{idOdcinka}")]
-        public async Task<IActionResult> GetOdcinekPublicznyById(int idOdcinka)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOdcinekPublicznyById(int id)
         {
-            var odcinekResult = await _trasyPubliczneRepository.GetPublicSegmentById(idOdcinka);
+            var odcinekResult = await _trasyPubliczneRepository.GetPublicSegmentById(id);
 
             return UnWrapResultWithNotFound(odcinekResult);
         }
 
-        [HttpGet("punkty")]
+        [HttpGet("points")]
         public async Task<ActionResult> GetAllPuntyTerenowe()
         {
             return Ok(await _trasyPubliczneRepository.GetAllTerrainPointsWithBook());
@@ -49,19 +49,19 @@ namespace KsiazeczkaPttk.API.Controllers
             return UnWrapResultWithBadRequest(createdResult);
         }
 
-        [HttpPut("{idOdcinka}")]
-        public async Task<IActionResult> EditOdcinekPubliczny([FromRoute] int idOdcinka, [FromBody] EditOdcinekPublicznyViewModel viewModel)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditOdcinekPubliczny([FromRoute] int id, [FromBody] EditOdcinekPublicznyViewModel viewModel)
         {
             var odcinek = _mapper.Map<Segment>(viewModel);
 
-            var editedResult = await _trasyPubliczneRepository.EditPublicSegment(idOdcinka, odcinek);
+            var editedResult = await _trasyPubliczneRepository.EditPublicSegment(id, odcinek);
             return UnWrapResultWithBadRequest(editedResult);
         }
 
-        [HttpDelete("{idOdcinka}")]
-        public async Task<IActionResult> DeleteOdcinekPubliczny(int idOdcinka)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOdcinekPubliczny(int id)
         {
-            if (await _trasyPubliczneRepository.DeletePublicSegment(idOdcinka))
+            if (await _trasyPubliczneRepository.DeletePublicSegment(id))
             {
                 return Ok();
             }

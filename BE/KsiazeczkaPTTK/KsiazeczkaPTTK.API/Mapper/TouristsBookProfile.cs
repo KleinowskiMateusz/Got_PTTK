@@ -6,9 +6,9 @@ using System;
 
 namespace KsiazeczkaPttk.API.Mapper
 {
-    public class KsiazeczkaProfile : Profile
+    public class TouristsBookProfile : Profile
     {
-        public KsiazeczkaProfile()
+        public TouristsBookProfile()
         {
             CreateOdcinekMapping();
 

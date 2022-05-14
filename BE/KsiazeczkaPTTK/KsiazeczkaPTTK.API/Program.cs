@@ -24,8 +24,8 @@ var postgresStr = builder.Configuration.GetConnectionString("PostgresConnection"
 builder.Services.AddDbContext<TouristsBookContext>(options =>
     options.UseNpgsql(postgresStr));
 
-builder.Services.AddScoped<IPublicTrailsRepository, TrasyPubliczneRepository>();
-builder.Services.AddScoped<ITripRepository, WycieczkaRepository>();
+builder.Services.AddScoped<IPublicTrailsRepository, PublicTrailsRepository>();
+builder.Services.AddScoped<ITripRepository, TripRepository>();
 builder.Services.AddScoped<IFileService, FileService>();
 
 var app = builder.Build();

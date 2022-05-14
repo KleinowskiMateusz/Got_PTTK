@@ -9,26 +9,26 @@ namespace KsiazeczkaPttk.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WycieczkaController : Controller
+    public class TripController : Controller
     {
         private readonly ITripRepository _wycieczkaRepository;
         private readonly IPublicTrailsRepository _trasyPubliczneRepository;
         private readonly IMapper _mapper;
 
-        public WycieczkaController(ITripRepository wycieczkaRepository, IPublicTrailsRepository trasyPubliczneRepository, IMapper mapper)
+        public TripController(ITripRepository wycieczkaRepository, IPublicTrailsRepository trasyPubliczneRepository, IMapper mapper)
         {
             _wycieczkaRepository = wycieczkaRepository;
             _trasyPubliczneRepository = trasyPubliczneRepository;
             _mapper = mapper;
         }
 
-        [HttpGet("wycieczka")]
+        [HttpGet()]
         public async Task<ActionResult> GetAllWycieczka()
         {
             return Ok(await _wycieczkaRepository.GetAllTrips());
         }
 
-        [HttpGet("wycieczka/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult> GetWycieczka(int id)
         {
             var wycieczka = await _wycieczkaRepository.GetById(id);
@@ -41,27 +41,27 @@ namespace KsiazeczkaPttk.API.Controllers
             return Ok(wycieczka);
         }
 
-        [HttpGet("dostepneGrupyGorskie")]
+        [HttpGet("mountainGroups")]
         public async Task<ActionResult> GetAvailableGrupyGorskie()
         {
             return Ok(await _trasyPubliczneRepository.GetAllMountainGroups());
         }
 
-        [HttpGet("dostepnePasmaGorskie/{grupaId}")]
-        public async Task<ActionResult> GetAvailablePasmaGorskie([FromRoute] int grupaId)
+        [HttpGet("mountainRanges/{groupId}")]
+        public async Task<ActionResult> GetAvailablePasmaGorskie([FromRoute] int groupId)
         {
-            var pasmaResult = await _trasyPubliczneRepository.GetAllMountainRangesForGroup(grupaId);
+            var pasmaResult = await _trasyPubliczneRepository.GetAllMountainRangesForGroup(groupId);
             
             return UnWrapResultWithNotFound(pasmaResult);
         }
 
-        [HttpGet("dostepnePasmaGorskie")]
+        [HttpGet("mountainRanges")]
         public async Task<ActionResult> GetAvailablePasmaGorskie()
         {
             return Ok(await _trasyPubliczneRepository.GetAllMountainRanges());
         }
 
-        [HttpGet("dostepneOdcinki/{pasmoId}")]
+        [HttpGet("segmants/{pasmoId}")]
         public async Task<ActionResult> GetAvailableOdcinkiForPasmo([FromRoute] int pasmoId)
         {
             var odcinkiResult = await _trasyPubliczneRepository.GetAllSegmentsForMountainRange(pasmoId);
@@ -69,21 +69,21 @@ namespace KsiazeczkaPttk.API.Controllers
             return UnWrapResultWithNotFound(odcinkiResult);
         }
 
-        [HttpGet("przylegajaceOdcinki/{punktId}")]
-        public async Task<ActionResult> GetAvailableOdcinkiForPunktTerenowy([FromRoute] int punktId)
+        [HttpGet("neighboringSegments/{pointId}")]
+        public async Task<ActionResult> GetAvailableOdcinkiForPunktTerenowy([FromRoute] int pointId)
         {
-            var odcinkiResult = await _trasyPubliczneRepository.GetAllNeighboringSegmentsForTerrainPoint(punktId);
+            var odcinkiResult = await _trasyPubliczneRepository.GetAllNeighboringSegmentsForTerrainPoint(pointId);
 
             return UnWrapResultWithNotFound(odcinkiResult);
         }
 
-        [HttpGet("dostepnePunkty")]
+        [HttpGet("terrainPoints")]
         public async Task<ActionResult> GetAvailablePunktyTerenowe()
         {
             return Ok(await _trasyPubliczneRepository.GetAllTerrainPoints());
         }
 
-        [HttpPost("wycieczka")]
+        [HttpPost("trip")]
         public async Task<ActionResult> CreateWycieczka([FromBody] CreateWycieczkaViewModel model)
         {
             var wycieczka = _mapper.Map<Trip>(model);
@@ -92,7 +92,7 @@ namespace KsiazeczkaPttk.API.Controllers
             return UnWrapResultWithBadRequest(createdResult);
         }
 
-        [HttpPost("punktPrywatny")]
+        [HttpPost("terrainPoint")]
         public async Task<ActionResult> CreatePunktPrywatny([FromBody] CreatePunktTerenowyViewModel viewModel)
         {
             var punktTerenowy = _mapper.Map<TerrainPoint>(viewModel);
@@ -101,7 +101,7 @@ namespace KsiazeczkaPttk.API.Controllers
             return UnWrapResultWithBadRequest(createdResult);
         }
 
-        [HttpPost("odcinekPrywatny")]
+        [HttpPost("privateSegment")]
         public async Task<ActionResult> CreateOdcinekPrywatny([FromBody] CreateOdcinekViewModel viewModel)
         {
             var odcinek = _mapper.Map<Segment>(viewModel);

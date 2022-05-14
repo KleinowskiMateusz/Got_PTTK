@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KsiazeczkaPttk.DAL.Repositories
 {
-    public class WycieczkaRepository : ITripRepository
+    public class TripRepository : ITripRepository
     {
         private readonly TouristsBookContext _context;
         private readonly IFileService _fileService;
 
-        public WycieczkaRepository(TouristsBookContext context, IFileService fileService)
+        public TripRepository(TouristsBookContext context, IFileService fileService)
         {
             _context = context;
             _fileService = fileService;

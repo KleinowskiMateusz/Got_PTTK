@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KsiazeczkaPttk.DAL.Repositories
 {
-    public class TrasyPubliczneRepository : IPublicTrailsRepository
+    public class PublicTrailsRepository : IPublicTrailsRepository
     {
         private readonly TouristsBookContext _context;
         private readonly IMapper _mapper;
 
-        public TrasyPubliczneRepository(TouristsBookContext context, IMapper mapper)
+        public PublicTrailsRepository(TouristsBookContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
