@@ -1,4 +1,7 @@
 using KsiazeczkaPttk.DAL;
+using KsiazeczkaPttk.DAL.Interfaces;
+using KsiazeczkaPttk.DAL.Repositories;
+using KsiazeczkaPttk.Logic.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -17,9 +20,13 @@ builder.Services.AddCors(o => o.AddPolicy("DevelopmentCorsPolicy", builder =>
     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 }));
 
-var postgresStr = builder.Configuration.GetConnectionString("MySQLConnection");
+var postgresStr = builder.Configuration.GetConnectionString("PostgresConnection");
 builder.Services.AddDbContext<KsiazeczkaContext>(options =>
     options.UseNpgsql(postgresStr));
+
+builder.Services.AddScoped<ITrasyPubliczneRepository, TrasyPubliczneRepository>();
+builder.Services.AddScoped<IWycieczkaRepository, WycieczkaRepository>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 var app = builder.Build();
 

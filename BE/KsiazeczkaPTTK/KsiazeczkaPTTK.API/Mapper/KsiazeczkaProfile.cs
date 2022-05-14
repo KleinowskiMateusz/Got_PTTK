@@ -50,13 +50,6 @@ namespace KsiazeczkaPttk.API.Mapper
         {
             CreateMap<CreateWycieczkaViewModel, Wycieczka>()
                 .ForMember(m => m.Odcinki, opt => opt.ConvertUsing(new PrzebycieOdcinkaViewModelToPrzebycieOdcinkaConverter(), src => src.PrzebyteOdcinki));
-
-            CreateMap<CreateWeryfikacjaViewModel, Weryfikacja>()
-                .ForMember(m => m.Data, opt => opt.MapFrom(_ => DateTime.Now));
-
-            CreateMap<WycieczkaPreview, WeryfikowanaWycieczkaViewModel>()
-                .ForMember(m => m.Wycieczka, opt => opt.ConvertUsing(new WycieczkaPreviewToWeryfikowanaWycieczkaConverter(), src => src));
-
         }
     }
 }
