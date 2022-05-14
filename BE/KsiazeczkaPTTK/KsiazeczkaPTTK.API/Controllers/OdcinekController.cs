@@ -23,13 +23,13 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllOdcinekPubliczny()
         {
-            return Ok(await _trasyPubliczneRepository.GetAllOdcinkiPubliczne());
+            return Ok(await _trasyPubliczneRepository.GetAllPublicSegments());
         }
 
         [HttpGet("{idOdcinka}")]
         public async Task<IActionResult> GetOdcinekPublicznyById(int idOdcinka)
         {
-            var odcinekResult = await _trasyPubliczneRepository.GetOdcinekPublicznyById(idOdcinka);
+            var odcinekResult = await _trasyPubliczneRepository.GetPublicSegmentById(idOdcinka);
 
             return UnWrapResultWithNotFound(odcinekResult);
         }
@@ -37,7 +37,7 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpGet("punkty")]
         public async Task<ActionResult> GetAllPuntyTerenowe()
         {
-            return Ok(await _trasyPubliczneRepository.GetAllPuntyTerenowe());
+            return Ok(await _trasyPubliczneRepository.GetAllTerrainPointsWithBook());
         }
 
         [HttpPost]
@@ -45,7 +45,7 @@ namespace KsiazeczkaPttk.API.Controllers
         {
             var odcinek = _mapper.Map<Segment>(viewModel);
             
-            var createdResult = await _trasyPubliczneRepository.CreateOdcinekPubliczny(odcinek);
+            var createdResult = await _trasyPubliczneRepository.CreatePublicSegment(odcinek);
             return UnWrapResultWithBadRequest(createdResult);
         }
 
@@ -54,14 +54,14 @@ namespace KsiazeczkaPttk.API.Controllers
         {
             var odcinek = _mapper.Map<Segment>(viewModel);
 
-            var editedResult = await _trasyPubliczneRepository.EditOdcinekPubliczny(idOdcinka, odcinek);
+            var editedResult = await _trasyPubliczneRepository.EditPublicSegment(idOdcinka, odcinek);
             return UnWrapResultWithBadRequest(editedResult);
         }
 
         [HttpDelete("{idOdcinka}")]
         public async Task<IActionResult> DeleteOdcinekPubliczny(int idOdcinka)
         {
-            if (await _trasyPubliczneRepository.DeleteOdcinekPubliczny(idOdcinka))
+            if (await _trasyPubliczneRepository.DeletePublicSegment(idOdcinka))
             {
                 return Ok();
             }

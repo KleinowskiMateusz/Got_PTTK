@@ -44,13 +44,13 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpGet("dostepneGrupyGorskie")]
         public async Task<ActionResult> GetAvailableGrupyGorskie()
         {
-            return Ok(await _trasyPubliczneRepository.GetAllGrupyGorskie());
+            return Ok(await _trasyPubliczneRepository.GetAllMountainGroups());
         }
 
         [HttpGet("dostepnePasmaGorskie/{grupaId}")]
         public async Task<ActionResult> GetAvailablePasmaGorskie([FromRoute] int grupaId)
         {
-            var pasmaResult = await _trasyPubliczneRepository.GetAllPasmaGorskieForGrupa(grupaId);
+            var pasmaResult = await _trasyPubliczneRepository.GetAllMountainRangesForGroup(grupaId);
             
             return UnWrapResultWithNotFound(pasmaResult);
         }
@@ -58,13 +58,13 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpGet("dostepnePasmaGorskie")]
         public async Task<ActionResult> GetAvailablePasmaGorskie()
         {
-            return Ok(await _trasyPubliczneRepository.GetAllPasmaGorskie());
+            return Ok(await _trasyPubliczneRepository.GetAllMountainRanges());
         }
 
         [HttpGet("dostepneOdcinki/{pasmoId}")]
         public async Task<ActionResult> GetAvailableOdcinkiForPasmo([FromRoute] int pasmoId)
         {
-            var odcinkiResult = await _trasyPubliczneRepository.GetAllOdcinkiForPasmo(pasmoId);
+            var odcinkiResult = await _trasyPubliczneRepository.GetAllSegmentsForMountainRange(pasmoId);
             
             return UnWrapResultWithNotFound(odcinkiResult);
         }
@@ -72,7 +72,7 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpGet("przylegajaceOdcinki/{punktId}")]
         public async Task<ActionResult> GetAvailableOdcinkiForPunktTerenowy([FromRoute] int punktId)
         {
-            var odcinkiResult = await _trasyPubliczneRepository.GetAllOdcinkiForPunktTerenowy(punktId);
+            var odcinkiResult = await _trasyPubliczneRepository.GetAllNeighboringSegmentsForTerrainPoint(punktId);
 
             return UnWrapResultWithNotFound(odcinkiResult);
         }
@@ -80,7 +80,7 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpGet("dostepnePunkty")]
         public async Task<ActionResult> GetAvailablePunktyTerenowe()
         {
-            return Ok(await _trasyPubliczneRepository.GetAllPunktyTerenowe());
+            return Ok(await _trasyPubliczneRepository.GetAllTerrainPoints());
         }
 
         [HttpPost("wycieczka")]

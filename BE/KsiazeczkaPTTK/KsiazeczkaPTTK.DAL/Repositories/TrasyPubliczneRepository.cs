@@ -16,12 +16,12 @@ namespace KsiazeczkaPttk.DAL.Repositories
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<MountainGroup>> GetAllGrupyGorskie()
+        public async Task<IEnumerable<MountainGroup>> GetAllMountainGroups()
         {
             return await _context.MountainGroups.ToListAsync();
         }
 
-        public async Task<Result<IEnumerable<MountainRange>>> GetAllPasmaGorskieForGrupa(int groupId)
+        public async Task<Result<IEnumerable<MountainRange>>> GetAllMountainRangesForGroup(int groupId)
         {
             var groupFromDb = await _context.MountainGroups.FirstOrDefaultAsync(g => g.Id == groupId);
             if (groupFromDb is null)
@@ -37,14 +37,14 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return Result<IEnumerable<MountainRange>>.Ok(ranges);
         }
 
-        public async Task<IEnumerable<MountainRange>> GetAllPasmaGorskie()
+        public async Task<IEnumerable<MountainRange>> GetAllMountainRanges()
         {
             return await _context.MountainRanges
                 .Include(p => p.MountainGroup)
                 .ToListAsync();
         }
 
-        public async Task<Result<IEnumerable<Segment>>> GetAllOdcinkiForPasmo(int rangeId)
+        public async Task<Result<IEnumerable<Segment>>> GetAllSegmentsForMountainRange(int rangeId)
         {
             var rangeFromDb = await _context.MountainRanges.FirstOrDefaultAsync(p => p.Id == rangeId);
             if (rangeFromDb is null)
@@ -59,7 +59,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return Result<IEnumerable<Segment>>.Ok(segments);
         }
 
-        public async Task<Result<IEnumerable<NeighboringSegment>>> GetAllOdcinkiForPunktTerenowy(int terrainPointId)
+        public async Task<Result<IEnumerable<NeighboringSegment>>> GetAllNeighboringSegmentsForTerrainPoint(int terrainPointId)
         {
             var pointFromDb = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == terrainPointId);
             if (pointFromDb is null)
@@ -81,7 +81,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return Result<IEnumerable<NeighboringSegment>>.Ok(result);
         }
 
-        public async Task<IEnumerable<TerrainPoint>> GetAllPunktyTerenowe()
+        public async Task<IEnumerable<TerrainPoint>> GetAllTerrainPoints()
         {
             return await _context.TerrainPoints
                 .Where(p => p.TouristsBook == null)
@@ -89,12 +89,12 @@ namespace KsiazeczkaPttk.DAL.Repositories
         }
 
 
-        public async Task<IEnumerable<Segment>> GetAllOdcinkiPubliczne()
+        public async Task<IEnumerable<Segment>> GetAllPublicSegments()
         {
             return await GetBaseOdcinekQueryable().Where(o => o.TouristsBook == null && o.IsActive).ToListAsync();
         }
 
-        public async Task<Result<Segment>> GetOdcinekPublicznyById(int segmentId)
+        public async Task<Result<Segment>> GetPublicSegmentById(int segmentId)
         {
             var segment = await GetBaseOdcinekQueryable().FirstOrDefaultAsync(o => o.Id == segmentId);
 
@@ -114,7 +114,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
                 .Include(o => o.TouristsBook);
         }
 
-        public async Task<Result<Segment>> CreateOdcinekPubliczny(Segment segment)
+        public async Task<Result<Segment>> CreatePublicSegment(Segment segment)
         {
             var validity = await CheckCeatedOdcinekValidity(segment);
             if (!validity.Item1)
@@ -131,7 +131,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return Result<Segment>.Ok(segment);
         }
 
-        public async Task<Result<Segment>> EditOdcinekPubliczny(int segmentId, Segment segment)
+        public async Task<Result<Segment>> EditPublicSegment(int segmentId, Segment segment)
         {
             var segmentFromDb = await _context.Segments.Include(o => o.TouristsBookOwner)
                                         .FirstOrDefaultAsync(o => o.Id == segmentId);
@@ -183,7 +183,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return (true, string.Empty);
         }
 
-        public async Task<bool> DeleteOdcinekPubliczny(int segmentId)
+        public async Task<bool> DeletePublicSegment(int segmentId)
         {
             var segmentFromDb = await _context.Segments.FirstOrDefaultAsync(o => o.Id == segmentId);
             if (segmentFromDb is null)
@@ -206,7 +206,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return true;
         }
 
-        public async Task<IEnumerable<TerrainPoint>> GetAllPuntyTerenowe()
+        public async Task<IEnumerable<TerrainPoint>> GetAllTerrainPointsWithBook()
         {
             return await _context.TerrainPoints
                 .Include(p => p.TouristsBook)

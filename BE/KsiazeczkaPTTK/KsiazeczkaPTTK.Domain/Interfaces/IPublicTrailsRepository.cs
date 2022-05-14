@@ -6,28 +6,28 @@ namespace KsiazeczkaPttk.DAL.Interfaces
 {
     public interface IPublicTrailsRepository
     {
-        Task<IEnumerable<MountainGroup>> GetAllGrupyGorskie();
+        Task<IEnumerable<MountainGroup>> GetAllMountainGroups();
 
-        Task<Result<IEnumerable<MountainRange>>> GetAllPasmaGorskieForGrupa(int idGrupy);
+        Task<Result<IEnumerable<MountainRange>>> GetAllMountainRangesForGroup(int groupId);
 
-        Task<IEnumerable<MountainRange>> GetAllPasmaGorskie();
+        Task<IEnumerable<MountainRange>> GetAllMountainRanges();
 
-        Task<Result<IEnumerable<Segment>>> GetAllOdcinkiForPasmo(int idPasma);
+        Task<Result<IEnumerable<Segment>>> GetAllSegmentsForMountainRange(int rangeId);
 
-        Task<Result<IEnumerable<NeighboringSegment>>> GetAllOdcinkiForPunktTerenowy(int idPunktuTerenowego);
+        Task<Result<IEnumerable<NeighboringSegment>>> GetAllNeighboringSegmentsForTerrainPoint(int pointId);
 
-        Task<IEnumerable<TerrainPoint>> GetAllPunktyTerenowe();
+        Task<IEnumerable<TerrainPoint>> GetAllTerrainPoints();
 
-        Task<IEnumerable<Segment>> GetAllOdcinkiPubliczne();
+        Task<IEnumerable<Segment>> GetAllPublicSegments();
 
-        Task<Result<Segment>> GetOdcinekPublicznyById(int odcinekId);
+        Task<Result<Segment>> GetPublicSegmentById(int segmentId);
 
-        Task<Result<Segment>> CreateOdcinekPubliczny(Segment odcinek);
+        Task<Result<Segment>> CreatePublicSegment(Segment segment);
 
-        Task<Result<Segment>> EditOdcinekPubliczny(int odcinekId, Segment odcinek);
+        Task<Result<Segment>> EditPublicSegment(int segmentId, Segment segment);
 
-        Task<bool> DeleteOdcinekPubliczny(int odcinekId);
+        Task<bool> DeletePublicSegment(int odcinekId);
 
-        Task<IEnumerable<TerrainPoint>> GetAllPuntyTerenowe();
+        Task<IEnumerable<TerrainPoint>> GetAllTerrainPointsWithBook();
     }
 }
