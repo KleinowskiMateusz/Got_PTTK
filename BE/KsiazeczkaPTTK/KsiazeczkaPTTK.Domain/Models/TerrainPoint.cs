@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KsiazeczkaPttk.Domain.Models
 {
-    public class PunktTerenowy
+    public class TerrainPoint
     {
         public int Id { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string Nazwa { get; set; }
+        public string Name { get; set; }
 
         public double Lat { get; set; }
 
@@ -18,9 +18,9 @@ namespace KsiazeczkaPttk.Domain.Models
         public double Mnpm { get; set; }
 
         [MaxLength(30)]
-        public string Wlasciciel { get; set; }
+        public string TouristsBookOwner { get; set; }
 
         [ForeignKey("Wlasciciel")]
-        public Ksiazeczka Ksiazeczka { get; set; }
+        public TouristsBook TouristsBook { get; set; }
     }
 }

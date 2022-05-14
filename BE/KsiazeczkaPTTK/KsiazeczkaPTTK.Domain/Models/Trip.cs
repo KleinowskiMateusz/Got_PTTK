@@ -5,24 +5,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KsiazeczkaPttk.Domain.Models
 {
-    public class Wycieczka
+    public class Trip
     {
         public int Id { get; set; }
 
         [Required]
         [MaxLength(250)]
-        public string Nazwa { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [MaxLength(30)]
-        public string Wlasciciel { get; set; }
+        public string TouristsBookId { get; set; }
 
-        [ForeignKey("Wlasciciel")]
-        public Ksiazeczka Ksiazeczka { get; set; }
+        [ForeignKey("TouristsBookId")]
+        public TouristsBook TouristsBook { get; set; }
 
         [Required]
-        public StatusWycieczki Status { get; set; }
+        public TripStatus Status { get; set; }
 
-        public IEnumerable<PrzebycieOdcinka> Odcinki { get; set; }
+        public IEnumerable<SegmentTravel> Segments { get; set; }
     }
 }

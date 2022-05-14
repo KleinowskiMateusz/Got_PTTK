@@ -11,11 +11,11 @@ namespace KsiazeczkaPttk.API.Controllers
     [Route("[controller]")]
     public class WycieczkaController : Controller
     {
-        private readonly IWycieczkaRepository _wycieczkaRepository;
-        private readonly ITrasyPubliczneRepository _trasyPubliczneRepository;
+        private readonly ITripRepository _wycieczkaRepository;
+        private readonly IPublicTrailsRepository _trasyPubliczneRepository;
         private readonly IMapper _mapper;
 
-        public WycieczkaController(IWycieczkaRepository wycieczkaRepository, ITrasyPubliczneRepository trasyPubliczneRepository, IMapper mapper)
+        public WycieczkaController(ITripRepository wycieczkaRepository, IPublicTrailsRepository trasyPubliczneRepository, IMapper mapper)
         {
             _wycieczkaRepository = wycieczkaRepository;
             _trasyPubliczneRepository = trasyPubliczneRepository;
@@ -86,7 +86,7 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpPost("wycieczka")]
         public async Task<ActionResult> CreateWycieczka([FromBody] CreateWycieczkaViewModel model)
         {
-            var wycieczka = _mapper.Map<Wycieczka>(model);
+            var wycieczka = _mapper.Map<Trip>(model);
 
             var createdResult = await _wycieczkaRepository.CreateWycieczka(wycieczka);
             return UnWrapResultWithBadRequest(createdResult);
@@ -95,7 +95,7 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpPost("punktPrywatny")]
         public async Task<ActionResult> CreatePunktPrywatny([FromBody] CreatePunktTerenowyViewModel viewModel)
         {
-            var punktTerenowy = _mapper.Map<PunktTerenowy>(viewModel);
+            var punktTerenowy = _mapper.Map<TerrainPoint>(viewModel);
 
             var createdResult = await _wycieczkaRepository.CreatePunktPrywatny(punktTerenowy);
             return UnWrapResultWithBadRequest(createdResult);
@@ -104,7 +104,7 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpPost("odcinekPrywatny")]
         public async Task<ActionResult> CreateOdcinekPrywatny([FromBody] CreateOdcinekViewModel viewModel)
         {
-            var odcinek = _mapper.Map<Odcinek>(viewModel);
+            var odcinek = _mapper.Map<Segment>(viewModel);
 
             var createdResult = await _wycieczkaRepository.CreateOdcinekPrywatny(odcinek);
             return UnWrapResultWithBadRequest(createdResult);

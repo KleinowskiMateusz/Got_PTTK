@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KsiazeczkaPttk.Domain.Models
 {
-    public class Uzytkownik
+    public class User
     {
         [Key]
         [MaxLength(30)]
@@ -11,7 +11,7 @@ namespace KsiazeczkaPttk.Domain.Models
 
         [Required]
         [MaxLength(160)]
-        public string Haslo { get; set; }
+        public string Password { get; set; }
 
         [Required]
         [MaxLength(160)]
@@ -19,16 +19,16 @@ namespace KsiazeczkaPttk.Domain.Models
 
         [Required]
         [MaxLength(30)]
-        public string Imie { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string Nazwisko { get; set; }
+        public string LastName { get; set; }
 
         [Required]
-        public string Rola { get; set; }
+        public string UserRoleName { get; set; }
 
-        [ForeignKey("Rola")]
-        public RolaUzytkownika RolaUzytkownika { get; set; }
+        [ForeignKey("UserRoleName")]
+        public UserRole UserRole { get; set; }
     }
 }

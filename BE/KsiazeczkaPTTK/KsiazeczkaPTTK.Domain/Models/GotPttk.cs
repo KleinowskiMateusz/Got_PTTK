@@ -8,10 +8,10 @@ namespace KsiazeczkaPttk.Domain.Models
         public int Id { get; set; }
 
         [MaxLength(100)]
-        public string Nazwa { get; set; }
+        public string Name { get; set; }
 
         [MaxLength(100)]
         [Required]
-        public string Poziom { get; set; }
+        public string Level { get; set; }
     }
 }

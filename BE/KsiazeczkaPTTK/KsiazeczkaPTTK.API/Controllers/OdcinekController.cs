@@ -11,10 +11,10 @@ namespace KsiazeczkaPttk.API.Controllers
     [Route("[controller]")]
     public class OdcinekController : Controller
     {
-        private readonly ITrasyPubliczneRepository _trasyPubliczneRepository;
+        private readonly IPublicTrailsRepository _trasyPubliczneRepository;
         private readonly IMapper _mapper;
 
-        public OdcinekController(ITrasyPubliczneRepository trasyPubliczneRepository, IMapper mapper)
+        public OdcinekController(IPublicTrailsRepository trasyPubliczneRepository, IMapper mapper)
         {
             _trasyPubliczneRepository = trasyPubliczneRepository;
             _mapper = mapper;
@@ -43,7 +43,7 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOdcinekPubliczny([FromBody] CreateOdcinekPublicznyViewModel viewModel)
         {
-            var odcinek = _mapper.Map<Odcinek>(viewModel);
+            var odcinek = _mapper.Map<Segment>(viewModel);
             
             var createdResult = await _trasyPubliczneRepository.CreateOdcinekPubliczny(odcinek);
             return UnWrapResultWithBadRequest(createdResult);
@@ -52,7 +52,7 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpPut("{idOdcinka}")]
         public async Task<IActionResult> EditOdcinekPubliczny([FromRoute] int idOdcinka, [FromBody] EditOdcinekPublicznyViewModel viewModel)
         {
-            var odcinek = _mapper.Map<Odcinek>(viewModel);
+            var odcinek = _mapper.Map<Segment>(viewModel);
 
             var editedResult = await _trasyPubliczneRepository.EditOdcinekPubliczny(idOdcinka, odcinek);
             return UnWrapResultWithBadRequest(editedResult);

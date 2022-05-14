@@ -9,167 +9,167 @@ namespace KsiazeczkaPttk.DAL
     {
         public static async Task Seed(KsiazeczkaContext context)
         {
-            if (await context.GrupyGorskie.AnyAsync())
+            if (await context.MountainGroups.AnyAsync())
             {
                 return;
             }
 
-            var roleUzytkownikow = new List<RolaUzytkownika>()
+            var roleUzytkownikow = new List<UserRole>()
             {
-                new RolaUzytkownika(){ Nazwa = "Administrator"},
-                new RolaUzytkownika(){ Nazwa = "Turysta"},
-                new RolaUzytkownika(){ Nazwa = "Przodownik"},
-                new RolaUzytkownika(){ Nazwa = "Pracownik"},
+                new UserRole(){ Name = "Administrator"},
+                new UserRole(){ Name = "Turysta"},
+                new UserRole(){ Name = "Przodownik"},
+                new UserRole(){ Name = "Pracownik"},
             };
 
-            var uzytkownicy = new List<Uzytkownik>()
+            var uzytkownicy = new List<User>()
             {
-                new Uzytkownik {Login = "Turysta1", Haslo = "Pa55word", Rola = roleUzytkownikow[1].Nazwa, RolaUzytkownika = roleUzytkownikow[1], Imie = "Johny", Nazwisko = "Rambo", Email = "johny.rambo@gmail.com"},
-                new Uzytkownik {Login = "Przodownik1", Haslo = "Pa55word", Rola = roleUzytkownikow[2].Nazwa, RolaUzytkownika = roleUzytkownikow[2], Imie = "Henry", Nazwisko = "Walton", Email = "henry.Walton@gmail.com"},
-                new Uzytkownik {Login = "Pracownik1", Haslo = "Pa55word", Rola = roleUzytkownikow[3].Nazwa, RolaUzytkownika = roleUzytkownikow[3], Imie = "Rocky", Nazwisko = "Balboa", Email = "rocky.balboa@gmail.com"},
+                new User {Login = "Turysta1", Password = "Pa55word", UserRoleName = roleUzytkownikow[1].Name, UserRole = roleUzytkownikow[1], FirstName = "Johny", LastName = "Rambo", Email = "johny.rambo@gmail.com"},
+                new User {Login = "Przodownik1", Password = "Pa55word", UserRoleName = roleUzytkownikow[2].Name, UserRole = roleUzytkownikow[2], FirstName = "Henry", LastName = "Walton", Email = "henry.Walton@gmail.com"},
+                new User {Login = "Pracownik1", Password = "Pa55word", UserRoleName = roleUzytkownikow[3].Name, UserRole = roleUzytkownikow[3], FirstName = "Rocky", LastName = "Balboa", Email = "rocky.balboa@gmail.com"},
             };
 
-            var ksiazeczki = new List<Ksiazeczka>()
+            var ksiazeczki = new List<TouristsBook>()
             {
-                new Ksiazeczka {Wlasciciel = uzytkownicy[0].Login, Punkty = 5, WlascicielKsiazeczki = uzytkownicy[0], Niepelnosprawnosc = false}
+                new TouristsBook {OwnerId = uzytkownicy[0].Login, Points = 5, Owner = uzytkownicy[0], Disability = false}
             };
 
-            var grupyGorskie = new List<GrupaGorska>()
+            var grupyGorskie = new List<MountainGroup>()
             {
-                new GrupaGorska {Id = 1, Nazwa = "Tatry i Podtatrze" },
-                new GrupaGorska {Id = 2, Nazwa = "Beskidy Zachodnie" },
-                new GrupaGorska {Id = 3, Nazwa = "Beskidy Wschodnie" },
-                new GrupaGorska {Id = 4, Nazwa = "Góry Świętokrzyskie" },
-                new GrupaGorska {Id = 5, Nazwa = "Sudety" },
+                new MountainGroup {Id = 1, Name = "Tatry i Podtatrze" },
+                new MountainGroup {Id = 2, Name = "Beskidy Zachodnie" },
+                new MountainGroup {Id = 3, Name = "Beskidy Wschodnie" },
+                new MountainGroup {Id = 4, Name = "Góry Świętokrzyskie" },
+                new MountainGroup {Id = 5, Name = "Sudety" },
             };
 
-            var pasmaGorskie = new List<PasmoGorskie>()
+            var pasmaGorskie = new List<MountainRange>()
             {
-                new PasmoGorskie(){ Id = 1, Nazwa = "Tatry Wysokie", Grupa = grupyGorskie[0].Id, GrupaGorska = grupyGorskie[0] },
-                new PasmoGorskie(){ Id = 2, Nazwa = "Tatry Zachodnie", Grupa = grupyGorskie[0].Id, GrupaGorska = grupyGorskie[0] },
-                new PasmoGorskie(){ Id = 3, Nazwa = "Podtatrze", Grupa = grupyGorskie[0].Id, GrupaGorska = grupyGorskie[0] },
-
-                new PasmoGorskie(){ Id = 4, Nazwa = "Beskid Śląski", Grupa = grupyGorskie[1].Id, GrupaGorska = grupyGorskie[1] },
-                new PasmoGorskie(){ Id = 5, Nazwa = "Beskid Żywiecki", Grupa = grupyGorskie[1].Id, GrupaGorska = grupyGorskie[1] },
-
-                new PasmoGorskie(){ Id = 6, Nazwa = "Bieszczady", Grupa = grupyGorskie[2].Id, GrupaGorska = grupyGorskie[2] },
-
-                new PasmoGorskie(){ Id = 7, Nazwa = "Góry Izerskie", Grupa = grupyGorskie[4].Id, GrupaGorska = grupyGorskie[4] },
-                new PasmoGorskie(){ Id = 8, Nazwa = "Karkonosze", Grupa = grupyGorskie[4].Id, GrupaGorska = grupyGorskie[4] },
-                new PasmoGorskie(){ Id = 9, Nazwa = "Góry Kaczawskie", Grupa = grupyGorskie[4].Id, GrupaGorska = grupyGorskie[4] },
+                new MountainRange(){ Id = 1, Name = "Tatry Wysokie", GroupId = grupyGorskie[0].Id, MountainGroup = grupyGorskie[0] },
+                new MountainRange(){ Id = 2, Name = "Tatry Zachodnie", GroupId = grupyGorskie[0].Id, MountainGroup = grupyGorskie[0] },
+                new MountainRange(){ Id = 3, Name = "Podtatrze", GroupId = grupyGorskie[0].Id, MountainGroup = grupyGorskie[0] },
+                                             
+                new MountainRange(){ Id = 4, Name = "Beskid Śląski", GroupId = grupyGorskie[1].Id, MountainGroup = grupyGorskie[1] },
+                new MountainRange(){ Id = 5, Name = "Beskid Żywiecki", GroupId = grupyGorskie[1].Id, MountainGroup = grupyGorskie[1] },
+                                             
+                new MountainRange(){ Id = 6, Name = "Bieszczady", GroupId = grupyGorskie[2].Id, MountainGroup = grupyGorskie[2] },
+                                             
+                new MountainRange(){ Id = 7, Name = "Góry Izerskie", GroupId = grupyGorskie[4].Id, MountainGroup = grupyGorskie[4] },
+                new MountainRange(){ Id = 8, Name = "Karkonosze", GroupId = grupyGorskie[4].Id, MountainGroup = grupyGorskie[4] },
+                new MountainRange(){ Id = 9, Name = "Góry Kaczawskie", GroupId = grupyGorskie[4].Id, MountainGroup = grupyGorskie[4] },
             };
 
-            var punktyTerenowePubliczne = new List<PunktTerenowy>
+            var punktyTerenowePubliczne = new List<TerrainPoint>
             {
-                new PunktTerenowy { Id = 1, Nazwa = "Rusinowa Polana", Lat = 49.2608, Lng = 20.0895, Mnpm = 1200},
-                new PunktTerenowy { Id = 2, Nazwa = "Łysa Polana", Lat = 49.2706, Lng = 20.1179, Mnpm = 971 },
-                new PunktTerenowy { Id = 3, Nazwa = "Gęsia Szyja", Lat = 49.2597, Lng = 20.0778, Mnpm = 1489 },
-                new PunktTerenowy { Id = 4, Nazwa = "Rówień Waksmundzka", Lat = 49.2553, Lng = 20.0655, Mnpm = 1440 },
-                new PunktTerenowy { Id = 5, Nazwa = "Psia Trawka", Lat = 49.2696, Lng = 20.0367, Mnpm = 1185 },
-                new PunktTerenowy { Id = 6, Nazwa = "Schronisko PTTK nad Morskim Okiem", Lat = 49.2013, Lng = 20.0713, Mnpm = 1410 },
-                new PunktTerenowy { Id = 7, Nazwa = "Czarny Staw nad Morskim Okiem", Lat = 49.1883, Lng = 20.0754, Mnpm = 1580 },
-                new PunktTerenowy { Id = 8, Nazwa = "Dolina za Mnichem", Lat = 49.2434, Lng = 20.0072, Mnpm = 1780 },
-                new PunktTerenowy { Id = 9, Nazwa = "Szpiglasowa Przełęcz", Lat = 49.2434, Lng = 20.0072, Mnpm = 2110 },
-                new PunktTerenowy { Id = 10, Nazwa = "Schronisko PTTK na Hali Gąsienicowej", Lat = 49.2434, Lng = 20.0072, Mnpm = 1500 },
+                new TerrainPoint { Id = 1, Name = "Rusinowa Polana", Lat = 49.2608, Lng = 20.0895, Mnpm = 1200},
+                new TerrainPoint { Id = 2, Name = "Łysa Polana", Lat = 49.2706, Lng = 20.1179, Mnpm = 971 },
+                new TerrainPoint { Id = 3, Name = "Gęsia Szyja", Lat = 49.2597, Lng = 20.0778, Mnpm = 1489 },
+                new TerrainPoint { Id = 4, Name = "Rówień Waksmundzka", Lat = 49.2553, Lng = 20.0655, Mnpm = 1440 },
+                new TerrainPoint { Id = 5, Name = "Psia Trawka", Lat = 49.2696, Lng = 20.0367, Mnpm = 1185 },
+                new TerrainPoint { Id = 6, Name = "Schronisko PTTK nad Morskim Okiem", Lat = 49.2013, Lng = 20.0713, Mnpm = 1410 },
+                new TerrainPoint { Id = 7, Name = "Czarny Staw nad Morskim Okiem", Lat = 49.1883, Lng = 20.0754, Mnpm = 1580 },
+                new TerrainPoint { Id = 8, Name = "Dolina za Mnichem", Lat = 49.2434, Lng = 20.0072, Mnpm = 1780 },
+                new TerrainPoint { Id = 9, Name = "Szpiglasowa Przełęcz", Lat = 49.2434, Lng = 20.0072, Mnpm = 2110 },
+                new TerrainPoint { Id = 10, Name = "Schronisko PTTK na Hali Gąsienicowej", Lat = 49.2434, Lng = 20.0072, Mnpm = 1500 },
             };
 
-            var punktyTerenowePrywatne = new List<PunktTerenowy>
+            var punktyTerenowePrywatne = new List<TerrainPoint>
             {
-                new PunktTerenowy { Id = 101, Nazwa = "Dolina Pańczyca", Lat = 49.2414, Lng = 20.0172, Mnpm = 1628, Wlasciciel = ksiazeczki[0].Wlasciciel, Ksiazeczka = ksiazeczki[0] },
+                new TerrainPoint { Id = 101, Name = "Dolina Pańczyca", Lat = 49.2414, Lng = 20.0172, Mnpm = 1628, TouristsBookOwner = ksiazeczki[0].OwnerId, TouristsBook = ksiazeczki[0] },
             };
 
-            var odcinkiPubliczne = new List<Odcinek>
+            var odcinkiPubliczne = new List<Segment>
             {
-                new Odcinek { Id = 1, Wersja = 1, Nazwa = "Odcinek Tatry Wysokie 1", Aktywny = true, Pasmo = pasmaGorskie[0].Id, PasmoGorskie = pasmaGorskie[0], Punkty = 4, PunktyPowrot = 1, Od = punktyTerenowePubliczne[0].Id, PunktTerenowyOd = punktyTerenowePubliczne[0], Do = punktyTerenowePubliczne[2].Id, PunktTerenowyDo = punktyTerenowePubliczne[2] },
-                new Odcinek { Id = 2, Wersja = 1, Nazwa = "Odcinek Tatry Wysokie 2", Aktywny = true, Punkty = 2, PunktyPowrot = 1, Od = punktyTerenowePubliczne[3].Id, PunktTerenowyOd = punktyTerenowePubliczne[3], Do = punktyTerenowePubliczne[2].Id, PunktTerenowyDo = punktyTerenowePubliczne[2], Pasmo = pasmaGorskie[0].Id, PasmoGorskie = pasmaGorskie[0] },
-                new Odcinek { Id = 3, Wersja = 1, Nazwa = "Odcinek Tatry Wysokie 3", Aktywny = true, Punkty = 5, PunktyPowrot = 3, Od = punktyTerenowePubliczne[4].Id, PunktTerenowyOd = punktyTerenowePubliczne[4], Do = punktyTerenowePubliczne[3].Id, PunktTerenowyDo = punktyTerenowePubliczne[3], Pasmo = pasmaGorskie[0].Id, PasmoGorskie = pasmaGorskie[0] },
-                new Odcinek { Id = 4, Wersja = 1, Nazwa = "Odcinek Tatry Wysokie 4", Aktywny = true, Punkty = 4, PunktyPowrot = 7, Od = punktyTerenowePubliczne[9].Id, PunktTerenowyOd = punktyTerenowePubliczne[9], Do = punktyTerenowePubliczne[4].Id, PunktTerenowyDo = punktyTerenowePubliczne[4], Pasmo = pasmaGorskie[0].Id, PasmoGorskie = pasmaGorskie[0] },
-                new Odcinek { Id = 5, Wersja = 1, Nazwa = "Odcinek Tatry Wysokie 5", Aktywny = true, Punkty = 4, PunktyPowrot = 2, Od = punktyTerenowePubliczne[5].Id, PunktTerenowyOd = punktyTerenowePubliczne[5], Do = punktyTerenowePubliczne[6].Id, PunktTerenowyDo = punktyTerenowePubliczne[6], Pasmo = pasmaGorskie[0].Id, PasmoGorskie = pasmaGorskie[0] },
+                new Segment { Id = 1, Version = 1, Name = "Odcinek Tatry Wysokie 1", IsActive = true, MountainRangeId = pasmaGorskie[0].Id, MountainRange = pasmaGorskie[0], Points = 4, PointsBack = 1, FromId = punktyTerenowePubliczne[0].Id, From = punktyTerenowePubliczne[0], TargetId = punktyTerenowePubliczne[2].Id, Target = punktyTerenowePubliczne[2] },
+                new Segment { Id = 2, Version = 1, Name = "Odcinek Tatry Wysokie 2", IsActive = true, Points = 2, PointsBack = 1, FromId = punktyTerenowePubliczne[3].Id, From = punktyTerenowePubliczne[3], TargetId = punktyTerenowePubliczne[2].Id, Target = punktyTerenowePubliczne[2], MountainRangeId = pasmaGorskie[0].Id, MountainRange = pasmaGorskie[0] },
+                new Segment { Id = 3, Version = 1, Name = "Odcinek Tatry Wysokie 3", IsActive = true, Points = 5, PointsBack = 3, FromId = punktyTerenowePubliczne[4].Id, From = punktyTerenowePubliczne[4], TargetId = punktyTerenowePubliczne[3].Id, Target = punktyTerenowePubliczne[3], MountainRangeId = pasmaGorskie[0].Id, MountainRange = pasmaGorskie[0] },
+                new Segment { Id = 4, Version = 1, Name = "Odcinek Tatry Wysokie 4", IsActive = true, Points = 4, PointsBack = 7, FromId = punktyTerenowePubliczne[9].Id, From = punktyTerenowePubliczne[9], TargetId = punktyTerenowePubliczne[4].Id, Target = punktyTerenowePubliczne[4], MountainRangeId = pasmaGorskie[0].Id, MountainRange = pasmaGorskie[0] },
+                new Segment { Id = 5, Version = 1, Name = "Odcinek Tatry Wysokie 5", IsActive = true, Points = 4, PointsBack = 2, FromId = punktyTerenowePubliczne[5].Id, From = punktyTerenowePubliczne[5], TargetId = punktyTerenowePubliczne[6].Id, Target = punktyTerenowePubliczne[6], MountainRangeId = pasmaGorskie[0].Id, MountainRange = pasmaGorskie[0] },
             };
 
-            var odcinkiPrywatne = new List<Odcinek>
+            var odcinkiPrywatne = new List<Segment>
             {
-                new Odcinek { Id = 101, Wersja = 1, Nazwa = "Odcinek prywatny 1", Aktywny = true, Punkty = 2, PunktyPowrot = 3, Od = punktyTerenowePubliczne[9].Id, PunktTerenowyOd = punktyTerenowePubliczne[9], Do = punktyTerenowePrywatne[0].Id, PunktTerenowyDo = punktyTerenowePrywatne[0], Pasmo = pasmaGorskie[0].Id, PasmoGorskie = pasmaGorskie[0], Wlasciciel = ksiazeczki[0].Wlasciciel, Ksiazeczka = ksiazeczki[0] },
+                new Segment { Id = 101, Version = 1, Name = "Odcinek prywatny 1", IsActive = true, Points = 2, PointsBack = 3, FromId = punktyTerenowePubliczne[9].Id, From = punktyTerenowePubliczne[9], TargetId = punktyTerenowePrywatne[0].Id, Target = punktyTerenowePrywatne[0], MountainRangeId = pasmaGorskie[0].Id, MountainRange = pasmaGorskie[0], TouristsBookOwner = ksiazeczki[0].OwnerId, TouristsBook = ksiazeczki[0] },
             };
 
-            var wycieczki = new List<Wycieczka>
+            var wycieczki = new List<Trip>
             {
-                new Wycieczka { Id = 1, Nazwa = "Wycieczka 1",  Wlasciciel = ksiazeczki[0].Wlasciciel, Ksiazeczka = ksiazeczki[0], Status = Domain.Enums.StatusWycieczki.Weryfikowana },
-                new Wycieczka { Id = 2, Nazwa = "Wycieczka 2", Wlasciciel = ksiazeczki[0].Wlasciciel, Ksiazeczka = ksiazeczki[0], Status = Domain.Enums.StatusWycieczki.Planowana }
+                new Trip { Id = 1, Name = "Wycieczka 1",  TouristsBookId = ksiazeczki[0].OwnerId, TouristsBook = ksiazeczki[0], Status = Domain.Enums.TripStatus.Werified },
+                new Trip { Id = 2, Name = "Wycieczka 2", TouristsBookId = ksiazeczki[0].OwnerId, TouristsBook = ksiazeczki[0], Status = Domain.Enums.TripStatus.Planned }
             };
 
-            var przebyteOdcinki = new List<PrzebycieOdcinka>
+            var przebyteOdcinki = new List<SegmentTravel>
             {
-                new PrzebycieOdcinka { Id = 1, Kolejnosc = 1, OdcinekId = odcinkiPubliczne[0].Id, Odcinek = odcinkiPubliczne[0], Powrot = false, Wycieczka = wycieczki[0].Id, DotyczacaWycieczka = wycieczki[0] },
-                new PrzebycieOdcinka { Id = 2, Kolejnosc = 2, OdcinekId = odcinkiPubliczne[1].Id, Odcinek = odcinkiPubliczne[1], Powrot = true, Wycieczka = wycieczki[0].Id, DotyczacaWycieczka = wycieczki[0] },
-                new PrzebycieOdcinka { Id = 3, Kolejnosc = 3, OdcinekId = odcinkiPubliczne[2].Id, Odcinek = odcinkiPubliczne[2], Powrot = true, Wycieczka = wycieczki[0].Id, DotyczacaWycieczka = wycieczki[0] },
-                new PrzebycieOdcinka { Id = 4, Kolejnosc = 4, OdcinekId = odcinkiPubliczne[3].Id, Odcinek = odcinkiPubliczne[3], Powrot = true, Wycieczka = wycieczki[0].Id, DotyczacaWycieczka = wycieczki[0] },
-                new PrzebycieOdcinka { Id = 5, Kolejnosc = 5, OdcinekId = odcinkiPrywatne[0].Id, Odcinek = odcinkiPrywatne[0], Powrot = false, Wycieczka = wycieczki[0].Id, DotyczacaWycieczka = wycieczki[0] },
+                new SegmentTravel { Id = 1, Order = 1, SegmentId = odcinkiPubliczne[0].Id, Segment = odcinkiPubliczne[0], IsBack = false, TripId = wycieczki[0].Id, Trip = wycieczki[0] },
+                new SegmentTravel { Id = 2, Order = 2, SegmentId = odcinkiPubliczne[1].Id, Segment = odcinkiPubliczne[1], IsBack = true, TripId = wycieczki[0].Id, Trip = wycieczki[0] },
+                new SegmentTravel { Id = 3, Order = 3, SegmentId = odcinkiPubliczne[2].Id, Segment = odcinkiPubliczne[2], IsBack = true, TripId = wycieczki[0].Id, Trip = wycieczki[0] },
+                new SegmentTravel { Id = 4, Order = 4, SegmentId = odcinkiPubliczne[3].Id, Segment = odcinkiPubliczne[3], IsBack = true, TripId = wycieczki[0].Id, Trip = wycieczki[0] },
+                new SegmentTravel { Id = 5, Order = 5, SegmentId = odcinkiPrywatne[0].Id, Segment = odcinkiPrywatne[0], IsBack = false, TripId = wycieczki[0].Id, Trip = wycieczki[0] },
             };
 
-            var potwierdzeniaAdministracyjne = new List<PotwierdzenieTerenowe>
+            var potwierdzeniaAdministracyjne = new List<Confirmation>
             {
-                new PotwierdzenieTerenowe { Id = 1, Url = "RusinowaPolanaUrl", Punkt = punktyTerenowePubliczne[0].Id, PunktTerenowy = punktyTerenowePubliczne[0], Administracyjny = true, Typ = Domain.Enums.TypPotwierdzenia.KodQr },
-                new PotwierdzenieTerenowe { Id = 2, Url = "ŁysaPolanaUrl", Punkt = punktyTerenowePubliczne[1].Id, PunktTerenowy = punktyTerenowePubliczne[1], Administracyjny = true, Typ = Domain.Enums.TypPotwierdzenia.KodQr },
-                new PotwierdzenieTerenowe { Id = 3, Url = "GęsiaSzyjaUrl", Punkt = punktyTerenowePubliczne[2].Id, PunktTerenowy = punktyTerenowePubliczne[2], Administracyjny = true, Typ = Domain.Enums.TypPotwierdzenia.KodQr },
-                new PotwierdzenieTerenowe { Id = 4, Url = "RówieńWaksmundzkaUrl", Punkt = punktyTerenowePubliczne[3].Id, PunktTerenowy = punktyTerenowePubliczne[3], Administracyjny = true, Typ = Domain.Enums.TypPotwierdzenia.KodQr },
-                new PotwierdzenieTerenowe { Id = 5, Url = "PsiaTrawkaUrl", Punkt = punktyTerenowePubliczne[4].Id, PunktTerenowy = punktyTerenowePubliczne[4], Administracyjny = true, Typ = Domain.Enums.TypPotwierdzenia.KodQr },
-                new PotwierdzenieTerenowe { Id = 6, Url = "SchroniskoPTTKnadMorskimOkiemUrl", Punkt = punktyTerenowePubliczne[5].Id, PunktTerenowy = punktyTerenowePubliczne[5], Administracyjny = true, Typ = Domain.Enums.TypPotwierdzenia.KodQr },
-                new PotwierdzenieTerenowe { Id = 7, Url = "CzarnyStawnadMorskimOkiemUrl", Punkt = punktyTerenowePubliczne[6].Id, PunktTerenowy = punktyTerenowePubliczne[6], Administracyjny = true, Typ = Domain.Enums.TypPotwierdzenia.KodQr },
-                new PotwierdzenieTerenowe { Id = 8, Url = "DolinazaMnichemUrl", Punkt = punktyTerenowePubliczne[7].Id, PunktTerenowy = punktyTerenowePubliczne[7], Administracyjny = true, Typ = Domain.Enums.TypPotwierdzenia.KodQr },
-                new PotwierdzenieTerenowe { Id = 9, Url = "SzpiglasowaPrzełęczUrl", Punkt = punktyTerenowePubliczne[8].Id, PunktTerenowy = punktyTerenowePubliczne[8], Administracyjny = true, Typ = Domain.Enums.TypPotwierdzenia.KodQr },
-                new PotwierdzenieTerenowe { Id = 10, Url = "SchroniskoPTTKnaHaliGąsienicowejUrl", Punkt = punktyTerenowePubliczne[9].Id, PunktTerenowy = punktyTerenowePubliczne[9], Administracyjny = true, Typ = Domain.Enums.TypPotwierdzenia.KodQr },
+                new Confirmation { Id = 1, Url = "RusinowaPolanaUrl", TerrainPointId = punktyTerenowePubliczne[0].Id, TerrainPoint = punktyTerenowePubliczne[0], IsAdministration = true, Type = Domain.Enums.ConfirmationType.QrCode },
+                new Confirmation { Id = 2, Url = "ŁysaPolanaUrl", TerrainPointId = punktyTerenowePubliczne[1].Id, TerrainPoint = punktyTerenowePubliczne[1], IsAdministration = true, Type = Domain.Enums.ConfirmationType.QrCode },
+                new Confirmation { Id = 3, Url = "GęsiaSzyjaUrl", TerrainPointId = punktyTerenowePubliczne[2].Id, TerrainPoint = punktyTerenowePubliczne[2], IsAdministration = true, Type = Domain.Enums.ConfirmationType.QrCode },
+                new Confirmation { Id = 4, Url = "RówieńWaksmundzkaUrl", TerrainPointId = punktyTerenowePubliczne[3].Id, TerrainPoint = punktyTerenowePubliczne[3], IsAdministration = true, Type = Domain.Enums.ConfirmationType.QrCode },
+                new Confirmation { Id = 5, Url = "PsiaTrawkaUrl", TerrainPointId = punktyTerenowePubliczne[4].Id, TerrainPoint = punktyTerenowePubliczne[4], IsAdministration = true, Type = Domain.Enums.ConfirmationType.QrCode },
+                new Confirmation { Id = 6, Url = "SchroniskoPTTKnadMorskimOkiemUrl", TerrainPointId = punktyTerenowePubliczne[5].Id, TerrainPoint = punktyTerenowePubliczne[5], IsAdministration = true, Type = Domain.Enums.ConfirmationType.QrCode },
+                new Confirmation { Id = 7, Url = "CzarnyStawnadMorskimOkiemUrl", TerrainPointId = punktyTerenowePubliczne[6].Id, TerrainPoint = punktyTerenowePubliczne[6], IsAdministration = true, Type = Domain.Enums.ConfirmationType.QrCode },
+                new Confirmation { Id = 8, Url = "DolinazaMnichemUrl", TerrainPointId = punktyTerenowePubliczne[7].Id, TerrainPoint = punktyTerenowePubliczne[7], IsAdministration = true, Type = Domain.Enums.ConfirmationType.QrCode },
+                new Confirmation { Id = 9, Url = "SzpiglasowaPrzełęczUrl", TerrainPointId = punktyTerenowePubliczne[8].Id, TerrainPoint = punktyTerenowePubliczne[8], IsAdministration = true, Type = Domain.Enums.ConfirmationType.QrCode },
+                new Confirmation { Id = 10, Url = "SchroniskoPTTKnaHaliGąsienicowejUrl", TerrainPointId = punktyTerenowePubliczne[9].Id, TerrainPoint = punktyTerenowePubliczne[9], IsAdministration = true, Type = Domain.Enums.ConfirmationType.QrCode },
             };
 
-            var potwierdzeniaPrywatne = new List<PotwierdzenieTerenowe>
+            var potwierdzeniaPrywatne = new List<Confirmation>
             {
-                new PotwierdzenieTerenowe { Id = 101, Url = "b95fc8cd-a474-44f2-968a-6da2118c1f6e_rusinowaPolana.jpg", Data = new System.DateTime(2021, 7, 21, 12, 10, 0), Punkt = punktyTerenowePubliczne[0].Id, PunktTerenowy = punktyTerenowePubliczne[0], Administracyjny = false, Typ = Domain.Enums.TypPotwierdzenia.Zdjecie },
-                new PotwierdzenieTerenowe { Id = 102, Url = "770f1809-59d5-46ba-9777-7095457a5884_dolinaPanczyca.jpg", Data = new System.DateTime(2021, 7, 21, 14, 10, 0), Punkt = punktyTerenowePrywatne[0].Id, PunktTerenowy = punktyTerenowePrywatne[0], Administracyjny = false, Typ = Domain.Enums.TypPotwierdzenia.Zdjecie },
-                new PotwierdzenieTerenowe { Id = 103, Url = "6d945f8f-19ae-4d63-bd2c-2f3b834d36f6_gesiaSzyja.jpg", Data = new System.DateTime(2021, 7, 21, 15, 50, 0), Punkt = punktyTerenowePubliczne[2].Id, PunktTerenowy = punktyTerenowePubliczne[2], Administracyjny = false, Typ = Domain.Enums.TypPotwierdzenia.Zdjecie },
-                new PotwierdzenieTerenowe { Id = 104, Url = "cd467e9c-a530-45b7-a0f2-4595fad24bfd_rowienWaksmundzka.jpg", Data = new System.DateTime(2021, 7, 21, 17, 10, 0), Punkt = punktyTerenowePubliczne[3].Id, PunktTerenowy = punktyTerenowePubliczne[3], Administracyjny = false, Typ = Domain.Enums.TypPotwierdzenia.Zdjecie },
-                new PotwierdzenieTerenowe { Id = 105, Url = "263f37d7-38d3-4747-9335-1812f5fb3a90_psiaTrawka.jpg", Data = new System.DateTime(2021, 7, 21, 17, 50, 0), Punkt = punktyTerenowePubliczne[4].Id, PunktTerenowy = punktyTerenowePubliczne[4], Administracyjny = false, Typ = Domain.Enums.TypPotwierdzenia.Zdjecie },
-                new PotwierdzenieTerenowe { Id = 106, Url = "75521f1b-40f9-4ce3-a0ab-8ab5baf282e8_schroniskoHalaGasienicowa.jfif", Data = new System.DateTime(2021, 7, 21, 18, 45, 0), Punkt = punktyTerenowePubliczne[9].Id, PunktTerenowy = punktyTerenowePubliczne[9], Administracyjny = false, Typ = Domain.Enums.TypPotwierdzenia.Zdjecie },
+                new Confirmation { Id = 101, Url = "b95fc8cd-a474-44f2-968a-6da2118c1f6e_rusinowaPolana.jpg", Date = new System.DateTime(2021, 7, 21, 12, 10, 0), TerrainPointId = punktyTerenowePubliczne[0].Id, TerrainPoint = punktyTerenowePubliczne[0], IsAdministration = false, Type = Domain.Enums.ConfirmationType.Image },
+                new Confirmation { Id = 102, Url = "770f1809-59d5-46ba-9777-7095457a5884_dolinaPanczyca.jpg", Date = new System.DateTime(2021, 7, 21, 14, 10, 0), TerrainPointId = punktyTerenowePrywatne[0].Id, TerrainPoint = punktyTerenowePrywatne[0], IsAdministration = false, Type = Domain.Enums.ConfirmationType.Image },
+                new Confirmation { Id = 103, Url = "6d945f8f-19ae-4d63-bd2c-2f3b834d36f6_gesiaSzyja.jpg", Date = new System.DateTime(2021, 7, 21, 15, 50, 0), TerrainPointId = punktyTerenowePubliczne[2].Id, TerrainPoint = punktyTerenowePubliczne[2], IsAdministration = false, Type = Domain.Enums.ConfirmationType.Image },
+                new Confirmation { Id = 104, Url = "cd467e9c-a530-45b7-a0f2-4595fad24bfd_rowienWaksmundzka.jpg", Date = new System.DateTime(2021, 7, 21, 17, 10, 0), TerrainPointId = punktyTerenowePubliczne[3].Id, TerrainPoint = punktyTerenowePubliczne[3], IsAdministration = false, Type = Domain.Enums.ConfirmationType.Image },
+                new Confirmation { Id = 105, Url = "263f37d7-38d3-4747-9335-1812f5fb3a90_psiaTrawka.jpg", Date = new System.DateTime(2021, 7, 21, 17, 50, 0), TerrainPointId = punktyTerenowePubliczne[4].Id, TerrainPoint = punktyTerenowePubliczne[4], IsAdministration = false, Type = Domain.Enums.ConfirmationType.Image },
+                new Confirmation { Id = 106, Url = "75521f1b-40f9-4ce3-a0ab-8ab5baf282e8_schroniskoHalaGasienicowa.jfif", Date = new System.DateTime(2021, 7, 21, 18, 45, 0), TerrainPointId = punktyTerenowePubliczne[9].Id, TerrainPoint = punktyTerenowePubliczne[9], IsAdministration = false, Type = Domain.Enums.ConfirmationType.Image },
             };
 
-            var potwierdzeniaOdcinkow = new List<PotwierdzenieTerenowePrzebytegoOdcinka>
+            var potwierdzeniaOdcinkow = new List<SegmentConfirmation>
             {
-                new PotwierdzenieTerenowePrzebytegoOdcinka { Id = 1, PrzebytyOdcinekId = przebyteOdcinki[0].Id, PrzebycieOdcinka = przebyteOdcinki[0], Potwierdzenie = potwierdzeniaPrywatne[0].Id, PotwierdzenieTerenowe = potwierdzeniaPrywatne[0] },
-                new PotwierdzenieTerenowePrzebytegoOdcinka { Id = 2, PrzebytyOdcinekId = przebyteOdcinki[0].Id, PrzebycieOdcinka = przebyteOdcinki[0], Potwierdzenie = potwierdzeniaPrywatne[2].Id, PotwierdzenieTerenowe = potwierdzeniaPrywatne[2] },
-                new PotwierdzenieTerenowePrzebytegoOdcinka { Id = 3, PrzebytyOdcinekId = przebyteOdcinki[1].Id, PrzebycieOdcinka = przebyteOdcinki[1], Potwierdzenie = potwierdzeniaPrywatne[2].Id, PotwierdzenieTerenowe = potwierdzeniaPrywatne[2] },
-                new PotwierdzenieTerenowePrzebytegoOdcinka { Id = 4, PrzebytyOdcinekId = przebyteOdcinki[1].Id, PrzebycieOdcinka = przebyteOdcinki[1], Potwierdzenie = potwierdzeniaPrywatne[3].Id, PotwierdzenieTerenowe = potwierdzeniaPrywatne[3] },
-                new PotwierdzenieTerenowePrzebytegoOdcinka { Id = 5, PrzebytyOdcinekId = przebyteOdcinki[2].Id, PrzebycieOdcinka = przebyteOdcinki[2], Potwierdzenie = potwierdzeniaPrywatne[3].Id, PotwierdzenieTerenowe = potwierdzeniaPrywatne[3] },
-                new PotwierdzenieTerenowePrzebytegoOdcinka { Id = 6, PrzebytyOdcinekId = przebyteOdcinki[2].Id, PrzebycieOdcinka = przebyteOdcinki[2], Potwierdzenie = potwierdzeniaPrywatne[4].Id, PotwierdzenieTerenowe = potwierdzeniaPrywatne[4] },
-                new PotwierdzenieTerenowePrzebytegoOdcinka { Id = 7, PrzebytyOdcinekId = przebyteOdcinki[3].Id, PrzebycieOdcinka = przebyteOdcinki[3], Potwierdzenie = potwierdzeniaPrywatne[4].Id, PotwierdzenieTerenowe = potwierdzeniaPrywatne[4] },
-                new PotwierdzenieTerenowePrzebytegoOdcinka { Id = 8, PrzebytyOdcinekId = przebyteOdcinki[3].Id, PrzebycieOdcinka = przebyteOdcinki[3], Potwierdzenie = potwierdzeniaPrywatne[5].Id, PotwierdzenieTerenowe = potwierdzeniaPrywatne[5] },
-                new PotwierdzenieTerenowePrzebytegoOdcinka { Id = 9, PrzebytyOdcinekId = przebyteOdcinki[4].Id, PrzebycieOdcinka = przebyteOdcinki[4], Potwierdzenie = potwierdzeniaPrywatne[5].Id, PotwierdzenieTerenowe = potwierdzeniaPrywatne[5] },
-                new PotwierdzenieTerenowePrzebytegoOdcinka { Id = 10, PrzebytyOdcinekId = przebyteOdcinki[4].Id, PrzebycieOdcinka = przebyteOdcinki[4], Potwierdzenie = potwierdzeniaPrywatne[1].Id, PotwierdzenieTerenowe = potwierdzeniaPrywatne[1] },
+                new SegmentConfirmation { Id = 1, SegmentTravelId = przebyteOdcinki[0].Id, SegmentTravel = przebyteOdcinki[0], ConfirmationId = potwierdzeniaPrywatne[0].Id, Confirmation = potwierdzeniaPrywatne[0] },
+                new SegmentConfirmation { Id = 2, SegmentTravelId = przebyteOdcinki[0].Id, SegmentTravel = przebyteOdcinki[0], ConfirmationId = potwierdzeniaPrywatne[2].Id, Confirmation = potwierdzeniaPrywatne[2] },
+                new SegmentConfirmation { Id = 3, SegmentTravelId = przebyteOdcinki[1].Id, SegmentTravel = przebyteOdcinki[1], ConfirmationId = potwierdzeniaPrywatne[2].Id, Confirmation = potwierdzeniaPrywatne[2] },
+                new SegmentConfirmation { Id = 4, SegmentTravelId = przebyteOdcinki[1].Id, SegmentTravel = przebyteOdcinki[1], ConfirmationId = potwierdzeniaPrywatne[3].Id, Confirmation = potwierdzeniaPrywatne[3] },
+                new SegmentConfirmation { Id = 5, SegmentTravelId = przebyteOdcinki[2].Id, SegmentTravel = przebyteOdcinki[2], ConfirmationId = potwierdzeniaPrywatne[3].Id, Confirmation = potwierdzeniaPrywatne[3] },
+                new SegmentConfirmation { Id = 6, SegmentTravelId = przebyteOdcinki[2].Id, SegmentTravel = przebyteOdcinki[2], ConfirmationId = potwierdzeniaPrywatne[4].Id, Confirmation = potwierdzeniaPrywatne[4] },
+                new SegmentConfirmation { Id = 7, SegmentTravelId = przebyteOdcinki[3].Id, SegmentTravel = przebyteOdcinki[3], ConfirmationId = potwierdzeniaPrywatne[4].Id, Confirmation = potwierdzeniaPrywatne[4] },
+                new SegmentConfirmation { Id = 8, SegmentTravelId = przebyteOdcinki[3].Id, SegmentTravel = przebyteOdcinki[3], ConfirmationId = potwierdzeniaPrywatne[5].Id, Confirmation = potwierdzeniaPrywatne[5] },
+                new SegmentConfirmation { Id = 9, SegmentTravelId = przebyteOdcinki[4].Id, SegmentTravel = przebyteOdcinki[4], ConfirmationId = potwierdzeniaPrywatne[5].Id, Confirmation = potwierdzeniaPrywatne[5] },
+                new SegmentConfirmation { Id = 10, SegmentTravelId = przebyteOdcinki[4].Id, SegmentTravel = przebyteOdcinki[4], ConfirmationId = potwierdzeniaPrywatne[1].Id, Confirmation = potwierdzeniaPrywatne[1] },
             };
 
-            await context.RoleUzytkownikow.AddRangeAsync(roleUzytkownikow);
+            await context.UserRoles.AddRangeAsync(roleUzytkownikow);
             await context.SaveChangesAsync();
-            await context.Uzytkownicy.AddRangeAsync(uzytkownicy);
+            await context.Users.AddRangeAsync(uzytkownicy);
             await context.SaveChangesAsync();
-            await context.GrupyGorskie.AddRangeAsync(grupyGorskie);
+            await context.MountainGroups.AddRangeAsync(grupyGorskie);
             await context.SaveChangesAsync();
-            await context.PasmaGorskie.AddRangeAsync(pasmaGorskie);
+            await context.MountainRanges.AddRangeAsync(pasmaGorskie);
             await context.SaveChangesAsync();
-            await context.PunktyTerenowe.AddRangeAsync(punktyTerenowePubliczne);
+            await context.TerrainPoints.AddRangeAsync(punktyTerenowePubliczne);
             await context.SaveChangesAsync();
-            await context.PunktyTerenowe.AddRangeAsync(punktyTerenowePrywatne);
+            await context.TerrainPoints.AddRangeAsync(punktyTerenowePrywatne);
             await context.SaveChangesAsync();
-            await context.Odcinki.AddRangeAsync(odcinkiPubliczne);
+            await context.Segments.AddRangeAsync(odcinkiPubliczne);
             await context.SaveChangesAsync();
-            await context.Odcinki.AddRangeAsync(odcinkiPrywatne);
+            await context.Segments.AddRangeAsync(odcinkiPrywatne);
             await context.SaveChangesAsync();
-            await context.Wycieczki.AddRangeAsync(wycieczki);
+            await context.Trips.AddRangeAsync(wycieczki);
             await context.SaveChangesAsync();
-            await context.PrzebyteOdcinki.AddRangeAsync(przebyteOdcinki);
+            await context.SegmentTravels.AddRangeAsync(przebyteOdcinki);
             await context.SaveChangesAsync();
-            await context.PotwierdzeniaTerenowe.AddRangeAsync(potwierdzeniaAdministracyjne);
+            await context.Confirmations.AddRangeAsync(potwierdzeniaAdministracyjne);
             await context.SaveChangesAsync();
-            await context.PotwierdzeniaTerenowe.AddRangeAsync(potwierdzeniaPrywatne);
+            await context.Confirmations.AddRangeAsync(potwierdzeniaPrywatne);
             await context.SaveChangesAsync();
-            await context.PotwierdzeniaTerenowePrzebytychOdcinkow.AddRangeAsync(potwierdzeniaOdcinkow);
+            await context.SegmentConfirmations.AddRangeAsync(potwierdzeniaOdcinkow);
             await context.SaveChangesAsync();
 
         }

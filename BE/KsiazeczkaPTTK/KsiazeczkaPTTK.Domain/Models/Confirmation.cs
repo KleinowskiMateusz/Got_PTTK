@@ -5,24 +5,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KsiazeczkaPttk.Domain.Models
 {
-    public class PotwierdzenieTerenowe
+    public class Confirmation
     {
         public int Id { get; set; }
 
         [Required]
-        public TypPotwierdzenia Typ { get; set; }
+        public ConfirmationType Type { get; set; }
 
         [Required]
         [MaxLength(250)]
         public string Url { get; set; }
 
-        public int Punkt { get; set; }
+        public int TerrainPointId { get; set; }
 
-        [ForeignKey("Punkt")]
-        public PunktTerenowy PunktTerenowy { get; set; }
+        [ForeignKey("TerrainPointId")]
+        public TerrainPoint TerrainPoint { get; set; }
 
-        public DateTime Data { get; set; }
+        public DateTime Date { get; set; }
 
-        public bool Administracyjny { get; set; }
+        public bool IsAdministration { get; set; }
     }
 }

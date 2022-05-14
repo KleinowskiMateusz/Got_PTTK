@@ -3,17 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KsiazeczkaPttk.Domain.Models
 {
-    public class Ksiazeczka
+    public class TouristsBook
     {
         [Key]
         [MaxLength(30)]
-        public string Wlasciciel { get; set; }
+        public string OwnerId { get; set; }
 
         [ForeignKey("Wlasciciel")]
-        public Uzytkownik WlascicielKsiazeczki { get; set; }
+        public User Owner { get; set; }
 
-        public bool Niepelnosprawnosc { get; set; }
+        public bool Disability { get; set; }
 
-        public int Punkty { get; set; }
+        public int Points { get; set; }
     }
 }

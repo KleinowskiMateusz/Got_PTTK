@@ -13,44 +13,43 @@ namespace KsiazeczkaPttk.DAL
         }
 
         public DbSet<GotPttk> GotPttk { get; set; }
-        public DbSet<PosiadanieGotPttk> PosiadaneGotPttk { get; set; }
-        public DbSet<Ksiazeczka> Ksiazeczki { get; set; }
-        public DbSet<RolaUzytkownika> RoleUzytkownikow { get; set; }
-        public DbSet<Uzytkownik> Uzytkownicy { get; set; }
-        public DbSet<Wycieczka> Wycieczki { get; set; }
-        public DbSet<Weryfikacja> Weryfikacje { get; set; }
-        public DbSet<PunktTerenowy> PunktyTerenowe { get; set; }
-        public DbSet<GrupaGorska> GrupyGorskie { get; set; }
-        public DbSet<PasmoGorskie> PasmaGorskie { get; set; }
-        public DbSet<Odcinek> Odcinki { get; set; }
-        public DbSet<ZamkniecieOdcinka> ZamknieciaOdcinkow { get; set; }
-        public DbSet<PotwierdzenieTerenowe> PotwierdzeniaTerenowe { get; set; }
-        public DbSet<PrzebycieOdcinka> PrzebyteOdcinki { get; set; }
-        public DbSet<PotwierdzenieTerenowePrzebytegoOdcinka> PotwierdzeniaTerenowePrzebytychOdcinkow { get; set; }
+        public DbSet<GotPttkOwnership> GotPttkOwnerships { get; set; }
+        public DbSet<TouristsBook> TouristsBooks { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Trip> Trips { get; set; }
+        public DbSet<TerrainPoint> TerrainPoints { get; set; }
+        public DbSet<MountainGroup> MountainGroups { get; set; }
+        public DbSet<MountainRange> MountainRanges { get; set; }
+        public DbSet<Segment> Segments { get; set; }
+        public DbSet<SegmentClose> SegmentCloses { get; set; }
+        public DbSet<Confirmation> Confirmations { get; set; }
+        public DbSet<SegmentTravel> SegmentTravels { get; set; }
+        public DbSet<SegmentConfirmation> SegmentConfirmations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GotPttk>()
-                .HasIndex(x => x.Poziom)
+                .HasIndex(x => x.Level)
                 .IsUnique(true);
 
-            modelBuilder.Entity<PosiadanieGotPttk>()
-                .HasKey(x => new { x.Wlasciciel, x.Odznaka });
+            modelBuilder.Entity<GotPttkOwnership>()
+                .HasKey(x => new { x.Owner, x.GotPttkId });
 
-            modelBuilder.Entity<PunktTerenowy>()
-                .HasIndex(x => x.Nazwa)
+            modelBuilder.Entity<TerrainPoint>()
+                .HasIndex(x => x.Name)
                 .IsUnique(true);
 
-            modelBuilder.Entity<GrupaGorska>()
-                .HasIndex(x => x.Nazwa)
+            modelBuilder.Entity<MountainGroup>()
+                .HasIndex(x => x.Name)
                 .IsUnique(true);
 
-            modelBuilder.Entity<PasmoGorskie>()
-                .HasIndex(x => x.Nazwa)
+            modelBuilder.Entity<MountainRange>()
+                .HasIndex(x => x.Name)
                 .IsUnique(true);
 
-            modelBuilder.Entity<ZamkniecieOdcinka>()
-               .HasKey(x => new { x.OdcinekId, x.DataZamkniecia });
+            modelBuilder.Entity<SegmentClose>()
+               .HasKey(x => new { x.SegmentId, x.ClosedDate });
 
             base.OnModelCreating(modelBuilder);
         }

@@ -2,12 +2,12 @@
 
 namespace KsiazeczkaPttk.Domain.Models
 {
-    public class GrupaGorska
+    public class MountainGroup
     {
         public int Id { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string Nazwa { get; set; }
+        public string Name { get; set; }
     }
 }

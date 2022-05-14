@@ -5,7 +5,7 @@ namespace KsiazeczkaPttk.API.ViewModels
 {
     public class PotwierdzeniaOdcinkaViewModel
     {
-        public PrzebycieOdcinka PrzebytyOdcinek { get; set; }
-        public IEnumerable<PotwierdzenieTerenowePrzebytegoOdcinka> Potwierdzenia { get; set; }
+        public SegmentTravel PrzebytyOdcinek { get; set; }
+        public IEnumerable<SegmentConfirmation> Potwierdzenia { get; set; }
     }
 }

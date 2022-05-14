@@ -12,12 +12,12 @@ namespace KsiazeczkaPttk.API.Controllers
     [Route("[controller]")]
     public class PotwierdzenieController : ControllerBase
     {
-        private readonly IWycieczkaRepository _wycieczkaRepository;
+        private readonly ITripRepository _wycieczkaRepository;
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
 
-        public PotwierdzenieController(IWycieczkaRepository wycieczkaRepository, IFileService fileService, IWebHostEnvironment webHostEnvironment, IMapper mapper)
+        public PotwierdzenieController(ITripRepository wycieczkaRepository, IFileService fileService, IWebHostEnvironment webHostEnvironment, IMapper mapper)
         {
             _wycieczkaRepository = wycieczkaRepository;
             _fileService = fileService;
@@ -53,7 +53,7 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpPost("zKodem")]
         public async Task<ActionResult> CreatePotwierdzenieTerenoweForOdcinekWithQrCode([FromBody] CreatePotwierdzenieWithQrViewModel modelPotwierdzenia)
         {
-            var potwierdzenie = _mapper.Map<PotwierdzenieTerenowe>(modelPotwierdzenia);
+            var potwierdzenie = _mapper.Map<Confirmation>(modelPotwierdzenia);
 
             var result = await _wycieczkaRepository.AddPotwierdzenieToOdcinekWithOr(potwierdzenie, modelPotwierdzenia.OdcinekId);
             return UnWrapResultWithBadRequest(result);
@@ -62,7 +62,7 @@ namespace KsiazeczkaPttk.API.Controllers
         [HttpPost("zeZdjeciem")]
         public async Task<ActionResult> CreatePotwierdzenieTerenoweForOdcinekWithPhoto([FromForm] CreatePotwierdzenieWithImageViewModel modelPotwierdzenia)
         {
-            var potwierdzenie = _mapper.Map<PotwierdzenieTerenowe>(modelPotwierdzenia);
+            var potwierdzenie = _mapper.Map<Confirmation>(modelPotwierdzenia);
 
             var result = await _wycieczkaRepository.AddPotwierdzenieToOdcinekWithPhoto(potwierdzenie, modelPotwierdzenia.OdcinekId, modelPotwierdzenia.Image, _webHostEnvironment.ContentRootPath);
             return UnWrapResultWithBadRequest(result);

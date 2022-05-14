@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
 using KsiazeczkaPttk.API.ViewModels;
 using KsiazeczkaPttk.Domain.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace KsiazeczkaPttk.API.Mapper
 {
-    public class PrzebycieOdcinkaViewModelToPrzebycieOdcinkaConverter : IValueConverter<IEnumerable<PrzebycieOdcinkaViewModel>, IEnumerable<PrzebycieOdcinka>>
+    public class PrzebycieOdcinkaViewModelToPrzebycieOdcinkaConverter : IValueConverter<IEnumerable<PrzebycieOdcinkaViewModel>, IEnumerable<SegmentTravel>>
     {
-        public IEnumerable<PrzebycieOdcinka> Convert(IEnumerable<PrzebycieOdcinkaViewModel> sourceMembers, ResolutionContext context)
+        public IEnumerable<SegmentTravel> Convert(IEnumerable<PrzebycieOdcinkaViewModel> sourceMembers, ResolutionContext context)
         {
-            return sourceMembers.Select(member => new PrzebycieOdcinka
+            return sourceMembers.Select(member => new SegmentTravel
             {
-                Kolejnosc = member.Kolejnosc,
-                Powrot = member.Powrot,
-                OdcinekId = member.OdcinekId,
+                Order = member.Kolejnosc,
+                IsBack = member.Powrot,
+                SegmentId = member.OdcinekId,
             });
         }
     }

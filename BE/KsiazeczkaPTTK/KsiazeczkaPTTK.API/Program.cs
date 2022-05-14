@@ -24,8 +24,8 @@ var postgresStr = builder.Configuration.GetConnectionString("PostgresConnection"
 builder.Services.AddDbContext<KsiazeczkaContext>(options =>
     options.UseNpgsql(postgresStr));
 
-builder.Services.AddScoped<ITrasyPubliczneRepository, TrasyPubliczneRepository>();
-builder.Services.AddScoped<IWycieczkaRepository, WycieczkaRepository>();
+builder.Services.AddScoped<IPublicTrailsRepository, TrasyPubliczneRepository>();
+builder.Services.AddScoped<ITripRepository, WycieczkaRepository>();
 builder.Services.AddScoped<IFileService, FileService>();
 
 var app = builder.Build();

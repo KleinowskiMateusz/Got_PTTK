@@ -3,18 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KsiazeczkaPttk.Domain.Models
 {
-    public class PasmoGorskie
+    public class MountainRange
     {
         public int Id { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string Nazwa { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public int Grupa { get; set; }
+        public int GroupId { get; set; }
 
-        [ForeignKey("Grupa")]
-        public GrupaGorska GrupaGorska { get; set; }
+        [ForeignKey("GroupId")]
+        public MountainGroup MountainGroup { get; set; }
     }
 }

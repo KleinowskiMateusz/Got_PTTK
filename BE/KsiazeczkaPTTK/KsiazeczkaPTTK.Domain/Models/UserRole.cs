@@ -2,10 +2,10 @@
 
 namespace KsiazeczkaPttk.Domain.Models
 {
-    public class RolaUzytkownika
+    public class UserRole
     {
         [Key]
         [MaxLength(40)]
-        public string Nazwa { get; set; }
+        public string Name { get; set; }
     }
 }

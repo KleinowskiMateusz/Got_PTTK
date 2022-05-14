@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KsiazeczkaPttk.DAL.Repositories
 {
-    public class WycieczkaRepository : IWycieczkaRepository
+    public class WycieczkaRepository : ITripRepository
     {
         private readonly KsiazeczkaContext _context;
         private readonly IFileService _fileService;
@@ -16,14 +16,14 @@ namespace KsiazeczkaPttk.DAL.Repositories
             _fileService = fileService;
         }
 
-        public async Task<Wycieczka> GetById(int id)
+        public async Task<Trip> GetById(int id)
         {
             var wycieczka = await GetBaseWycieczkaIQueryable().FirstOrDefaultAsync(w => w.Id == id);
             PreventCycleReferences(wycieczka);
             return wycieczka;
         }
 
-        public async Task<IEnumerable<Wycieczka>> GetAllWycieczka()
+        public async Task<IEnumerable<Trip>> GetAllWycieczka()
         {
             var wycieczki = await GetBaseWycieczkaIQueryable().ToListAsync();
 
@@ -35,197 +35,197 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return wycieczki;
         }
 
-        public async Task<PrzebycieOdcinka> GetPrzebytyOdcinekById(int id)
+        public async Task<SegmentTravel> GetPrzebytyOdcinekById(int id)
         {
-            return await _context.PrzebyteOdcinki
-                .Include(p => p.Odcinek)
+            return await _context.SegmentTravels
+                .Include(p => p.Segment)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public async Task<IEnumerable<PotwierdzenieTerenowePrzebytegoOdcinka>> GetPotwierdzeniaForOdcinek(PrzebycieOdcinka odcinek)
+        public async Task<IEnumerable<SegmentConfirmation>> GetPotwierdzeniaForOdcinek(SegmentTravel odcinek)
         {
             if (odcinek is null)
             {
-                return new List<PotwierdzenieTerenowePrzebytegoOdcinka>();
+                return new List<SegmentConfirmation>();
             }
 
-            return await _context.PotwierdzeniaTerenowePrzebytychOdcinkow
-                .Include(p => p.PotwierdzenieTerenowe)
-                .ThenInclude(p => p.PunktTerenowy)
-                .Where(p => p.PrzebytyOdcinekId == odcinek.Id)
+            return await _context.SegmentConfirmations
+                .Include(p => p.Confirmation)
+                .ThenInclude(p => p.TerrainPoint)
+                .Where(p => p.SegmentTravelId == odcinek.Id)
                 .ToListAsync();
         }
 
-        public async Task<Result<Wycieczka>> CreateWycieczka(Wycieczka wycieczka)
+        public async Task<Result<Trip>> CreateWycieczka(Trip wycieczka)
         {
-            if (!wycieczka.Odcinki?.Any() ?? true)
+            if (!wycieczka.Segments?.Any() ?? true)
             {
-                return Result<Wycieczka>.Error("Pusta wycieczka");
+                return Result<Trip>.Error("Pusta wycieczka");
             }
 
-            wycieczka.Ksiazeczka = await _context.Ksiazeczki.FirstOrDefaultAsync(u => u.Wlasciciel == wycieczka.Wlasciciel);
+            wycieczka.TouristsBook = await _context.TouristsBooks.FirstOrDefaultAsync(u => u.OwnerId == wycieczka.TouristsBookId);
 
-            if (wycieczka.Ksiazeczka is null)
+            if (wycieczka.TouristsBook is null)
             {
-                return Result<Wycieczka>.Error("Nie znaleziono książeczki");
+                return Result<Trip>.Error("Nie znaleziono książeczki");
             }
 
-            wycieczka.Status = Domain.Enums.StatusWycieczki.Planowana;
-            var odcinki = wycieczka.Odcinki.OrderBy(o => o.Kolejnosc).ToList();
-            wycieczka.Odcinki = odcinki;
+            wycieczka.Status = Domain.Enums.TripStatus.Planned;
+            var odcinki = wycieczka.Segments.OrderBy(o => o.Order).ToList();
+            wycieczka.Segments = odcinki;
 
             var orderResult = await ValidateOdcinkiOrder(odcinki);
             if (!orderResult.Item1)
             {
-                return Result<Wycieczka>.Error(orderResult.Item2);
+                return Result<Trip>.Error(orderResult.Item2);
             }
 
-            await _context.Wycieczki.AddAsync(wycieczka);
+            await _context.Trips.AddAsync(wycieczka);
             if (!(await AssignOdcinkiToWycieczka(wycieczka)))
             {
-                return Result<Wycieczka>.Error("Nie znaleziono odcinka wycieczki");
+                return Result<Trip>.Error("Nie znaleziono odcinka wycieczki");
             }
             await _context.SaveChangesAsync();
 
             PreventCycleReferences(wycieczka);
-            return Result<Wycieczka>.Ok(wycieczka);
+            return Result<Trip>.Ok(wycieczka);
         }
 
-        public async Task<Result<PunktTerenowy>> CreatePunktPrywatny(PunktTerenowy punkt)
+        public async Task<Result<TerrainPoint>> CreatePunktPrywatny(TerrainPoint punkt)
         {
-            var wlasciciel = await _context.Ksiazeczki.FirstOrDefaultAsync(k => k.Wlasciciel == punkt.Wlasciciel);
+            var wlasciciel = await _context.TouristsBooks.FirstOrDefaultAsync(k => k.OwnerId == punkt.TouristsBookOwner);
             if (wlasciciel is null)
             {
-                return Result<PunktTerenowy>.Error("Nie znaleziono właściciela");
+                return Result<TerrainPoint>.Error("Nie znaleziono właściciela");
             }
 
-            punkt.Ksiazeczka = wlasciciel;
+            punkt.TouristsBook = wlasciciel;
 
-            if (await _context.PunktyTerenowe.FirstOrDefaultAsync(p => p.Nazwa == punkt.Nazwa) != null)
+            if (await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Name == punkt.Name) != null)
             {
-                return Result<PunktTerenowy>.Error("Nazwa punktu terenowego nie jest unikalna");
+                return Result<TerrainPoint>.Error("Nazwa punktu terenowego nie jest unikalna");
             }
 
-            await _context.PunktyTerenowe.AddAsync(punkt);
+            await _context.TerrainPoints.AddAsync(punkt);
             await _context.SaveChangesAsync();
-            return Result<PunktTerenowy>.Ok(punkt);
+            return Result<TerrainPoint>.Ok(punkt);
         }
 
-        public async Task<Result<Odcinek>> CreateOdcinekPrywatny(Odcinek odcinek)
+        public async Task<Result<Segment>> CreateOdcinekPrywatny(Segment odcinek)
         {
             var validityResult = await CheckNewOdcinekValidity(odcinek);
             if (!validityResult.Item1)
             {
-                return Result<Odcinek>.Error(validityResult.Item2);
+                return Result<Segment>.Error(validityResult.Item2);
             }
 
-            odcinek.Wersja = 1;
+            odcinek.Version = 1;
 
-            await _context.Odcinki.AddAsync(odcinek);
+            await _context.Segments.AddAsync(odcinek);
             await _context.SaveChangesAsync();
-            return Result<Odcinek>.Ok(odcinek);
+            return Result<Segment>.Ok(odcinek);
         }
 
-        private async Task<(bool, string)> CheckNewOdcinekValidity(Odcinek odcinek)
+        private async Task<(bool, string)> CheckNewOdcinekValidity(Segment odcinek)
         {
-            odcinek.PunktTerenowyOd = await _context.PunktyTerenowe.FirstOrDefaultAsync(p => p.Id == odcinek.Od);
-            if (odcinek.PunktTerenowyOd is null)
+            odcinek.From = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == odcinek.FromId);
+            if (odcinek.From is null)
             {
                 return (false, "Nie znaleziono punktu początkowego");
             }
 
-            odcinek.PunktTerenowyDo = await _context.PunktyTerenowe.FirstOrDefaultAsync(p => p.Id == odcinek.Do);
-            if (odcinek.PunktTerenowyDo is null)
+            odcinek.Target = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == odcinek.TargetId);
+            if (odcinek.Target is null)
             {
                 return (false, "Nie znaleziono punktu końcowego");
             }
 
-            odcinek.PasmoGorskie = await _context.PasmaGorskie.FirstOrDefaultAsync(p => p.Id == odcinek.Pasmo);
-            if (odcinek.PasmoGorskie is null)
+            odcinek.MountainRange = await _context.MountainRanges.FirstOrDefaultAsync(p => p.Id == odcinek.MountainRangeId);
+            if (odcinek.MountainRange is null)
             {
                 return (false, "Nie znaleziono pasma górskiego");
             }
 
-            odcinek.Ksiazeczka = await _context.Ksiazeczki.FirstOrDefaultAsync(k => k.Wlasciciel == odcinek.Wlasciciel);
-            if (odcinek.Ksiazeczka is null)
+            odcinek.TouristsBook = await _context.TouristsBooks.FirstOrDefaultAsync(k => k.OwnerId == odcinek.TouristsBookOwner);
+            if (odcinek.TouristsBook is null)
             {
                 return (false, "Nie znaleziono właściciela");
             }
             return (true, string.Empty);
         }
 
-        public async Task<Result<PotwierdzenieTerenowe>> AddPotwierdzenieToOdcinekWithOr(PotwierdzenieTerenowe potwierdzenie, int odcinekId)
+        public async Task<Result<Confirmation>> AddPotwierdzenieToOdcinekWithOr(Confirmation potwierdzenie, int odcinekId)
         {
-            var odcinekFromDb = await _context.PrzebyteOdcinki.FirstOrDefaultAsync(o => o.Id == odcinekId);
-            var punktTerenowy = await _context.PunktyTerenowe.FirstOrDefaultAsync(p => p.Id == potwierdzenie.Punkt);
+            var odcinekFromDb = await _context.SegmentTravels.FirstOrDefaultAsync(o => o.Id == odcinekId);
+            var punktTerenowy = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == potwierdzenie.TerrainPointId);
 
             if (odcinekFromDb is null)
             {
-                return Result<PotwierdzenieTerenowe>.Error("Nie znaleziono Odcinka");
+                return Result<Confirmation>.Error("Nie znaleziono Odcinka");
             }
 
             if (punktTerenowy is null)
             {
-                return Result<PotwierdzenieTerenowe>.Error("Nie znaleziono Punktu terenowego");
+                return Result<Confirmation>.Error("Nie znaleziono Punktu terenowego");
             }
 
-            potwierdzenie.Typ = Domain.Enums.TypPotwierdzenia.KodQr;
+            potwierdzenie.Type = Domain.Enums.ConfirmationType.QrCode;
 
-            var potwierdzenieAdministracyjne = await _context.PotwierdzeniaTerenowe
-                .FirstOrDefaultAsync(p => p.Punkt == punktTerenowy.Id && p.Administracyjny);
+            var potwierdzenieAdministracyjne = await _context.Confirmations
+                .FirstOrDefaultAsync(p => p.TerrainPointId == punktTerenowy.Id && p.IsAdministration);
 
             if (potwierdzenieAdministracyjne.Url == potwierdzenie.Url)
             {
                 return await AddPotwierdzenieToOdcinek(potwierdzenie, odcinekFromDb);
             }
 
-            return Result<PotwierdzenieTerenowe>.Error("Nieprawidłowa lokalizacja kodu QR");
+            return Result<Confirmation>.Error("Nieprawidłowa lokalizacja kodu QR");
         }
 
-        public async Task<Result<PotwierdzenieTerenowe>> AddPotwierdzenieToOdcinekWithPhoto(PotwierdzenieTerenowe potwierdzenie, int odcinekId, IFormFile file, string rootFileName)
+        public async Task<Result<Confirmation>> AddPotwierdzenieToOdcinekWithPhoto(Confirmation potwierdzenie, int odcinekId, IFormFile file, string rootFileName)
         {
-            var odcinekFromDb = await _context.PrzebyteOdcinki.FirstOrDefaultAsync(o => o.Id == odcinekId);
-            var punktTerenowy = await _context.PunktyTerenowe.FirstOrDefaultAsync(p => p.Id == potwierdzenie.Punkt);
+            var odcinekFromDb = await _context.SegmentTravels.FirstOrDefaultAsync(o => o.Id == odcinekId);
+            var punktTerenowy = await _context.TerrainPoints.FirstOrDefaultAsync(p => p.Id == potwierdzenie.TerrainPointId);
 
             if (odcinekFromDb is null)
             {
-                return Result<PotwierdzenieTerenowe>.Error("Nie znaleziono Odcinka");
+                return Result<Confirmation>.Error("Nie znaleziono Odcinka");
             }
             if (punktTerenowy is null)
             {
-                return Result<PotwierdzenieTerenowe>.Error("Nie znaleziono Punktu terenowego");
+                return Result<Confirmation>.Error("Nie znaleziono Punktu terenowego");
             }
             if (file is null)
             {
-                return Result<PotwierdzenieTerenowe>.Error("Brak zdjęcia");
+                return Result<Confirmation>.Error("Brak zdjęcia");
             }
 
-            potwierdzenie.Typ = Domain.Enums.TypPotwierdzenia.Zdjecie;
+            potwierdzenie.Type = Domain.Enums.ConfirmationType.Image;
             potwierdzenie.Url = await _fileService.SaveFile(file, rootFileName);
 
             return await AddPotwierdzenieToOdcinek(potwierdzenie, odcinekFromDb);
         }
 
-        private async Task<Result<PotwierdzenieTerenowe>> AddPotwierdzenieToOdcinek(PotwierdzenieTerenowe potwierdzenie, PrzebycieOdcinka przebycieOdcinka)
+        private async Task<Result<Confirmation>> AddPotwierdzenieToOdcinek(Confirmation potwierdzenie, SegmentTravel przebycieOdcinka)
         {
-            potwierdzenie.Data = DateTime.Now;
-            await _context.PotwierdzeniaTerenowe.AddAsync(potwierdzenie);
+            potwierdzenie.Date = DateTime.Now;
+            await _context.Confirmations.AddAsync(potwierdzenie);
             await _context.SaveChangesAsync();
-            var potwierdzeniePrzebytego = new PotwierdzenieTerenowePrzebytegoOdcinka()
+            var potwierdzeniePrzebytego = new SegmentConfirmation()
             {
-                Potwierdzenie = potwierdzenie.Id,
-                PotwierdzenieTerenowe = potwierdzenie,
-                PrzebytyOdcinekId = przebycieOdcinka.Id,
-                PrzebycieOdcinka = przebycieOdcinka
+                ConfirmationId = potwierdzenie.Id,
+                Confirmation = potwierdzenie,
+                SegmentTravelId = przebycieOdcinka.Id,
+                SegmentTravel = przebycieOdcinka
             };
-            await _context.PotwierdzeniaTerenowePrzebytychOdcinkow.AddAsync(potwierdzeniePrzebytego);
+            await _context.SegmentConfirmations.AddAsync(potwierdzeniePrzebytego);
             await _context.SaveChangesAsync();
-            return Result<PotwierdzenieTerenowe>.Ok(potwierdzenie);
+            return Result<Confirmation>.Ok(potwierdzenie);
         }
 
         public async Task<bool> DeletePotwierdzenia(int id, string rootFileName)
         {
-            var potwierdzenie = await _context.PotwierdzeniaTerenowe.FirstOrDefaultAsync(p => p.Id == id);
+            var potwierdzenie = await _context.Confirmations.FirstOrDefaultAsync(p => p.Id == id);
             if (potwierdzenie is null)
             {
                 return false;
@@ -233,10 +233,10 @@ namespace KsiazeczkaPttk.DAL.Repositories
 
             await RemoveConnectedPotwierdzeniaOdcinkow(id);
 
-            _context.PotwierdzeniaTerenowe.Remove(potwierdzenie);
+            _context.Confirmations.Remove(potwierdzenie);
             await _context.SaveChangesAsync();
 
-            if (potwierdzenie.Typ == Domain.Enums.TypPotwierdzenia.Zdjecie)
+            if (potwierdzenie.Type == Domain.Enums.ConfirmationType.Image)
             {
                 _fileService.RemoveFile(potwierdzenie.Url, rootFileName);
             }
@@ -244,28 +244,28 @@ namespace KsiazeczkaPttk.DAL.Repositories
             return true;
         }
 
-        private async Task<bool> AssignOdcinkiToWycieczka(Wycieczka wycieczka)
+        private async Task<bool> AssignOdcinkiToWycieczka(Trip wycieczka)
         {
-            foreach (var przebycieOdcinka in wycieczka.Odcinki)
+            foreach (var przebycieOdcinka in wycieczka.Segments)
             {
-                var odcinekFromDb = await _context.Odcinki.FirstOrDefaultAsync(o => o.Id == przebycieOdcinka.OdcinekId);
+                var odcinekFromDb = await _context.Segments.FirstOrDefaultAsync(o => o.Id == przebycieOdcinka.SegmentId);
                 if (odcinekFromDb is null)
                 {
                     return false;
                 }
 
-                przebycieOdcinka.Odcinek = odcinekFromDb;
-                przebycieOdcinka.DotyczacaWycieczka = wycieczka;
-                przebycieOdcinka.Wycieczka = wycieczka.Id;
+                przebycieOdcinka.Segment = odcinekFromDb;
+                przebycieOdcinka.Trip = wycieczka;
+                przebycieOdcinka.TripId = wycieczka.Id;
 
-                await _context.PrzebyteOdcinki.AddAsync(przebycieOdcinka);
+                await _context.SegmentTravels.AddAsync(przebycieOdcinka);
             }
             return true;
         }
 
-        private async Task<(bool, string)> ValidateOdcinkiOrder(List<PrzebycieOdcinka> odcinki)
+        private async Task<(bool, string)> ValidateOdcinkiOrder(List<SegmentTravel> odcinki)
         {
-            if (odcinki.Where((o, index) => (o.Kolejnosc != index + 1)).Any())
+            if (odcinki.Where((o, index) => (o.Order != index + 1)).Any())
             {
                 return (false, "Niepoprawna kolejność odcinków");
             }
@@ -275,18 +275,18 @@ namespace KsiazeczkaPttk.DAL.Repositories
                 var current = odcinki[i];
                 var previous = odcinki[i - 1];
 
-                if (previous.Odcinek is null)
+                if (previous.Segment is null)
                 {
-                    previous.Odcinek = await _context.Odcinki.FirstOrDefaultAsync(o => o.Id == previous.OdcinekId);
+                    previous.Segment = await _context.Segments.FirstOrDefaultAsync(o => o.Id == previous.SegmentId);
                 }
 
-                if (current.Odcinek is null)
+                if (current.Segment is null)
                 {
-                    current.Odcinek = await _context.Odcinki.FirstOrDefaultAsync(o => o.Id == current.OdcinekId);
+                    current.Segment = await _context.Segments.FirstOrDefaultAsync(o => o.Id == current.SegmentId);
                 }
 
-                var endOdPrevious = previous.Powrot ? previous.Odcinek.Od : previous.Odcinek.Do;
-                var startOfCurrent = current.Powrot ? current.Odcinek.Do : current.Odcinek.Od;
+                var endOdPrevious = previous.IsBack ? previous.Segment.FromId : previous.Segment.TargetId;
+                var startOfCurrent = current.IsBack ? current.Segment.TargetId : current.Segment.FromId;
 
                 if (endOdPrevious != startOfCurrent)
                 {
@@ -298,38 +298,38 @@ namespace KsiazeczkaPttk.DAL.Repositories
 
         private async Task RemoveConnectedPotwierdzeniaOdcinkow(int potwierdzenieId)
         {
-            var potwierdzeniaOdcinkow = await _context.PotwierdzeniaTerenowePrzebytychOdcinkow
-                .Where(p => p.Potwierdzenie == potwierdzenieId).ToListAsync();
+            var potwierdzeniaOdcinkow = await _context.SegmentConfirmations
+                .Where(p => p.ConfirmationId == potwierdzenieId).ToListAsync();
 
             foreach (var potwierdzenieOdcinka in potwierdzeniaOdcinkow)
             {
-                _context.PotwierdzeniaTerenowePrzebytychOdcinkow.Remove(potwierdzenieOdcinka);
+                _context.SegmentConfirmations.Remove(potwierdzenieOdcinka);
             }
         }
 
-        private void PreventCycleReferences(Wycieczka wycieczka)
+        private void PreventCycleReferences(Trip wycieczka)
         {
-            foreach (var odcinek in wycieczka?.Odcinki ?? Array.Empty<PrzebycieOdcinka>())
+            foreach (var odcinek in wycieczka?.Segments ?? Array.Empty<SegmentTravel>())
             {
-                odcinek.DotyczacaWycieczka = null;
+                odcinek.Trip = null;
             }
         }
 
-        private IQueryable<Wycieczka> GetBaseWycieczkaIQueryable()
+        private IQueryable<Trip> GetBaseWycieczkaIQueryable()
         {
-            return _context.Wycieczki
-                .Include(w => w.Ksiazeczka)
-                    .ThenInclude(k => k.WlascicielKsiazeczki)
-                        .ThenInclude(u => u.RolaUzytkownika)
-                .Include(w => w.Odcinki)
-                    .ThenInclude(o => o.Odcinek)
-                        .ThenInclude(o => o.PunktTerenowyDo)
-                .Include(w => w.Odcinki)
-                    .ThenInclude(o => o.Odcinek)
-                        .ThenInclude(o => o.PunktTerenowyOd)
-                .Include(w => w.Odcinki)
-                    .ThenInclude(o => o.Odcinek)
-                        .ThenInclude(o => o.PasmoGorskie);
+            return _context.Trips
+                .Include(w => w.TouristsBook)
+                    .ThenInclude(k => k.Owner)
+                        .ThenInclude(u => u.UserRole)
+                .Include(w => w.Segments)
+                    .ThenInclude(o => o.Segment)
+                        .ThenInclude(o => o.Target)
+                .Include(w => w.Segments)
+                    .ThenInclude(o => o.Segment)
+                        .ThenInclude(o => o.From)
+                .Include(w => w.Segments)
+                    .ThenInclude(o => o.Segment)
+                        .ThenInclude(o => o.MountainRange);
         }
     }
 }
