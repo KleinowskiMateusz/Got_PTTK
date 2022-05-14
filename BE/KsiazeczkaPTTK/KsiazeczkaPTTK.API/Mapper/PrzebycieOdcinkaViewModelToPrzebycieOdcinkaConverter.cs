@@ -4,15 +4,15 @@ using KsiazeczkaPttk.Domain.Models;
 
 namespace KsiazeczkaPttk.API.Mapper
 {
-    public class PrzebycieOdcinkaViewModelToPrzebycieOdcinkaConverter : IValueConverter<IEnumerable<PrzebycieOdcinkaViewModel>, IEnumerable<SegmentTravel>>
+    public class PrzebycieOdcinkaViewModelToPrzebycieOdcinkaConverter : IValueConverter<IEnumerable<SegmentTravelViewModel>, IEnumerable<SegmentTravel>>
     {
-        public IEnumerable<SegmentTravel> Convert(IEnumerable<PrzebycieOdcinkaViewModel> sourceMembers, ResolutionContext context)
+        public IEnumerable<SegmentTravel> Convert(IEnumerable<SegmentTravelViewModel> sourceMembers, ResolutionContext context)
         {
             return sourceMembers.Select(member => new SegmentTravel
             {
-                Order = member.Kolejnosc,
-                IsBack = member.Powrot,
-                SegmentId = member.OdcinekId,
+                Order = member.Order,
+                IsBack = member.IsBack,
+                SegmentId = member.SegmentId,
             });
         }
     }

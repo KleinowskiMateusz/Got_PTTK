@@ -84,7 +84,7 @@ namespace KsiazeczkaPttk.API.Controllers
         }
 
         [HttpPost("trip")]
-        public async Task<ActionResult> CreateWycieczka([FromBody] CreateWycieczkaViewModel model)
+        public async Task<ActionResult> CreateWycieczka([FromBody] CreateTripViewModel model)
         {
             var wycieczka = _mapper.Map<Trip>(model);
 
@@ -93,7 +93,7 @@ namespace KsiazeczkaPttk.API.Controllers
         }
 
         [HttpPost("terrainPoint")]
-        public async Task<ActionResult> CreatePunktPrywatny([FromBody] CreatePunktTerenowyViewModel viewModel)
+        public async Task<ActionResult> CreatePunktPrywatny([FromBody] CreateTerrainPointViewModel viewModel)
         {
             var punktTerenowy = _mapper.Map<TerrainPoint>(viewModel);
 
@@ -102,7 +102,7 @@ namespace KsiazeczkaPttk.API.Controllers
         }
 
         [HttpPost("privateSegment")]
-        public async Task<ActionResult> CreateOdcinekPrywatny([FromBody] CreateOdcinekViewModel viewModel)
+        public async Task<ActionResult> CreateOdcinekPrywatny([FromBody] CreateSegmentViewModel viewModel)
         {
             var odcinek = _mapper.Map<Segment>(viewModel);
 

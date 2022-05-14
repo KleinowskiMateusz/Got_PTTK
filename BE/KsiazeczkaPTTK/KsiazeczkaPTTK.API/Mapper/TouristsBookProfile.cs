@@ -12,7 +12,7 @@ namespace KsiazeczkaPttk.API.Mapper
         {
             CreateOdcinekMapping();
 
-            CreateMap<CreatePunktTerenowyViewModel, TerrainPoint>();
+            CreateMap<CreateTerrainPointViewModel, TerrainPoint>();
 
             CreatePotwierdzenieMapping();
             
@@ -21,12 +21,12 @@ namespace KsiazeczkaPttk.API.Mapper
 
         private void CreateOdcinekMapping()
         {
-            CreateMap<CreateOdcinekPublicznyViewModel, Segment>()
+            CreateMap<CreatePublicSegmentViewModel, Segment>()
                 .ForMember(m => m.Version, o => o.MapFrom(_ => 1));
 
-            CreateMap<EditOdcinekPublicznyViewModel, Segment>();
+            CreateMap<EditPublicSegmentViewModel, Segment>();
 
-            CreateMap<CreateOdcinekViewModel, Segment>()
+            CreateMap<CreateSegmentViewModel, Segment>()
                 .ForMember(m => m.Version, o => o.MapFrom(_ => 1));
 
             CreateMap<Segment, NeighboringSegment>();
@@ -34,22 +34,22 @@ namespace KsiazeczkaPttk.API.Mapper
 
         private void CreatePotwierdzenieMapping()
         {
-            CreateMap<CreatePotwierdzenieWithQrViewModel, Confirmation>()
+            CreateMap<CreateConfirmationWithQrViewModel, Confirmation>()
                 .ForMember(m => m.Type, opt => opt.MapFrom(_ => ConfirmationType.QrCode))
-                .ForMember(m => m.TerrainPointId, opt => opt.MapFrom(src => src.PunktId))
+                .ForMember(m => m.TerrainPointId, opt => opt.MapFrom(src => src.TerrainPointId))
                 .ForMember(m => m.IsAdministration, opt => opt.MapFrom(_ => false));
 
-            CreateMap<CreatePotwierdzenieWithImageViewModel, Confirmation>()
+            CreateMap<CreateConfirmationWithImageViewModel, Confirmation>()
                 .ForMember(m => m.Type, opt => opt.MapFrom(_ => ConfirmationType.Image))
-                .ForMember(m => m.TerrainPointId, opt => opt.MapFrom(src => src.PunktId))
+                .ForMember(m => m.TerrainPointId, opt => opt.MapFrom(src => src.TerrainPointId))
                 .ForMember(m => m.IsAdministration, opt => opt.MapFrom(_ => false));
 
         }
 
         private void CreateWycieczkaMapping()
         {
-            CreateMap<CreateWycieczkaViewModel, Trip>()
-                .ForMember(m => m.Segments, opt => opt.ConvertUsing(new PrzebycieOdcinkaViewModelToPrzebycieOdcinkaConverter(), src => src.PrzebyteOdcinki));
+            CreateMap<CreateTripViewModel, Trip>()
+                .ForMember(m => m.Segments, opt => opt.ConvertUsing(new PrzebycieOdcinkaViewModelToPrzebycieOdcinkaConverter(), src => src.SegmentTravels));
         }
     }
 }

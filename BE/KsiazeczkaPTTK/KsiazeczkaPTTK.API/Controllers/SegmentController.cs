@@ -41,7 +41,7 @@ namespace KsiazeczkaPttk.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOdcinekPubliczny([FromBody] CreateOdcinekPublicznyViewModel viewModel)
+        public async Task<IActionResult> CreateOdcinekPubliczny([FromBody] CreatePublicSegmentViewModel viewModel)
         {
             var odcinek = _mapper.Map<Segment>(viewModel);
             
@@ -50,7 +50,7 @@ namespace KsiazeczkaPttk.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditOdcinekPubliczny([FromRoute] int id, [FromBody] EditOdcinekPublicznyViewModel viewModel)
+        public async Task<IActionResult> EditOdcinekPubliczny([FromRoute] int id, [FromBody] EditPublicSegmentViewModel viewModel)
         {
             var odcinek = _mapper.Map<Segment>(viewModel);
 

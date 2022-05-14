@@ -49,20 +49,20 @@ namespace KsiazeczkaPttk.API.Controllers
         }
 
         [HttpPost("withQR")]
-        public async Task<ActionResult> CreatePotwierdzenieTerenoweForOdcinekWithQrCode([FromBody] CreatePotwierdzenieWithQrViewModel modelPotwierdzenia)
+        public async Task<ActionResult> CreatePotwierdzenieTerenoweForOdcinekWithQrCode([FromBody] CreateConfirmationWithQrViewModel modelPotwierdzenia)
         {
             var potwierdzenie = _mapper.Map<Confirmation>(modelPotwierdzenia);
 
-            var result = await _wycieczkaRepository.AddConfirmationToSegmentWithOr(potwierdzenie, modelPotwierdzenia.OdcinekId);
+            var result = await _wycieczkaRepository.AddConfirmationToSegmentWithOr(potwierdzenie, modelPotwierdzenia.SegmentId);
             return UnWrapResultWithBadRequest(result);
         }
 
         [HttpPost("withPhoto")]
-        public async Task<ActionResult> CreatePotwierdzenieTerenoweForOdcinekWithPhoto([FromForm] CreatePotwierdzenieWithImageViewModel modelPotwierdzenia)
+        public async Task<ActionResult> CreatePotwierdzenieTerenoweForOdcinekWithPhoto([FromForm] CreateConfirmationWithImageViewModel modelPotwierdzenia)
         {
             var potwierdzenie = _mapper.Map<Confirmation>(modelPotwierdzenia);
 
-            var result = await _wycieczkaRepository.AddConfirmationToSegmentWithPhoto(potwierdzenie, modelPotwierdzenia.OdcinekId, modelPotwierdzenia.Image, _webHostEnvironment.ContentRootPath);
+            var result = await _wycieczkaRepository.AddConfirmationToSegmentWithPhoto(potwierdzenie, modelPotwierdzenia.SegmentId, modelPotwierdzenia.Image, _webHostEnvironment.ContentRootPath);
             return UnWrapResultWithBadRequest(result);
         }
 
