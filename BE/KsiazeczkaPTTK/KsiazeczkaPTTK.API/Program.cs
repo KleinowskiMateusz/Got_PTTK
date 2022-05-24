@@ -61,6 +61,11 @@ async Task SeedDb(IServiceProvider services)
             using (var scope = services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetService<TouristsBookContext>();
+                bool dropDb = true;
+                if (dropDb)
+                {
+                    await context.Database.EnsureDeletedAsync();
+                }
                 await context.Migrate();
                 Console.WriteLine("Migration: Done");
                 await TouristsBookSeed.Seed(context);

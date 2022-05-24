@@ -5,6 +5,7 @@ namespace KsiazeczkaPttk.DAL
 {
     public static class TouristsBookSeed
     {
+
         public static async Task Seed(TouristsBookContext context)
         {
             if (await context.MountainGroups.AnyAsync())
@@ -12,6 +13,12 @@ namespace KsiazeczkaPttk.DAL
                 return;
             }
 
+            await SeedFromCode(context);
+            await SeedFromFiles(context);
+        }
+
+        private static async Task SeedFromCode(TouristsBookContext context)
+        {
             var roleUzytkownikow = new List<UserRole>()
             {
                 new UserRole(){ Name = "Administrator"},
@@ -46,12 +53,12 @@ namespace KsiazeczkaPttk.DAL
                 new MountainRange(){ Id = 1, Name = "Tatry Wysokie", GroupId = grupyGorskie[0].Id, MountainGroup = grupyGorskie[0] },
                 new MountainRange(){ Id = 2, Name = "Tatry Zachodnie", GroupId = grupyGorskie[0].Id, MountainGroup = grupyGorskie[0] },
                 new MountainRange(){ Id = 3, Name = "Podtatrze", GroupId = grupyGorskie[0].Id, MountainGroup = grupyGorskie[0] },
-                                             
+
                 new MountainRange(){ Id = 4, Name = "Beskid Śląski", GroupId = grupyGorskie[1].Id, MountainGroup = grupyGorskie[1] },
                 new MountainRange(){ Id = 5, Name = "Beskid Żywiecki", GroupId = grupyGorskie[1].Id, MountainGroup = grupyGorskie[1] },
-                                             
+
                 new MountainRange(){ Id = 6, Name = "Bieszczady", GroupId = grupyGorskie[2].Id, MountainGroup = grupyGorskie[2] },
-                                             
+
                 new MountainRange(){ Id = 7, Name = "Góry Izerskie", GroupId = grupyGorskie[4].Id, MountainGroup = grupyGorskie[4] },
                 new MountainRange(){ Id = 8, Name = "Karkonosze", GroupId = grupyGorskie[4].Id, MountainGroup = grupyGorskie[4] },
                 new MountainRange(){ Id = 9, Name = "Góry Kaczawskie", GroupId = grupyGorskie[4].Id, MountainGroup = grupyGorskie[4] },
@@ -169,7 +176,19 @@ namespace KsiazeczkaPttk.DAL
             await context.SaveChangesAsync();
             await context.SegmentConfirmations.AddRangeAsync(potwierdzeniaOdcinkow);
             await context.SaveChangesAsync();
+        }
 
+        private static async Task SeedFromFiles(TouristsBookContext context)
+        {
+            var root = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+            var seedFolder = Path.Combine(root, "KsiazeczkaPTTK.DAL", "Seed_Input");
+            if (Directory.Exists(seedFolder))
+            {
+                foreach (var fileName in Directory.EnumerateFiles(seedFolder, "*.json", SearchOption.AllDirectories))
+                {
+
+                }
+            }
         }
     }
 }
