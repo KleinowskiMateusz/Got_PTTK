@@ -7,36 +7,36 @@
       "altitude": 216,
       "longitude": 15.017052,
       "latitude": 51.036724,
-      "startPoints": [ "Radomierzyce", "Sulików", "Zawidów" ],
-      "pointsToDestination": [ 6, 6, 5 ],
-      "pointsFromDestination": [ 6, 6, 5 ]
+      "startPoints": [ "Sulików", "Zawidów" ],
+      "pointsToDestination": [ 6, 5 ],
+      "pointsFromDestination": [ 6, 5 ]
     },
     {
       "destination": "Grodziszcze",
       "altitude": 427,
       "longitude": 15.171784,
       "latitude": 51.020129,
-      "startPoints": [ "Zawidów", "Leśna", "Grodziszcz Średni" ],
-      "pointsToDestination": [ 11, 9, 3 ],
-      "pointsFromDestination": [ 9, 7, 2 ]
+      "startPoints": [ "Zawidów", "Leśna" ],
+      "pointsToDestination": [ 11, 9 ],
+      "pointsFromDestination": [ 9, 7 ]
     },
     {
       "destination": "Wysoka Stóża",
       "altitude": 427,
       "longitude": 15.231775,
       "latitude": 51.009468,
-      "startPoints": [ "Grodziszcz Średni", "Leśna", "TPG Miłoszów" ],
-      "pointsToDestination": [ 4, 5, 5 ],
-      "pointsFromDestination": [ 3, 3, 4 ]
+      "startPoints": [ "Leśna" ],
+      "pointsToDestination": [ 5 ],
+      "pointsFromDestination": [ 3 ]
     },
     {
       "destination": "Kozub",
       "altitude": 1105,
       "longitude": 15.277125,
       "latitude": 50.986909,
-      "startPoints": [ "TPG Miłoszów", "Leśna", "Świecie", "Pobiedna" ],
-      "pointsToDestination": [ 5, 6, 1, 6 ],
-      "pointsFromDestination": [ 4, 5, 1, 6 ]
+      "startPoints": [ "Leśna", "Świecie", "Pobiedna" ],
+      "pointsToDestination": [ 6, 1, 6 ],
+      "pointsFromDestination": [ 5, 1, 6 ]
     },
     {
       "destination": "Wojków",
@@ -160,16 +160,16 @@
       "altitude": 447,
       "longitude": 15.423497,
       "latitude": 50.992513,
-      "startPoints": [ "Mirsk", "Młyńsk", "Gryfów Śląski" ],
-      "pointsToDestination": [ 6, 3, 6 ],
-      "pointsFromDestination": [ 5, 2, 5 ]
+      "startPoints": [ "Mirsk", "Gryfów Śląski" ],
+      "pointsToDestination": [ 6, 6 ],
+      "pointsFromDestination": [ 5, 5 ]
     },
     {
       "destination": "Rębiszów",
       "altitude": 425,
       "longitude": 15.453642,
       "latitude": 50.950914,
-      "startPoints": [ "Mirsk", "Chmieleń", "Źródło św. Wolfanga", "Przecznica" ],
+      "startPoints": [ "Mirsk", "Chmieleń" ],
       "pointsToDestination": [ 6, 5, 8, 3 ],
       "pointsFromDestination": [ 6, 5, 11, 3 ]
     },
@@ -187,9 +187,9 @@
       "altitude": 360,
       "longitude": 15.512887,
       "latitude": 51.012803,
-      "startPoints": [ "Chmielno", "Gryfów Śląski", "Wojciechów" ],
-      "pointsToDestination": [ 5, 8, 5 ],
-      "pointsFromDestination": [ 6, 8, 5 ]
+      "startPoints": [ "Gryfów Śląski" ],
+      "pointsToDestination": [ 8 ],
+      "pointsFromDestination": [ 8 ]
     },
     {
       "destination": "Oleszna Podgórska",
@@ -205,36 +205,216 @@
       "altitude": 354,
       "longitude": 15.617457,
       "latitude": 50.971766,
-      "startPoints": [ "Wojciechów", "Radomice", "Pilchowice", "Pilchowice Zapora PKP", "Stanki", "Barcinek" ],
-      "pointsToDestination": [ 5, 2, 3, 5, 4, 6 ],
-      "pointsFromDestination": [ 5, 2, 2, 4, 4, 5 ]
+      "startPoints": [ "Radomice", "Pilchowice" ],
+      "pointsToDestination": [ 2, 3 ],
+      "pointsFromDestination": [ 2, 2 ]
     },
     {
       "destination": "Wietrznik",
       "altitude": 482,
       "longitude": 15.625015,
       "latitude": 51.001519,
-      "startPoints": [ "Radomice", "Nielestna", "Wileński Gródka" ],
-      "pointsToDestination": [ 3, 6, 5 ],
-      "pointsFromDestination": [ 2, 4, 4 ]
+      "startPoints": [ "Radomice" ],
+      "pointsToDestination": [ 3 ],
+      "pointsFromDestination": [ 2 ]
     },
     {
       "destination": "Marczów",
       "altitude": 276,
       "longitude": 15.644695,
       "latitude": 51.044715,
-      "startPoints": [ "Wileński Gródka", "Dębowy Gaj", "Wleń" ],
-      "pointsToDestination": [ 6, 5, 9 ],
-      "pointsFromDestination": [ 6, 5, 8 ]
+      "startPoints": [ "Dębowy Gaj", "Wleń" ],
+      "pointsToDestination": [ 5, 9 ],
+      "pointsFromDestination": [ 5, 8 ]
     },
     {
       "destination": "Wleń",
       "altitude": 227,
       "longitude": 15.673445,
       "latitude": 51.016916,
-      "startPoints": [ "Wileński Gródka" ],
-      "pointsToDestination": [ 1 ],
-      "pointsFromDestination": [ 2 ]
+      "startPoints": [  ],
+      "pointsToDestination": [  ],
+      "pointsFromDestination": [  ]
+    },
+    {
+      "destination": "Sulików",
+      "altitude": 220,
+      "longitude": 15.067818,
+      "latitude": 51.075436,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Zawidów",
+      "altitude": 231,
+      "longitude": 15.062162,
+      "latitude": 51.025485,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Leśna",
+      "altitude": 238,
+      "longitude": 15.263385,
+      "latitude": 51.023390,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Giebułtów",
+      "altitude": 379,
+      "longitude": 15.346429,
+      "latitude": 50.979479,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Wolimierz",
+      "altitude": 415,
+      "longitude": 15.318890,
+      "latitude": 50.949511,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Czerniawy Zdrój",
+      "altitude": 537,
+      "longitude": 15.301755,
+      "latitude": 50.916820,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Ulicko",
+      "altitude": 540,
+      "longitude": 15.274479,
+      "latitude": 50.921516,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Olszyna",
+      "altitude": 244,
+      "longitude": 15.372195,
+      "latitude": 51.066773,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Rajsko",
+      "altitude": 315,
+      "longitude": 15.331699,
+      "latitude": 51.034144,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Karłowice",
+      "altitude": 321,
+      "longitude": 15.381864,
+      "latitude": 51.027355,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Złotniki",
+      "altitude": 373,
+      "longitude": 15.341266,
+      "latitude": 51.014369,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Gryfów Śląski",
+      "altitude": 321,
+      "longitude": 15.414242,
+      "latitude": 51.028305,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Mirsk",
+      "altitude": -1,
+      "longitude": -1,
+      "latitude": -1,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Krobnica",
+      "altitude": 356,
+      "longitude": 15.381273,
+      "latitude": 50.972962,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Gierczyn",
+      "altitude": 449,
+      "longitude": 15.401775,
+      "latitude": 50.931085,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Chmieleń",
+      "altitude": 339,
+      "longitude": 15.490052,
+      "latitude": 50.979715,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Stara Kamienica",
+      "altitude": 370,
+      "longitude": 15.572785,
+      "latitude": 50.915658,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Radomice",
+      "altitude": 378,
+      "longitude": 15.609360,
+      "latitude": 50.992853,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Pilchowice",
+      "altitude": 292,
+      "longitude": 15.643697,
+      "latitude": 50.965019,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
+    },
+    {
+      "destination": "Dębowy Gaj",
+      "altitude": 231,
+      "longitude": 15.638138,
+      "latitude": 51.076162,
+      "startPoints": [],
+      "pointsToDestination": [],
+      "pointsFromDestination": []
     }
   ]
 }

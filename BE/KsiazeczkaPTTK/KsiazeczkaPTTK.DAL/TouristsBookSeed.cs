@@ -266,8 +266,7 @@ namespace KsiazeczkaPttk.DAL
 
                 if (fromPoint is null)
                 {
-                    // TODO
-                    continue;
+                    throw new Exception($"Pointwith name {segmentPointName} not found");
                 }
 
                 var segment = await context.Segments
