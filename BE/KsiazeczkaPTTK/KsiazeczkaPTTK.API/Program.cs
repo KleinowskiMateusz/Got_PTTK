@@ -61,7 +61,7 @@ async Task SeedDb(IServiceProvider services)
             using (var scope = services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetService<TouristsBookContext>();
-                bool dropDb = true;
+                bool dropDb = builder.Configuration.GetValue<bool>("DropDb");
                 if (dropDb)
                 {
                     await context.Database.EnsureDeletedAsync();
