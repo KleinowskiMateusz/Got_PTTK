@@ -195,7 +195,17 @@ namespace KsiazeczkaPttk.DAL
                     var fileContent = File.ReadAllText(fileName);
                     try
                     {
-                        var x = JsonSerializer.Deserialize<RangeSegmentsInput>(fileContent, serializationOptions);
+                        var input = JsonSerializer.Deserialize<RangeSegmentsInput>(fileContent, serializationOptions);
+                        var group = await GetOrCreateMountainGroup(input.Group, context);
+                        var range = await GetOrCreateMountainRange(group, input.Range, context);
+                        foreach (var segment in input.Segments)
+                        {
+                            // Add terrain points from destination
+                            
+                            for (int i = 0; i < segment.StartPoints.Count(); i++)
+                            {
+                            }
+                        }
                     }
                     catch (Exception)
                     {
@@ -203,6 +213,30 @@ namespace KsiazeczkaPttk.DAL
                     }
                 }
             }
+        }
+
+        private static async Task<MountainGroup> GetOrCreateMountainGroup(string groupName, TouristsBookContext context)
+        {
+            var group = await context.MountainGroups.FirstOrDefaultAsync(g => g.Name == groupName);
+            if (group is null)
+            {
+                group = new MountainGroup() { Name = groupName };
+                await context.MountainGroups.AddAsync(group);
+                await context.SaveChangesAsync();
+            }
+            return group;
+        }
+
+        private static async Task<MountainRange> GetOrCreateMountainRange(MountainGroup group, string rangeName, TouristsBookContext context)
+        {
+            var range = await context.MountainRanges.FirstOrDefaultAsync(r => r.Name == rangeName && r.GroupId == group.Id);
+            if (range is null)
+            {
+                range = new MountainRange() { Name = rangeName, GroupId = group.Id, MountainGroup = group };
+                await context.MountainRanges.AddAsync(range);
+                await context.SaveChangesAsync();
+            }
+            return range;
         }
     }
 }
