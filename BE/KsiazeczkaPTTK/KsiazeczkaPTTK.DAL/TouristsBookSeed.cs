@@ -1,5 +1,7 @@
 ﻿using KsiazeczkaPttk.Domain.Models;
+using KsiazeczkaPTTK.DAL.InputModels;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace KsiazeczkaPttk.DAL
 {
@@ -184,9 +186,21 @@ namespace KsiazeczkaPttk.DAL
             var seedFolder = Path.Combine(root, "KsiazeczkaPTTK.DAL", "Seed_Input");
             if (Directory.Exists(seedFolder))
             {
+                var serializationOptions = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
                 foreach (var fileName in Directory.EnumerateFiles(seedFolder, "*.json", SearchOption.AllDirectories))
                 {
-
+                    var fileContent = File.ReadAllText(fileName);
+                    try
+                    {
+                        var x = JsonSerializer.Deserialize<RangeSegmentsInput>(fileContent, serializationOptions);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine($"Cannot deserialize {fileName}");
+                    }
                 }
             }
         }
