@@ -124,15 +124,6 @@
       "altitude": -1,
       "longitude": 0,
       "latitude": 0,
-      "startPoints": [ "Olszyna", "Karłowice", "Złoty Potok", "Złotniki" ],
-      "pointsToDestination": [],
-      "pointsFromDestination": []
-    },
-    {
-      "destination": "Biedrzychowice",
-      "altitude": -1,
-      "longitude": 0,
-      "latitude": 0,
       "startPoints": [ "Olszyna", "Karłowice", "Gryfów Śląski" ],
       "pointsToDestination": [ 5, 2, 5 ],
       "pointsFromDestination": [ 4, 2, 5 ]

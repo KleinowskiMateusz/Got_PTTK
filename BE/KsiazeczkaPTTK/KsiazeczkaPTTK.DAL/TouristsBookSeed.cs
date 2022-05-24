@@ -263,7 +263,7 @@ namespace KsiazeczkaPttk.DAL
 
             for (int i = 0; i < input.StartPoints.Count(); i++)
             {
-                var segmentPointName = input.StartPoints.Skip(i).First();
+                var segmentPointName = input.StartPoints.Skip(i).FirstOrDefault();
                 var fromPoint = await context.TerrainPoints
                     .FirstOrDefaultAsync(p => p.Name == segmentPointName);
 
@@ -278,8 +278,8 @@ namespace KsiazeczkaPttk.DAL
 
                 if (segment is null)
                 {
-                    var pointsTo = input.PointsToDestination.Skip(i).First();
-                    var pointsFrom = input.PointsFromDestination.Skip(i).First();
+                    int pointsTo = input.PointsToDestination.Skip(i).First();
+                    int pointsFrom = input.PointsFromDestination.Skip(i).First();
 
                     segment = new Segment
                     {
