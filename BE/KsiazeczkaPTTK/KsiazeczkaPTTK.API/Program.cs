@@ -20,9 +20,9 @@ builder.Services.AddCors(o => o.AddPolicy("DevelopmentCorsPolicy", builder =>
     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 }));
 
-var postgresStr = builder.Configuration.GetConnectionString("PostgresConnection");
+var mySqlConnectionStr = builder.Configuration.GetConnectionString("MySQLConnection");
 builder.Services.AddDbContext<TouristsBookContext>(options =>
-    options.UseNpgsql(postgresStr));
+                options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
 
 builder.Services.AddScoped<IPublicTrailsRepository, PublicTrailsRepository>();
 builder.Services.AddScoped<ITripRepository, TripRepository>();

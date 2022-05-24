@@ -7,7 +7,6 @@ namespace KsiazeczkaPttk.DAL
 {
     public static class TouristsBookSeed
     {
-        private static Random random = new Random();
         public static async Task Seed(TouristsBookContext context)
         {
             if (await context.MountainGroups.AnyAsync())
@@ -243,8 +242,6 @@ namespace KsiazeczkaPttk.DAL
             if (point is null)
             {
                 point = new TerrainPoint() { 
-                    // TODO: Postgres does not add id
-                    Id = random.Next(),
                     Name = input.Destination,
                     Lat = input.Latitude,
                     Lng = input.Longitude,
@@ -283,7 +280,6 @@ namespace KsiazeczkaPttk.DAL
 
                     segment = new Segment
                     {
-                        Id = random.Next(),
                         FromId = fromPoint.Id,
                         From = fromPoint,
                         Target = targetPoint,

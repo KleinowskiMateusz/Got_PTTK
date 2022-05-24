@@ -3,13 +3,14 @@
 
 version: '3.8'
 services:
-  dbpostgres:
-      image: postgres
-      restart: always
-      environment:
-        POSTGRES_PASSWORD: postgres
-      ports:
-        - "5432:5432"
+  mysql:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'KsiazeczkaPTTK'
+    ports:
+      - "3306:3306"
 
   # api:
   #   build: 
