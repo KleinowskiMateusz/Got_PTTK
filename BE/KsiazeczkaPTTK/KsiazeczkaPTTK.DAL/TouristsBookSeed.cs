@@ -7,7 +7,7 @@ namespace KsiazeczkaPttk.DAL
 {
     public static class TouristsBookSeed
     {
-
+        private static Random random = new Random();
         public static async Task Seed(TouristsBookContext context)
         {
             if (await context.MountainGroups.AnyAsync())
@@ -193,23 +193,21 @@ namespace KsiazeczkaPttk.DAL
                 foreach (var fileName in Directory.EnumerateFiles(seedFolder, "*.json", SearchOption.AllDirectories))
                 {
                     var fileContent = File.ReadAllText(fileName);
-                    try
+                    var input = JsonSerializer.Deserialize<RangeSegmentsInput>(fileContent, serializationOptions);
+
+                    var group = await GetOrCreateMountainGroup(input.Group, context);
+                    var range = await GetOrCreateMountainRange(group, input.Range, context);
+
+                    foreach (var segment in input.Segments)
                     {
-                        var input = JsonSerializer.Deserialize<RangeSegmentsInput>(fileContent, serializationOptions);
-                        var group = await GetOrCreateMountainGroup(input.Group, context);
-                        var range = await GetOrCreateMountainRange(group, input.Range, context);
-                        foreach (var segment in input.Segments)
-                        {
-                            // Add terrain points from destination
-                            
-                            for (int i = 0; i < segment.StartPoints.Count(); i++)
-                            {
-                            }
-                        }
+                        // Add terrain points from destination
+                        await GetOrCreateTerrainPoint(segment, context);
                     }
-                    catch (Exception)
+
+                    foreach (var segmentInput in input.Segments)
                     {
-                        Console.WriteLine($"Cannot deserialize {fileName}");
+                        // create segments
+                        await GetOrCreateSegments(segmentInput, range, context);
                     }
                 }
             }
@@ -237,6 +235,73 @@ namespace KsiazeczkaPttk.DAL
                 await context.SaveChangesAsync();
             }
             return range;
+        }
+
+        private static async Task<TerrainPoint> GetOrCreateTerrainPoint(SegmentInput input, TouristsBookContext context)
+        {
+            var point = await context.TerrainPoints.FirstOrDefaultAsync(p => p.Name == input.Destination);
+            if (point is null)
+            {
+                point = new TerrainPoint() { 
+                    // TODO: Postgres does not add id
+                    Id = random.Next(),
+                    Name = input.Destination,
+                    Lat = input.Latitude,
+                    Lng = input.Longitude,
+                    Mnpm = input.Altitude
+                };
+
+                await context.TerrainPoints.AddAsync(point);
+                await context.SaveChangesAsync();
+            }
+            return point;
+        }
+
+        private static async Task GetOrCreateSegments(SegmentInput input, MountainRange range, TouristsBookContext context)
+        {
+            var targetPoint = await context.TerrainPoints.FirstAsync(p => p.Name == input.Destination);
+
+            for (int i = 0; i < input.StartPoints.Count(); i++)
+            {
+                var segmentPointName = input.StartPoints.Skip(i).First();
+                var fromPoint = await context.TerrainPoints
+                    .FirstOrDefaultAsync(p => p.Name == segmentPointName);
+
+                if (fromPoint is null)
+                {
+                    // TODO
+                    continue;
+                }
+
+                var segment = await context.Segments
+                    .FirstOrDefaultAsync(s => s.FromId == fromPoint.Id && s.TargetId == targetPoint.Id && s.MountainRangeId == range.Id);
+
+                if (segment is null)
+                {
+                    var pointsTo = input.PointsToDestination.Skip(i).First();
+                    var pointsFrom = input.PointsFromDestination.Skip(i).First();
+
+                    segment = new Segment
+                    {
+                        Id = random.Next(),
+                        FromId = fromPoint.Id,
+                        From = fromPoint,
+                        Target = targetPoint,
+                        TargetId = targetPoint.Id,
+                        IsActive = true,
+                        Points = pointsTo,
+                        PointsBack = pointsFrom,
+                        Name = $"Z {fromPoint.Name} do {targetPoint.Name}",
+                        Version = 1,
+                        MountainRangeId = range.Id,
+                        MountainRange = range
+                    };
+
+                    await context.Segments.AddAsync(segment);
+                }
+            }
+
+            await context.SaveChangesAsync();
         }
     }
 }

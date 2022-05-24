@@ -4,199 +4,255 @@
   "segments": [
     {
       "destination": "Witka",
-      "altitude": -1,
-      "startPoints": ["Radomierzyce", "Sulików", "Zawidów"],
-      "pointsToDestination": [6, 6, 5],
-      "pointsFromDestination": [6, 6, 5]
+      "altitude": 216,
+      "longitude": 15.017052,
+      "latitude": 51.036724,
+      "startPoints": [ "Radomierzyce", "Sulików", "Zawidów" ],
+      "pointsToDestination": [ 6, 6, 5 ],
+      "pointsFromDestination": [ 6, 6, 5 ]
     },
     {
       "destination": "Grodziszcze",
       "altitude": 427,
-      "startPoints": ["Zawidów", "Leśna", "Grodziszcz Średni"],
-      "pointsToDestination": [11, 9, 3],
-      "pointsFromDestination": [9, 7, 2]
+      "longitude": 15.171784,
+      "latitude": 51.020129,
+      "startPoints": [ "Zawidów", "Leśna", "Grodziszcz Średni" ],
+      "pointsToDestination": [ 11, 9, 3 ],
+      "pointsFromDestination": [ 9, 7, 2 ]
     },
     {
       "destination": "Wysoka Stóża",
       "altitude": 427,
-      "startPoints": ["Grodziszcz Średni", "Leśna", "TPG Miłoszów"],
-      "pointsToDestination": [4, 5, 5],
-      "pointsFromDestination": [3, 3, 4]
+      "longitude": 15.231775,
+      "latitude": 51.009468,
+      "startPoints": [ "Grodziszcz Średni", "Leśna", "TPG Miłoszów" ],
+      "pointsToDestination": [ 4, 5, 5 ],
+      "pointsFromDestination": [ 3, 3, 4 ]
     },
     {
       "destination": "Kozub",
       "altitude": 1105,
-      "startPoints": ["TPG Miłoszów", "Leśna", "Świecie", "Pobiedna"],
-      "pointsToDestination": [5, 6, 1, 6],
-      "pointsFromDestination": [4, 5, 1, 6]
+      "longitude": 15.277125,
+      "latitude": 50.986909,
+      "startPoints": [ "TPG Miłoszów", "Leśna", "Świecie", "Pobiedna" ],
+      "pointsToDestination": [ 5, 6, 1, 6 ],
+      "pointsFromDestination": [ 4, 5, 1, 6 ]
     },
     {
       "destination": "Wojków",
       "altitude": 503,
-      "startPoints": ["Świecie", "Leśna", "Zamek Czocha", "Jezioro Złotnickie - ośrodek", "Giebułtów"],
-      "pointsToDestination": [4, 9, 8, 5, 3],
-      "pointsFromDestination": [2, 6, 6, 4, 2]
+      "longitude": 15.316306,
+      "latitude": 50.992660,
+      "startPoints": [ "Świecie", "Leśna", "Zamek Czocha", "Jezioro Złotnickie - ośrodek", "Giebułtów" ],
+      "pointsToDestination": [ 4, 9, 8, 5, 3 ],
+      "pointsFromDestination": [ 2, 6, 6, 4, 2 ]
     },
     {
       "destination": "Świecie",
-      "altitude": -1,
-      "startPoints": ["Leśna"],
-      "pointsToDestination": [5],
-      "pointsFromDestination": [4]
+      "altitude": 305,
+      "longitude": 15.284421,
+      "latitude": 50.997533,
+      "startPoints": [ "Leśna" ],
+      "pointsToDestination": [ 5 ],
+      "pointsFromDestination": [ 4 ]
     },
     {
       "destination": "Pobiedna",
-      "altitude": -1,
-      "startPoints": ["Wolimierz", "Czerniawy Zdrój", "Ulicko"],
-      "pointsToDestination": [3, 3, 4],
-      "pointsFromDestination": [3, 3, 5]
+      "altitude": 442,
+      "longitude": 15.298048,
+      "latitude": 50.938733,
+      "startPoints": [ "Wolimierz", "Czerniawy Zdrój", "Ulicko" ],
+      "pointsToDestination": [ 3, 3, 4 ],
+      "pointsFromDestination": [ 3, 3, 5 ]
     },
     {
       "destination": "Lubań",
       "altitude": -1,
-      "startPoints": ["Sulików", "Leśna", "Olszyna"],
-      "pointsToDestination": [22, 15, 12],
-      "pointsFromDestination": [22, 15, 12]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Sulików", "Leśna", "Olszyna" ],
+      "pointsToDestination": [ 22, 15, 12 ],
+      "pointsFromDestination": [ 22, 15, 12 ]
     },
     {
       "destination": "Siekierzyn",
       "altitude": -1,
-      "startPoints": ["Sulików", "Lubań"],
-      "pointsToDestination": [13, 13],
-      "pointsFromDestination": [9, 8]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Sulików", "Lubań" ],
+      "pointsToDestination": [ 13, 13 ],
+      "pointsFromDestination": [ 9, 8 ]
     },
     {
       "destination": "Zamek Czocha",
       "altitude": -1,
-      "startPoints": ["Leśna", "Jezioro Złotnickie - ośrodek"],
-      "pointsToDestination": [4, 3],
-      "pointsFromDestination": [3, 3]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Leśna", "Jezioro Złotnickie - ośrodek" ],
+      "pointsToDestination": [ 4, 3 ],
+      "pointsFromDestination": [ 3, 3 ]
     },
     {
       "destination": "Jezioro Złotnickie - ośrodek",
       "altitude": -1,
-      "startPoints": ["Rajsko", "Karłowice", "Złoty Potok", "Złotniki"],
-      "pointsToDestination": [3, 6, 3, 1],
-      "pointsFromDestination": [3, 6, 3, 2]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Rajsko", "Karłowice", "Złoty Potok", "Złotniki" ],
+      "pointsToDestination": [ 3, 6, 3, 1 ],
+      "pointsFromDestination": [ 3, 6, 3, 2 ]
     },
     {
       "destination": "Złoty Potok",
       "altitude": -1,
-      "startPoints": ["Złotniki", "Karłowice"],
-      "pointsToDestination": [3, 5],
-      "pointsFromDestination": [3, 5]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Złotniki", "Karłowice" ],
+      "pointsToDestination": [ 3, 5 ],
+      "pointsFromDestination": [ 3, 5 ]
     },
     {
       "destination": "Bożkowice",
       "altitude": -1,
-      "startPoints": ["Leśna", "Rajsko"],
-      "pointsToDestination": [6, 1],
-      "pointsFromDestination": [5, 1]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Leśna", "Rajsko" ],
+      "pointsToDestination": [ 6, 1 ],
+      "pointsFromDestination": [ 5, 1 ]
     },
     {
       "destination": "Biedrzychowice",
       "altitude": -1,
-      "startPoints": ["Olszyna", "Karłowice", "Złoty Potok", "Złotniki"],
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Olszyna", "Karłowice", "Złoty Potok", "Złotniki" ],
       "pointsToDestination": [],
       "pointsFromDestination": []
     },
     {
       "destination": "Biedrzychowice",
       "altitude": -1,
-      "startPoints": ["Olszyna", "Karłowice", "Gryfów Śląski"],
-      "pointsToDestination": [5, 2, 5],
-      "pointsFromDestination": [4, 2, 5]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Olszyna", "Karłowice", "Gryfów Śląski" ],
+      "pointsToDestination": [ 5, 2, 5 ],
+      "pointsFromDestination": [ 4, 2, 5 ]
     },
     {
       "destination": "Giebułtów Augustów",
       "altitude": -1,
-      "startPoints": ["Złotniki", "Wolimierz", "Mirsk"],
-      "pointsToDestination": [5, 6, 3],
-      "pointsFromDestination": [5, 6, 3]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Złotniki", "Wolimierz", "Mirsk" ],
+      "pointsToDestination": [ 5, 6, 3 ],
+      "pointsFromDestination": [ 5, 6, 3 ]
     },
     {
       "destination": "Kamień",
       "altitude": -1,
-      "startPoints": ["Wolimierz", "Mirsk", "Krobnica", "Las Kaoliński"],
-      "pointsToDestination": [4, 4, 2, 3],
-      "pointsFromDestination": [4, 4, 2, 3]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Wolimierz", "Mirsk", "Krobnica", "Las Kaoliński" ],
+      "pointsToDestination": [ 4, 4, 2, 3 ],
+      "pointsFromDestination": [ 4, 4, 2, 3 ]
     },
     {
       "destination": "Las Kaoliński",
       "altitude": -1,
-      "startPoints": ["Mirsk", "Gierczyn", "Rębiszów"],
-      "pointsToDestination": [3, 2, 6],
-      "pointsFromDestination": [3, 2, 7]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Mirsk", "Gierczyn", "Rębiszów" ],
+      "pointsToDestination": [ 3, 2, 6 ],
+      "pointsFromDestination": [ 3, 2, 7 ]
     },
     {
       "destination": "Zamek Gryf",
       "altitude": 447,
-      "startPoints": ["Mirsk", "Młyńsk", "Gryfów Śląski"],
-      "pointsToDestination": [6, 3, 6],
-      "pointsFromDestination": [5, 2, 5]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Mirsk", "Młyńsk", "Gryfów Śląski" ],
+      "pointsToDestination": [ 6, 3, 6 ],
+      "pointsFromDestination": [ 5, 2, 5 ]
     },
     {
       "destination": "Rębiszów",
       "altitude": -1,
-      "startPoints": ["Mirsk", "Chmieleń", "Źródło św. Wolfanga", "Przecznica"],
-      "pointsToDestination": [6, 5, 8, 3],
-      "pointsFromDestination": [6, 5, 11, 3]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Mirsk", "Chmieleń", "Źródło św. Wolfanga", "Przecznica" ],
+      "pointsToDestination": [ 6, 5, 8, 3 ],
+      "pointsFromDestination": [ 6, 5, 11, 3 ]
     },
     {
       "destination": "Grudza",
       "altitude": -1,
-      "startPoints": ["Rębiszów", "Stara Kamienica"],
-      "pointsToDestination": [5, 7],
-      "pointsFromDestination": [4, 7]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Rębiszów", "Stara Kamienica" ],
+      "pointsToDestination": [ 5, 7 ],
+      "pointsFromDestination": [ 4, 7 ]
     },
     {
       "destination": "Gęsia Góra",
       "altitude": 440,
-      "startPoints": ["Grudz", "Pasiecznik", "Barcinek"],
-      "pointsToDestination": [6, 2, 3],
-      "pointsFromDestination": [6, 1, 2]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Grudz", "Pasiecznik", "Barcinek" ],
+      "pointsToDestination": [ 6, 2, 3 ],
+      "pointsFromDestination": [ 6, 1, 2 ]
     },
     {
       "destination": "Lubomierz",
       "altitude": -1,
-      "startPoints": ["Chmielno", "Gryfów Śląski", "Wojciechów"],
-      "pointsToDestination": [5, 8, 5],
-      "pointsFromDestination": [6, 8, 5]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Chmielno", "Gryfów Śląski", "Wojciechów" ],
+      "pointsToDestination": [ 5, 8, 5 ],
+      "pointsFromDestination": [ 6, 8, 5 ]
     },
-        {
+    {
       "destination": "Oleszna Podgórska",
       "altitude": -1,
-      "startPoints": ["Gryfów Śląski", "Lubomierz"],
-      "pointsToDestination": [5, 4],
-      "pointsFromDestination": [5, 4]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Gryfów Śląski", "Lubomierz" ],
+      "pointsToDestination": [ 5, 4 ],
+      "pointsFromDestination": [ 5, 4 ]
     },
     {
       "destination": "Maciejowice",
       "altitude": -1,
-      "startPoints": ["Wojciechów", "Radomice", "Pilchowice", "Pilchowice Zapora PKP", "Stanki", "Barcinek"],
-      "pointsToDestination": [5, 2, 3, 5, 4, 6],
-      "pointsFromDestination": [5, 2, 2, 4, 4, 5]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Wojciechów", "Radomice", "Pilchowice", "Pilchowice Zapora PKP", "Stanki", "Barcinek" ],
+      "pointsToDestination": [ 5, 2, 3, 5, 4, 6 ],
+      "pointsFromDestination": [ 5, 2, 2, 4, 4, 5 ]
     },
     {
       "destination": "Wietrznik",
       "altitude": 482,
-      "startPoints": ["Radomice", "Nielestna", "Wileński Gródka"],
-      "pointsToDestination": [3, 6, 5],
-      "pointsFromDestination": [2, 4, 4]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Radomice", "Nielestna", "Wileński Gródka" ],
+      "pointsToDestination": [ 3, 6, 5 ],
+      "pointsFromDestination": [ 2, 4, 4 ]
     },
     {
       "destination": "Marczów",
       "altitude": -1,
-      "startPoints": ["Wileński Gródka", "Dębowy Gaj", "Wleń"],
-      "pointsToDestination": [6, 5, 9],
-      "pointsFromDestination": [6, 5, 8]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Wileński Gródka", "Dębowy Gaj", "Wleń" ],
+      "pointsToDestination": [ 6, 5, 9 ],
+      "pointsFromDestination": [ 6, 5, 8 ]
     },
     {
       "destination": "Wleń",
       "altitude": -1,
-      "startPoints": ["Wileński Gródka"],
-      "pointsToDestination": [1],
-      "pointsFromDestination": [2]
+      "longitude": 0,
+      "latitude": 0,
+      "startPoints": [ "Wileński Gródka" ],
+      "pointsToDestination": [ 1 ],
+      "pointsFromDestination": [ 2 ]
     }
   ]
 }
