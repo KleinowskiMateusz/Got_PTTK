@@ -8,19 +8,21 @@ services:
       restart: always
       environment:
         POSTGRES_PASSWORD: postgres
+      ports:
+        - "5432:5432"
 
-  api:
-    build: 
-      context: .
-      dockerfile: KsiazeczkaPTTK.API/Dockerfile
-    restart: always
-    ports:
-      - "44300:44300"
-      - "5000:5000"
-      - "8080:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    links:
-      - dbpostgres
-    depends_on:
-      - dbpostgres
+  # api:
+  #   build: 
+  #     context: .
+  #     dockerfile: KsiazeczkaPTTK.API/Dockerfile
+  #   restart: always
+  #   ports:
+  #     - "44300:44300"
+  #     - "5000:5000"
+  #     - "8080:80"
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #   links:
+  #     - dbpostgres
+  #   depends_on:
+  #     - dbpostgres
