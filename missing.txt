@@ -1,6 +1,5 @@
 assets,
 hooks,
-pages,
 requests,
 store,
 styles,
