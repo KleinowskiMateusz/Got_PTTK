@@ -1,8 +1,0 @@
-assets,
-hooks,
-requests,
-store,
-styles,
-tests,
-types,
-utils
