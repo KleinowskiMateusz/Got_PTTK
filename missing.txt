@@ -1,0 +1,9 @@
+assets
+constants
+hooks
+pages
+requests
+store
+styles
+types
+utils

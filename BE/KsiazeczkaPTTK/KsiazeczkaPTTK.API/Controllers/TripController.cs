@@ -60,7 +60,7 @@ namespace KsiazeczkaPttk.API.Controllers
             return Ok(await _publicTrailsRepository.GetAllMountainRanges());
         }
 
-        [HttpGet("segmants/{rangeId}")]
+        [HttpGet("segments/{rangeId}")]
         public async Task<ActionResult> GetAvailableSegmentsForMountainRange([FromRoute] int rangeId)
         {
             var segments = await _publicTrailsRepository.GetAllSegmentsForMountainRange(rangeId);
