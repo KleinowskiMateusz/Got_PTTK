@@ -12,15 +12,15 @@
 
         public bool IsBack { get; set; }
 
-        public int BackPoints { get; set; }
+        public int PointsBack { get; set; }
 
         public int FromId { get; set; }
 
         public TerrainPoint From { get; set; }
 
-        public int Target { get; set; }
+        public int TargetId { get; set; }
 
-        public TerrainPoint TargetId { get; set; }
+        public TerrainPoint Target { get; set; }
 
         public int MountainRangeId { get; set; }
 

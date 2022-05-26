@@ -74,6 +74,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
 
             var result = segments.Select(o => {
                     var sasiedni = _mapper.Map<NeighboringSegment>(o);
+
                     sasiedni.IsBack = o.TargetId == terrainPointId;
                     return sasiedni;
                 });
