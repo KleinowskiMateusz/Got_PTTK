@@ -37,12 +37,12 @@ export const getRoutes = async () => {
 export const uploadRoute =
   (data: RoutePostData, isPrivate = false) =>
   async () => {
+    console.log('przed wysłaniem isPrivate=', isPrivate)
     const result = isPrivate
-      ? await axios.post(ROUTES_URL, data)
-      : await axios.post(PRIVATE_ROUTES_URL, {
+      ? await axios.post(PRIVATE_ROUTES_URL, {
           ...data,
-          wlasciciel: 'Turysta1',
-        })
+          touristsBookOwner: 'Turysta1',
+        }) : await axios.post(ROUTES_URL, data)
     return result
   }
 

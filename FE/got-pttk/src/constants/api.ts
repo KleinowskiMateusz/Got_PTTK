@@ -5,7 +5,7 @@ export const ASSETS_URL = `${BACKEND_URL}/confirmation/photo`
 
 export const ROUTES_URL = `${BACKEND_URL}/segment`
 export const PRIVATE_ROUTES_URL = `${BACKEND_URL}/trip/privateSegment`
-export const POINTS_URL = `${BACKEND_URL}/trip/segments`
+export const POINTS_URL = `${BACKEND_URL}/trip/terrainPoints`
 export const TRIPS_URL = `${BACKEND_URL}/trip`
 export const ADJUSTED_ROUTES_URL = `${BACKEND_URL}/trip/neighboringSegments`
 export const CONFIRMATION_URL = `${BACKEND_URL}/confirmation`

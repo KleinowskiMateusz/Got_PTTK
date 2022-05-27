@@ -134,7 +134,7 @@ namespace KsiazeczkaPttk.DAL.Repositories
 
         public async Task<Result<Segment>> EditPublicSegment(int segmentId, Segment segment)
         {
-            var segmentFromDb = await _context.Segments.Include(o => o.TouristsBookOwner)
+            var segmentFromDb = await _context.Segments.Include(o => o.TouristsBook)
                                         .FirstOrDefaultAsync(o => o.Id == segmentId);
             if (segmentFromDb is null)
             {
