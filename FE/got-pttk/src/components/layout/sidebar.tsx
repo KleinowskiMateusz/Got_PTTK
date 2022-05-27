@@ -140,7 +140,7 @@ const Sidebar: React.FC = () => {
             }
           />
           <SidebarItem
-            title="Odcinki"
+            title="Odcinki Publiczne"
             link="/publiczne/odcinki"
             icon={
               <svg
