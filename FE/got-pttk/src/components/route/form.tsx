@@ -80,12 +80,12 @@ const RouteForm: React.FC<Props> = ({ route, isPrivate }) => {
       }
 
   const parseFormData = (data: FormDataTypes): RoutePostData => ({
-    nazwa: data.name,
-    punkty: data.points,
-    punktyPowrot: data.pointsBack,
-    od: Number(data.from),
-    do: Number(data.to),
-    pasmo: Number(data.mountainRange),
+    name: data.name,
+    points: data.points,
+    pointsBack: data.pointsBack,
+    fromId: Number(data.from),
+    targetId: Number(data.to),
+    mountainRangeId: Number(data.mountainRange),
   })
 
   return (

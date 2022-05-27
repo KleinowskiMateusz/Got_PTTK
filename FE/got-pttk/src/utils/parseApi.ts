@@ -50,7 +50,7 @@ export const parseRoute = (apiRoute: any, reverse = false): Route => {
     from: reverse ? parsedToPoint : parsedFromPoint,
     to: reverse ? parsedFromPoint : parsedToPoint,
     mountainRange: apiRoute.mountainRange.name,
-    owned: Boolean(apiRoute.touristsBookOwner),
+    owned: Boolean(apiRoute.touristsBookId),
     return: Boolean(reverse),
   }
 }
@@ -62,7 +62,7 @@ export const parseTrip = (apiTrip: any): Trip => ({
   owner: apiTrip.touristsBook.owner,
   routes:
     apiTrip.segments.map((route: any) =>
-      parseRoute(route.segment, !route.isBack)
+      parseRoute(route.segment, route.isBack)
     ) || [],
 })
 
@@ -80,7 +80,7 @@ export const parseVerificationTrip = (
             ? route.potwierdzenia.map((confirmation: any) =>
                 parseConfirmation(
                   confirmation.potwierdzenieTerenowe,
-                  route.odcinek.id
+                  route.segment.id
                 )
               )
             : []),

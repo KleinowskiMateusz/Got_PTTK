@@ -64,7 +64,7 @@ export const verifyTrip = (data: VerificationPostData) => async () => {
 export const getAdjustedRoutes = (pointID: string) => async () => {
   const result = await axios.get(`${ADJUSTED_ROUTES_URL}/${pointID}`)
   const routes: Route[] = result.data.map((route: any) =>
-    parseRoute(route, route.powrot)
+    parseRoute(route, route.isBack)
   )
   return routes
 }
