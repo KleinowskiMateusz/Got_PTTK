@@ -80,7 +80,7 @@ const TripForm: React.FC<Props> = ({ trip }) => {
   }
 
   const parseDataToAPI = (form: FormDataTypes, formRoutes: Route[]) => ({
-    touristsBookOwner: 'Turysta1',
+    touristsBookId: 'Turysta1',
     name: form.name,
     segments: formRoutes.map((route, index) => ({
       order: index + 1,

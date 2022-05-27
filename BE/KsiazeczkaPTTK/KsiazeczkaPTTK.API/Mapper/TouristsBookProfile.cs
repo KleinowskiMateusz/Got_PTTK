@@ -49,7 +49,7 @@ namespace KsiazeczkaPttk.API.Mapper
         private void CreateWycieczkaMapping()
         {
             CreateMap<CreateTripViewModel, Trip>()
-                .ForMember(m => m.Segments, opt => opt.ConvertUsing(new SegmentTravelViewModelToSegmentTravelConverter(), src => src.SegmentTravels));
+                .ForMember(m => m.Segments, opt => opt.ConvertUsing(new SegmentTravelViewModelToSegmentTravelConverter(), src => src.Segments));
         }
     }
 }

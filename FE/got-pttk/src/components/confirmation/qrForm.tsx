@@ -22,8 +22,8 @@ const QRForm: React.FC<Props> = ({ routeID, pointID }) => {
   }
 
   const parseDataToAPI = (form: FormDataTypes) => ({
-    punktId: pointID,
-    odcinekId: routeID,
+    terrainPointId: pointID,
+    segmentId: routeID,
     url: form.url,
   })
 

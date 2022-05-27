@@ -4,12 +4,12 @@ namespace KsiazeczkaPttk.API.ViewModels
 {
     public class CreateTripViewModel
     {
-        public string Wlasciciel { get; set; }
+        public string TouristsBookId { get; set; }
 
         [Required]
         [MaxLength(250)]
         public string Name { get; set; }
 
-        public IEnumerable<SegmentTravelViewModel> SegmentTravels { get; set; }
+        public IEnumerable<SegmentTravelViewModel> Segments { get; set; }
     }
 }

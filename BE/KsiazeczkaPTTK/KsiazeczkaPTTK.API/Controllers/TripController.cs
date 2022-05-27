@@ -82,7 +82,7 @@ namespace KsiazeczkaPttk.API.Controllers
             return Ok(await _publicTrailsRepository.GetAllTerrainPoints());
         }
 
-        [HttpPost("trip")]
+        [HttpPost()]
         public async Task<ActionResult> CreateTrail([FromBody] CreateTripViewModel model)
         {
             var trail = _mapper.Map<Trip>(model);
