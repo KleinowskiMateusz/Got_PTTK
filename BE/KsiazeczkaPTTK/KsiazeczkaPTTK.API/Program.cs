@@ -21,6 +21,7 @@ builder.Services.AddCors(o => o.AddPolicy("DevelopmentCorsPolicy", builder =>
 }));
 
 var mySqlConnectionStr = builder.Configuration.GetConnectionString("MySQLConnection");
+Console.WriteLine($"Connection string: {mySqlConnectionStr}");
 builder.Services.AddDbContext<TouristsBookContext>(options =>
                 options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
 
@@ -62,6 +63,7 @@ async Task SeedDb(IServiceProvider services)
             {
                 var context = scope.ServiceProvider.GetService<TouristsBookContext>();
                 bool dropDb = builder.Configuration.GetValue<bool>("DropDb");
+                Console.WriteLine($"Drop bd: {dropDb}");
                 if (dropDb)
                 {
                     await context.Database.EnsureDeletedAsync();

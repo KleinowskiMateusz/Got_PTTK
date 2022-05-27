@@ -12,18 +12,18 @@ services:
     ports:
       - "3306:3306"
 
-  # api:
-  #   build: 
-  #     context: .
-  #     dockerfile: KsiazeczkaPTTK.API/Dockerfile
-  #   restart: always
-  #   ports:
-  #     - "44300:44300"
-  #     - "5000:5000"
-  #     - "8080:80"
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=Development
-  #   links:
-  #     - dbpostgres
-  #   depends_on:
-  #     - dbpostgres
+  api:
+    build: 
+      context: .
+      dockerfile: KsiazeczkaPTTK.API/Dockerfile
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings:MySQLConnection=server=mysql; port=3306; database=KsiazeczkaPTTK; user=root; password=root;
+      - DropDb=false
+    links:
+      - mysql
+    depends_on:
+      - mysql
