@@ -1,7 +1,4 @@
-constants
 hooks
-requests
 store
 styles
-types
 utils
