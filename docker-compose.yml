@@ -14,7 +14,7 @@ services:
 
   api:
     build: 
-      context: .
+      context: ./BE/KsiazeczkaPTTK
       dockerfile: KsiazeczkaPTTK.API/Dockerfile
     restart: always
     ports:
