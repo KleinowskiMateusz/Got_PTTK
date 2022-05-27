@@ -1,4 +1,2 @@
 hooks
-store
-styles
 utils
