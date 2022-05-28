@@ -1,4 +1,7 @@
 import React from 'react'
+import ReactDOM from 'react-dom';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import {  } from 'react-google-login';
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import tw from 'twin.macro'
@@ -35,6 +38,23 @@ const DropdownText = styled(Text).attrs({ as: 'button' })`
   ${tw`py-1 px-2 text-left text-xs`}
 `
 
+const responseSuccess = (response: any) => {
+  console.log(response);
+  // var profile = googleUser.getBasicProfile();
+  // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  // console.log('Name: ' + profile.getName());
+  // console.log('Image URL: ' + profile.getImageUrl());
+  // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
+
+const logoutGoogle = (respose: any) => {
+  console.log(respose);
+}
+
+const responseFailure = (response: any) => {
+  console.error(response);
+}
+
 const Navbar: React.FC = () => {
   const isLogged = useSelector<StoreState, boolean>(
     (state) => state.userType !== null
@@ -59,6 +79,18 @@ const Navbar: React.FC = () => {
         </Items>
 
         <Items>
+          <GoogleLogin
+            clientId="934648962657-1ogia1tb096mhrdubl72daik0sdlm1k4.apps.googleusercontent.com"
+            buttonText="Login with Google"
+            onSuccess={responseSuccess}
+            onFailure={responseFailure}
+            cookiePolicy={'single_host_origin'}
+          />
+          {/* <GoogleLogout
+            clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+            buttonText="Logout"
+          >
+          </GoogleLogout> */}
           <Item>
             {isLogged ? (
               <Text as="button" onClick={handleUserLogout}>

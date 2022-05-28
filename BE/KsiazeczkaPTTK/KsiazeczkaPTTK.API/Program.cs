@@ -25,6 +25,17 @@ Console.WriteLine($"Connection string: {mySqlConnectionStr}");
 builder.Services.AddDbContext<TouristsBookContext>(options =>
                 options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
 
+var googleClientId = builder.Configuration["GoogleClientId"];
+Console.WriteLine($"Google Client Id = {googleClientId}");
+var googleClientSecret = builder.Configuration["GoogleClientSecret"];
+Console.WriteLine($"Google Client Secret = {googleClientSecret}");
+
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = googleClientId;
+    googleOptions.ClientSecret = googleClientSecret;
+});
+
 builder.Services.AddScoped<IPublicTrailsRepository, PublicTrailsRepository>();
 builder.Services.AddScoped<ITripRepository, TripRepository>();
 builder.Services.AddScoped<IFileService, FileService>();
