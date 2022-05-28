@@ -1,4 +1,6 @@
 import React from 'react'
+import ReactDOM from 'react-dom';
+import FacebookLogin from 'react-facebook-login';
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import tw from 'twin.macro'
@@ -8,6 +10,7 @@ import { loginUser, logoutUser } from '../../store/actions'
 
 import { Text } from '../shared/typography'
 import Dropdown from '../shared/dropdown'
+import { FacebookUser } from '../../types/auth';
 
 const Wrapper = styled.header`
   ${tw`fixed top-0 left-0 z-20`}
@@ -42,11 +45,22 @@ const Navbar: React.FC = () => {
   const dispatch = useDispatch()
 
   const handleUserLogout = () => {
+    FB.logout(function(response) {console.log(response)});
     dispatch(logoutUser())
   }
 
   const handleUserLogin = (role: Parameters<typeof loginUser>[0]) => {
     dispatch(loginUser(role))
+  }
+
+  const componentClicked = (response: any) => {
+    console.log('Component: ', response);
+  }
+  
+  const responseFacebook = (response: FacebookUser) => {
+    if (response.accessToken){
+      handleUserLogin("tourist");
+    }
   }
 
   return (
@@ -59,6 +73,18 @@ const Navbar: React.FC = () => {
         </Items>
 
         <Items>
+          <Item>
+          {isLogged ? <div></div> : (
+            <FacebookLogin
+              appId="772800103711763"
+              autoLoad={true}
+              fields="name,email,picture"
+              onClick={componentClicked}
+              callback={responseFacebook} />
+          )}
+          </Item>
+          
+
           <Item>
             {isLogged ? (
               <Text as="button" onClick={handleUserLogout}>
