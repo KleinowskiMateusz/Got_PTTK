@@ -11,6 +11,7 @@ import { loginUser, logoutUser } from '../../store/actions'
 import { Text } from '../shared/typography'
 import Dropdown from '../shared/dropdown'
 import { FacebookUser } from '../../types/auth';
+import { authorizeFacebook } from '../../requests/api';
 
 const Wrapper = styled.header`
   ${tw`fixed top-0 left-0 z-20`}
@@ -59,7 +60,18 @@ const Navbar: React.FC = () => {
   
   const responseFacebook = (response: FacebookUser) => {
     if (response.accessToken){
-      handleUserLogin("tourist");
+      const result = authorizeFacebook(response)();
+      result.then(role => {
+        if (role.data){
+          if (role.data !== "unauthorized"){
+            handleUserLogin(role.data);
+            console.log('login as: ', role.data);
+          }
+          else {
+            handleUserLogout();
+          }
+        }
+      });
     }
   }
 

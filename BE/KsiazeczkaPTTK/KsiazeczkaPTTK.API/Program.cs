@@ -2,6 +2,8 @@ using KsiazeczkaPttk.DAL;
 using KsiazeczkaPttk.DAL.Interfaces;
 using KsiazeczkaPttk.DAL.Repositories;
 using KsiazeczkaPttk.Logic.Services;
+using KsiazeczkaPTTK.DAL.Repositories;
+using KsiazeczkaPTTK.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -28,6 +30,7 @@ builder.Services.AddDbContext<TouristsBookContext>(options =>
 builder.Services.AddScoped<IPublicTrailsRepository, PublicTrailsRepository>();
 builder.Services.AddScoped<ITripRepository, TripRepository>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

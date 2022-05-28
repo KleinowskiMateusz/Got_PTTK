@@ -1,3 +1,5 @@
+import { FACEBOOKAUTH_URL } from './../constants/api';
+import { FacebookUser } from './../types/auth';
 /* eslint-disable import/prefer-default-export */
 import axios from 'axios'
 import {
@@ -99,5 +101,10 @@ export const addConfirmation = (data: FormData) => async () => {
 
 export const removeConfirmation = (id: string) => async () => {
   const result = await axios.delete(`${CONFIRMATION_URL}/${id}`)
+  return result
+}
+
+export const authorizeFacebook = (user: FacebookUser) => async () => {
+  const result = await axios.post(FACEBOOKAUTH_URL, user);
   return result
 }

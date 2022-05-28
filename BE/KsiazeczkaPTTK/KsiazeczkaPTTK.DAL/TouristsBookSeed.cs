@@ -23,9 +23,9 @@ namespace KsiazeczkaPttk.DAL
             var roleUzytkownikow = new List<UserRole>()
             {
                 new UserRole(){ Name = "Administrator"},
-                new UserRole(){ Name = "Turysta"},
-                new UserRole(){ Name = "Przodownik"},
-                new UserRole(){ Name = "Pracownik"},
+                new UserRole(){ Name = "Tourist"},
+                new UserRole(){ Name = "Leader"},
+                new UserRole(){ Name = "Worker"},
             };
 
             var uzytkownicy = new List<User>()
@@ -33,6 +33,7 @@ namespace KsiazeczkaPttk.DAL
                 new User {Login = "Turysta1", Password = "Pa55word", UserRoleName = roleUzytkownikow[1].Name, UserRole = roleUzytkownikow[1], FirstName = "Johny", LastName = "Rambo", Email = "johny.rambo@gmail.com"},
                 new User {Login = "Przodownik1", Password = "Pa55word", UserRoleName = roleUzytkownikow[2].Name, UserRole = roleUzytkownikow[2], FirstName = "Henry", LastName = "Walton", Email = "henry.Walton@gmail.com"},
                 new User {Login = "Pracownik1", Password = "Pa55word", UserRoleName = roleUzytkownikow[3].Name, UserRole = roleUzytkownikow[3], FirstName = "Rocky", LastName = "Balboa", Email = "rocky.balboa@gmail.com"},
+                new User {Login = "macioszczyk.mikolaj@gmail.com", Password = "Pa55word", UserRoleName = roleUzytkownikow[3].Name, UserRole = roleUzytkownikow[3], FirstName = "Mikołaj", LastName = "Macioszczyk", Email = "macioszczyk.mikolaj@gmail.com"},
             };
 
             var ksiazeczki = new List<TouristsBook>()
