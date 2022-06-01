@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-export const BACKEND_URL = 'https://localhost:44333'
+export const BACKEND_URL = 'http://localhost:8080'
 
 export const ASSETS_URL = `${BACKEND_URL}/confirmation/photo`
 
