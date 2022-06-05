@@ -1,7 +1,13 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef, useMemo, useEffect } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Formik } from 'formik'
+import {
+  useJsApiLoader,
+  GoogleMap,
+  Marker,
+  DirectionsRenderer,
+} from '@react-google-maps/api'
 
 import { Form, Label, Input, Select } from '../shared/form'
 import Button from '../shared/button'
@@ -36,8 +42,24 @@ const RouteSelect = styled(Select)`
 const MarginLabel = styled(Label)`
   ${tw`mb-3`}
 `
+const Map = styled.div`
+  ${tw`m-0 mt-2  w-full border`}
+  height: 50vh;
+`
 
 const TripForm: React.FC<Props> = ({ trip }) => {
+  const [directions, setDirections] =
+    useState<google.maps.DirectionsResult | null>(null)
+  const [markerVisible, setmarkerVisible] = useState(false)
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: 'AIzaSyBM20VmQuYH_pg-oyF2V5ByzNxhWnd40LY',
+  })
+  useEffect(() => {
+    if (isLoaded) {
+      setTimeout(() => setmarkerVisible(true), 0)
+    }
+  }, [isLoaded])
+
   const refRouteSelect = useRef<HTMLInputElement | null>(null)
   const [selectedRoutes, setSelectedRoutes] = useState<Route[]>([])
   const [currentRoute, setCurrentRoute] = useState<Route | null>(null)
@@ -88,6 +110,12 @@ const TripForm: React.FC<Props> = ({ trip }) => {
       isBack: route.return,
     })),
   })
+
+  console.log(selectedRoutes)
+
+  if (!isLoaded) {
+    return null
+  }
 
   return (
     <Formik
@@ -160,6 +188,53 @@ const TripForm: React.FC<Props> = ({ trip }) => {
           <Button primary disabled={selectedRoutes.length === 0}>
             Zapisz
           </Button>
+
+          {isLoaded && (
+            <Map>
+              <GoogleMap
+                mapContainerStyle={{ width: 'width:100%', height: '100%' }}
+                center={{
+                  lat: selectedRoutes[0]?.from?.lat || 40.714,
+                  lng: selectedRoutes[0]?.from?.lng || -74.006,
+                }}
+                zoom={12}
+                options={{
+                  streetViewControl: false,
+                  mapTypeControl: false,
+                  fullscreenControl: false,
+                }}
+              >
+                {markerVisible &&
+                  selectedRoutes &&
+                  selectedRoutes.length > 0 &&
+                  selectedRoutes.map((route, index) =>
+                    index === 0 ? (
+                      <>
+                        <Marker
+                          position={{
+                            lat: route.from.lat,
+                            lng: route.from.lng,
+                          }}
+                        />
+                        <Marker
+                          position={{
+                            lat: route.to.lat,
+                            lng: route.to.lng,
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <Marker
+                        position={{
+                          lat: route.to.lat,
+                          lng: route.to.lng,
+                        }}
+                      />
+                    )
+                  )}
+              </GoogleMap>
+            </Map>
+          )}
         </Form>
       )}
     </Formik>

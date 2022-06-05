@@ -1,7 +1,7 @@
 #docker-compose up --build
 #http://localhost:8080/swagger/index.html
 
-version: '3.8'
+version: '3.3'
 services:
   mysql:
     image: mysql
