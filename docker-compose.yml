@@ -1,5 +1,6 @@
 #docker-compose up --build
 #http://localhost:8080/swagger/index.html
+# environment Development|Production
 
 version: '3.3'
 services:
@@ -22,19 +23,24 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings:MySQLConnection=server=mysql; port=3306; database=KsiazeczkaPTTK; user=root; password=root;
-      - DropDb=false
+      - DropDb=False
+      - FbAppId=772800103711763
+      - FbAppName=KsiazeczkaPTTK
+      - FbAdminToken=
     links:
       - mysql
     depends_on:
       - mysql
 
-  # vite:
-  #   build: 
-  #     context: ./FE/got-pttk
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   volumes:
-  #     - ./FE/got-pttk:/app
-  #   ports:
-  #     - "3000:3000"
+  vite:
+    build: 
+      context: ./FE/got-pttk
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./FE/got-pttk:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - "API_URL=http://localhost:8080"
     
